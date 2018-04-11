@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <Navbar />
+    <Navbar :user="user" :loginUrl="loginUrl" />
     <b-container>
       <div class="text-center py-5">
         <img src="/avatar.png" alt=""/>
@@ -84,8 +84,8 @@
 <script>
 import Navbar from '~/components/Navbar'
 import steem from 'steem'
-
-const marked = require('marked');
+import marked from 'marked'
+import sc2 from 'sc2-sdk'
 
 export default {
   components: {
@@ -93,16 +93,46 @@ export default {
   },
   data() {
     return {
+      user: null,
+      loginUrl: '',
       potValue: 0,
       participants: 0,
       currentStoryBody: ''
     }
   },
   mounted() {
+    this.login();
     this.setStoryPotStats(1);
     this.setCurrentStory();
   },
   methods: {
+    login() {
+      let sc2Api = sc2.Initialize({
+        app: 'themagicfrog.app',
+        callbackURL: 'http://localhost:3000/',
+        scope: ['vote', 'comment']
+      });
+      this.loginUrl = sc2Api.getLoginURL();
+
+      let accessToken = this.$route.query.access_token;
+      if (accessToken) {
+        let expire = this.$route.query.expires_in || 604800;
+        this.$cookies.set('frog_token', accessToken, expire);
+      } else {
+        accessToken = this.$cookies.get('frog_token');
+      }
+
+      if (accessToken) {
+        sc2Api.setAccessToken(accessToken);
+        sc2Api.me((err, user) => {
+          if (err) {
+            console.log(err);
+          } else {
+            this.user = user;
+          }
+        });
+      }
+    },
     setStoryPotStats(storyNumber) {
       this.getPostsByStoryNumber('the-magic-frog', storyNumber).then(posts => {
         this.participants = posts.length;

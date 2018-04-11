@@ -36,6 +36,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/vue-cookies'
   ],
 
   /*
@@ -50,6 +51,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['steem', 'sc2-sdk', 'marked'],
     /*
     ** You can extend webpack config here
     */
