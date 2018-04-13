@@ -1,6 +1,7 @@
 <template>
-  <section class="container">
-    <Navbar :user="user" :loginUrl="loginUrl" />
+  <section>
+    <NavbarLoggedIn v-if="user" :user="user" />
+    <NavbarLoggedOut v-else />
     <b-container>
       <div class="text-center py-5">
         <img src="/avatar.png" alt=""/>
@@ -23,12 +24,13 @@
           <div id="currentStory" class="text-center" v-html="currentStoryBody"></div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
           <div>
-            <a href="#" class="btn btn-primary btn-lg like-button">
+            <LikeButton size="lg" :user="user" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
+            <b-button size="lg" variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
               <svg viewBox="0 0 24 24">
                 <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
               </svg>
-              I like!
-            </a>
+              Login to vote!
+            </b-button>
           </div>
         </div>
       </div>
@@ -38,28 +40,7 @@
         <p class="text-center mt-4">First, read how others see the story evolve and give them your vote if you like it.</p>
 
         <div id="comments">
-          <div class="comment text-center">
-            <div class="comment-profile-image" style="background-image: url('https://steemitimages.com/u/hennifant/avatar/small');"></div>
-            <div class="comment-username"><a href="#" target="_blank">@hennifant</a> wrote:</div>
-            <div class="comment-content">„what caught the attention of the high council of suspicious and insatiable storks in the neighborhood“</div>
-            <a href="#" class="btn btn-primary btn-sm like-button">
-              <svg viewBox="0 0 24 24">
-                <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
-              </svg>
-              I like!
-            </a>
-          </div>
-          <div class="comment text-center">
-            <div class="comment-profile-image" style="background-image: url('https://steemitimages.com/u/hennifant/avatar/small');"></div>
-            <div class="comment-username"><a href="#" target="_blank">@hennifant</a> wrote:</div>
-            <div class="comment-content">„what caught the attention of the high council of suspicious and insatiable storks in the neighborhood“</div>
-            <a href="#" class="btn btn-primary btn-sm like-button">
-              <svg viewBox="0 0 24 24">
-                <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
-              </svg>
-              I like!
-            </a>
-          </div>
+          <Command v-for="command in currentCommands" :key="command.id" :command="command" :user="user" />
         </div>
 
         <h2 class="pt-5">Now it's your turn!</h2>
@@ -78,53 +59,103 @@
         </form>
       </div>
     </b-container>
+
+    <!--<Footer />-->
+
+    <b-modal id="scRedirectModal" title="Login with SteemConnect">
+      In order to participate you need a Steem account. You will be redirected to SteemConnect to authenticate to the Steem blockchain. SteemConnect is developed and maintained by Steemit, Inc. and Busy.org.
+      <div slot="modal-footer" class="w-100 text-center">
+        <a :href="loginUrl" class="btn btn-primary">Login with SteemConnect</a>
+      </div>
+    </b-modal>
+
+    <b-modal id="steemSignupModal" title="Create a Steem account">
+      In order to participate you need a Steem account. You will be redirected to the sign-up process of steemit.com. Once your Steem account has been verified and enabled, you can use it to log in.<br>
+      <div class="alert alert-danger mt-4">
+        <b>If you lose your password, it can not be restored and you will lose access to your funds!</b><br>
+        <br>
+        Choose a secure password and make sure you keep it safe. You have full responsibility for the security of your account and the rewards you earn.
+      </div>
+      <div slot="modal-footer" class="w-100 text-center">
+        <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">Create a Steem account</a>
+      </div>
+    </b-modal>
+
+    <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
+
+    </b-modal>
   </section>
 </template>
 
 <script>
-import Navbar from '~/components/Navbar'
 import steem from 'steem'
-import marked from 'marked'
 import sc2 from 'sc2-sdk'
+import marked from 'marked'
+import Cookies from 'js-cookie'
+
+import NavbarLoggedIn from '~/components/NavbarLoggedIn'
+import NavbarLoggedOut from '~/components/NavbarLoggedOut'
+import LikeButton from '~/components/LikeButton'
+import Command from '~/components/Command'
+import Footer from '~/components/Footer'
 
 export default {
   components: {
-    Navbar
+    NavbarLoggedIn,
+    NavbarLoggedOut,
+    LikeButton,
+    Command,
+    Footer
   },
   data() {
     return {
-      user: null,
-      loginUrl: '',
-      potValue: 0,
-      participants: 0,
-      currentStoryBody: ''
+      user: null
     }
   },
-  mounted() {
-    this.login();
-    this.setStoryPotStats(1);
-    this.setCurrentStory();
+  async asyncData() {
+    const getPosts = (accountName, limit = 100) => {
+      return new Promise((resolve, reject) => {
+        steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(posts);
+          }
+        });
+      });
+    };
+
+    const getComments = (accountName, permlink) => {
+      return new Promise((resolve, reject) => {
+        steem.api.getContentReplies(accountName, permlink, function(err, comments) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(comments);
+          }
+        });
+      });
+    };
+
+    let accountName = 'the-magic-frog';
+
+    let posts = await getPosts(accountName);
+    let comments = await getComments(accountName, posts[0].permlink);
+
+    return { posts, comments }
   },
-  methods: {
-    login() {
-      let sc2Api = sc2.Initialize({
+  computed: {
+    sc2() {
+      const api = sc2.Initialize({
         app: 'themagicfrog.app',
-        callbackURL: 'http://localhost:3000/',
+        callbackURL: 'http://localhost:3000/auth',
         scope: ['vote', 'comment']
       });
-      this.loginUrl = sc2Api.getLoginURL();
 
-      let accessToken = this.$route.query.access_token;
+      const accessToken = Cookies.get('frog_token');
       if (accessToken) {
-        let expire = this.$route.query.expires_in || 604800;
-        this.$cookies.set('frog_token', accessToken, expire);
-      } else {
-        accessToken = this.$cookies.get('frog_token');
-      }
-
-      if (accessToken) {
-        sc2Api.setAccessToken(accessToken);
-        sc2Api.me((err, user) => {
+        api.setAccessToken(accessToken);
+        api.me((err, user) => {
           if (err) {
             console.log(err);
           } else {
@@ -132,54 +163,57 @@ export default {
           }
         });
       }
+      return api;
     },
-    setStoryPotStats(storyNumber) {
-      this.getPostsByStoryNumber('the-magic-frog', storyNumber).then(posts => {
-        this.participants = posts.length;
-        let storyPot = 0;
-        for (let i = 0; i < posts.length; i++) {
-          storyPot += this.getPostPot(posts[i]);
-        }
-        this.potValue = storyPot.toFixed(2);
+    loginUrl() {
+      return this.sc2.getLoginURL();
+    },
+    potValue() {
+      let pot = 0;
+      for (let i = 0; i < this.currentStoryPosts.length; i++) {
+        pot += this.getPostPot(this.currentStoryPosts[i]);
+      }
+      return pot.toFixed(2);
+    },
+    participants() {
+      return this.currentStoryPosts.length;
+    },
+    allStoryPosts() {
+      return this.posts.filter(post => {
+        let meta = JSON.parse(post.json_metadata);
+        return meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
       });
     },
-    setCurrentStory() {
-      steem.api.getDiscussionsByBlog({tag: 'the-magic-frog', limit: 10}, (err, posts) => {
-        if (!err) {
-          for (let i = 0; i < posts.length; i++) {
-            let post = posts[i];
-            let meta = JSON.parse(post.json_metadata);
-            if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-              this.currentStoryBody = marked(this.getStoryPart(post.body));
-              return;
-            }
-          }
-          console.log('No story posts found in the last 10 posts.');
-        } else {
-          console.log(err);
-        }
+    currentStoryPosts() {
+      return this.allStoryPosts.filter(post => {
+        let meta = JSON.parse(post.json_metadata);
+        return parseInt(meta.storyNumber) === this.currentStoryNumber
       });
     },
-    getPostsByStoryNumber(accountName, storyNumber) {
-      return new Promise((resolve, reject) => {
-        let storyPosts = [];
-        let query = {tag: accountName, limit: 100};
-        steem.api.getDiscussionsByBlog(query, (err, posts) => {
-          if (err) {
-            reject(err);
-          } else {
-            for (let i = 0; i < posts.length; i++) {
-              let post = posts[i];
-              let meta = JSON.parse(post.json_metadata);
-              if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber') && parseInt(meta.storyNumber) === storyNumber) {
-                storyPosts.push(post);
-              }
-            }
-            resolve(storyPosts.reverse())
-          }
-        });
-      })
+    currentStoryNumber() {
+      let meta = JSON.parse(this.latestStoryPost.json_metadata);
+      return meta.storyNumber
     },
+    currentStoryBody() {
+      return marked(this.getStoryPart(this.latestStoryPost.body));
+    },
+    latestStoryPost() {
+      return this.allStoryPosts[0];
+    },
+    currentCommands() {
+      return this.comments.filter(comment => {
+        let meta = JSON.parse(comment.json_metadata);
+        let command = comment.body.split('\n')[0];
+        if (command === '> The End!' && meta.day > 10) {
+          return true;
+        } else if (command.indexOf('> ') === 0 && command.length <= 152) {
+          return true;
+        }
+        return false;
+      });
+    }
+  },
+  methods: {
     getStoryPart(body) {
       const start = body.indexOf('# Once upon a time,');
       const end = body.indexOf('## To be continued!');
@@ -196,6 +230,11 @@ export default {
       }
 
       return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
+    },
+    logout() {
+      this.user = null;
+      Cookies.remove('frog_token');
+      return null;
     }
   }
 }
@@ -244,13 +283,6 @@ export default {
   #currentStory p
     font-weight: normal
 
-  .like-button
-    svg
-      width: 16px
-      vertical-align: middle
-      path
-        fill: #fff
-
   input,
   textarea
     border-radius: 5px
@@ -261,6 +293,24 @@ export default {
 
   p
     font-weight: 300
+
+  .btn
+    svg
+      width: 16px
+      margin-top: -3px
+      vertical-align: middle
+      path
+        fill: #fff
+    &.btn-lg
+      line-height: 26px
+      svg
+        margin-top: -4px
+        width: 20px
+    &.btn-sm
+      line-height: 20px
+      svg
+        margin-top: -2px
+        width: 14px
 
   #currentStory,
   #currentStory p

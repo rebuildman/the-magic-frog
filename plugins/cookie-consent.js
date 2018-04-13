@@ -1,4 +1,4 @@
-export default ({ app }) => {
+export default () => {
   if (process.env.NODE_ENV !== 'production') return
 
   window.addEventListener("load", function() {

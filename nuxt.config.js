@@ -40,7 +40,6 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/vue-cookies',
     { src: '~plugins/cookie-consent', ssr: false }
   ],
 
