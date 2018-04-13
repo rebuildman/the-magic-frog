@@ -1,7 +1,7 @@
 <template>
   <div class="comment text-center">
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
-    <div class="comment-username"><a href="#" target="_blank">{{ command.author }}</a> wrote:</div>
+    <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
     <div class="comment-content" v-html="commandBody"></div>
     <div>
       <LikeButton size="sm" :user="user" :author="command.author" :permlink="command.permlink" v-if="user" />
