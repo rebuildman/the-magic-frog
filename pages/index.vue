@@ -46,17 +46,40 @@
         <h2 class="pt-5">Now it's your turn!</h2>
         <p class="text-center mt-4">Continue writing the story where it stopped, so that it is funny or exciting to read and maybe even makes a bit of sense. Be creative!</p>
 
-        <form class="mt-4 p-3 mx-auto" id="command-form" style="max-width: 500px;">
-          <input class="w-100" id="command" placeholder="And they lived happily ever after..." />
-          <sup class="d-block text-center pt-3"><span id="command-char-count">100</span> characters left.</sup>
-          <p class="text-center mt-4 mb-1">
-            No, I don't want this story to be continued!<br>
-            <a href="#" class="btn btn-outline-danger mt-3">Stop it!</a>
-          </p>
+        <form class="mt-4 p-3 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+          <div v-if="!endStory">
+            <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
+            <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
+            <p class="text-center mt-4 mb-1">
+              No, I don't want this story to be continued!<br>
+              <b-button class="btn btn-outline-danger mt-3" @click="endStory = true">Stop it!</b-button>
+            </p>
+          </div>
+          <div v-if="endStory" class="text-center">
+            <h3><i>The End!</i></h3>
+            <sup>A new story will start!</sup><br>
+            <b-button class="btn btn-outline-success mt-3" @click="endStory = false">No, just kidding....</b-button>
+          </div>
           <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
-          <textarea class="w-100" placeholder="What an amazing story!"></textarea>
-          <button class="btn btn-primary d-block w-100 mt-3">Submit!</button>
+          <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
+          <div v-if="showSuccessMessage" class="text-center alert alert-success">
+            Thank you for participating!
+          </div>
+          <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
+            <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
+              <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
+            </svg>
+            Submit!
+          </button>
         </form>
+        <div v-if="!user" class="text-center">
+          <b-button variant="primary" class="login-button mx-auto" v-b-modal.scRedirectModal>
+            <svg viewBox="0 0 24 24">
+              <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
+            </svg>
+            Log in to continue the story yourself.
+          </b-button>
+        </div>
       </div>
     </b-container>
 
@@ -109,7 +132,12 @@ export default {
   },
   data() {
     return {
-      user: null
+      user: null,
+      endStory: false,
+      commandInput: '',
+      commentInput: '',
+      submitLoading: false,
+      showSuccessMessage: false
     }
   },
   async asyncData() {
@@ -211,9 +239,15 @@ export default {
         }
         return false;
       });
+    },
+    commandCharactersLeft() {
+      return 150 - this.commandInput.length;
     }
   },
   methods: {
+    limitCommandCharacters() {
+      this.commandInput = this.commandInput.substr(0, 150);
+    },
     getStoryPart(body) {
       const start = body.indexOf('# Once upon a time,');
       const end = body.indexOf('## To be continued!');
@@ -235,6 +269,47 @@ export default {
       this.user = null;
       Cookies.remove('frog_token');
       return null;
+    },
+    submitComment() {
+      let body = null;
+      if (this.endStory) {
+        body = '> The End!\n\n' + this.commentInput;
+      } else if (this.commandInput && this.commandInput.length < 150) {
+        body = '> ' + this.commandInput + '\n\n' + this.commentInput;
+      }
+
+      if (body) {
+        let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+
+        this.submitLoading = true;
+        this.sc2.comment(
+          'the-magic-frog',
+          this.latestStoryPost.permlink,
+          this.user.name,
+          permlink,
+          '',
+          body,
+          null,
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              this.commandInput = '';
+              this.commentInput = '';
+              this.submitLoading = false;
+              this.showSuccessMessage = true;
+
+              steem.api.getContentReplies('the-magic-frog', this.latestStoryPost.permlink, (err, comments) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  this.comments = comments;
+                }
+              });
+            }
+          }
+        );
+      }
     }
   }
 }
@@ -311,6 +386,29 @@ export default {
       svg
         margin-top: -2px
         width: 14px
+    .spinner
+      animation-name: spin
+      animation-duration: 1s
+      animation-iteration-count: infinite
+      animation-timing-function: linear
+
+      @-moz-keyframes spin
+        from
+          -moz-transform: rotate(0deg)
+        to
+          -moz-transform: rotate(360deg)
+
+      @-webkit-keyframes spin
+        from
+          -webkit-transform: rotate(0deg)
+        to
+          -webkit-transform: rotate(360deg)
+
+      @keyframes spin
+        from
+          transform: rotate(0deg)
+        to
+          transform: rotate(360deg)
 
   #currentStory,
   #currentStory p
