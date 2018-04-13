@@ -70,30 +70,3 @@
     }
   };
 </script>
-
-<style lang="sass">
-  .like-button
-    .spinner
-      animation-name: spin
-      animation-duration: 1s
-      animation-iteration-count: infinite
-      animation-timing-function: linear
-
-    @-moz-keyframes spin
-      from
-        -moz-transform: rotate(0deg)
-      to
-        -moz-transform: rotate(360deg)
-
-    @-webkit-keyframes spin
-      from
-        -webkit-transform: rotate(0deg)
-      to
-        -webkit-transform: rotate(360deg)
-
-    @keyframes spin
-      from
-        transform: rotate(0deg)
-      to
-        transform: rotate(360deg)
-</style>
