@@ -106,7 +106,8 @@
     </b-modal>
 
     <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
-
+      Here you will soon have access to all the golden coins you have found or won!
+      Stay tuned!
     </b-modal>
   </section>
 </template>
