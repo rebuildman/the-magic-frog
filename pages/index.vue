@@ -121,8 +121,10 @@
     </b-modal>
 
     <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
-      Here you will soon have access to all the golden coins you have found or won!
-      Stay tuned!
+      <div class="text-center">
+        Here you will soon be able to access and manage all your Steem funds. In the meantime go to:
+        <h4><a href="https://steemit.com" target="_blank">steemit.com</a></h4>
+      </div>
     </b-modal>
   </section>
 </template>
