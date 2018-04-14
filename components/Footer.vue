@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-    Idea and implementation by <a href="https://steemit.com/@mkt" target="_blank">@mkt</a>
+    Made by <a href="https://steemit.com/@mkt" target="_blank">@mkt</a>
   </div>
 </template>
 
