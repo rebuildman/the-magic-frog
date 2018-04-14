@@ -192,9 +192,16 @@ export default {
     };
 
     let accountName = 'the-magic-frog';
-
     let posts = await getPosts(accountName);
-    let comments = await getComments(accountName, posts[0].permlink);
+    let comments = [];
+    for (let i = 0; i < posts.length; i++) {
+      let meta = JSON.parse(posts[i].json_metadata);
+      if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+        console.log('test');
+        comments = await getComments(accountName, posts[i].permlink);
+        break;
+      }
+    }
 
     return { posts, comments }
   },
