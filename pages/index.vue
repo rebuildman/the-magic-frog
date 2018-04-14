@@ -41,6 +41,7 @@
 
         <div id="comments">
           <Command v-for="command in currentCommands" :key="command.id" :command="command" :user="user" />
+          <p class="text-center" v-if="!currentCommands.length">There are no comments today yet. Be the first one!</p>
         </div>
 
         <h2 class="pt-5">Now it's your turn!</h2>
