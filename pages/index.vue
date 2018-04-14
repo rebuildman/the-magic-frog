@@ -51,7 +51,7 @@
           <div v-if="!endStory">
             <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
-            <p class="text-center mt-4 mb-1">
+            <p class="text-center mt-4 mb-1" v-if="currentStoryPosts.length > 10">
               No, I don't want this story to be continued!<br>
               <b-button class="btn btn-outline-danger mt-3" @click="endStory = true">Stop it!</b-button>
             </p>
