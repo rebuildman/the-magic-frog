@@ -109,12 +109,19 @@
     </b-modal>
 
     <b-modal id="steemSignupModal" title="Create a Steem account">
-      In order to participate you need a Steem account. You will be redirected to the sign-up process of steemit.com. Once your Steem account has been verified and enabled, you can use it to log in.<br>
-      <div class="alert alert-danger mt-4">
-        <b>If you lose your password, it can not be restored and you will lose access to your funds!</b><br>
+      In order to participate you need a Steem account. Steem is a blockchain platform that rewards content creators with the cryptocurrency STEEM. Once your Steem account has been verified and enabled, you can use it to log in.<br>
+      <br>
+      There are a lot more interesting apps and websites you can access with this account. You'll probably need one sooner or later anyway, so don't hesitate... it's free!<br>
+      <br>
+      <a href="https://steem.io/" target="_blank">Learn more about Steem!</a>
+      <div class="alert alert-info mt-4">
+        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature or the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
         <br>
-        Choose a secure password and make sure you keep it safe. You have full responsibility for the security of your account and the rewards you earn.
+        Choose a <b>secure password</b> and make sure you <b>keep it safe</b>. Ideally you simply write it down on a piece of paper and store in a safe place.<br>
+        <br>
+        <b>You have full responsibility for the security of your account and the rewards you earn.</b>
       </div>
+      You will be redirected to the sign-up process of steemit.com.
       <div slot="modal-footer" class="w-100 text-center">
         <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">Create a Steem account</a>
       </div>
