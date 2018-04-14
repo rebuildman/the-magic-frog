@@ -178,7 +178,7 @@ export default {
     sc2() {
       const api = sc2.Initialize({
         app: 'themagicfrog.app',
-        callbackURL: 'http://localhost:3000/auth',
+        callbackURL: process.env.baseUrl + '/auth',
         scope: ['vote', 'comment']
       });
 
