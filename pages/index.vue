@@ -197,7 +197,6 @@ export default {
     for (let i = 0; i < posts.length; i++) {
       let meta = JSON.parse(posts[i].json_metadata);
       if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-        console.log('test');
         comments = await getComments(accountName, posts[i].permlink);
         break;
       }
@@ -232,7 +231,7 @@ export default {
     potValue() {
       let pot = 0;
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
-        pot += this.getPostPot(this.currentStoryPosts[i]);
+        pot += parseFloat(this.getPostPot(this.currentStoryPosts[i]));
       }
       return pot.toFixed(2);
     },
