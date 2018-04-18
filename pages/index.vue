@@ -128,9 +128,14 @@
     </b-modal>
 
     <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
+      <div class="alert alert-info text-center">
+        Here you will soon be able to access and manage all your Steem funds. In the meantime, for more details go to:
+        <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
+      </div>
+      <h4>Your Account Balance</h4>
       <div class="text-center">
-        Here you will soon be able to access and manage all your Steem funds. In the meantime go to:
-        <h4><a href="https://steemit.com" target="_blank">steemit.com</a></h4>
+        {{ user.account.balance }}<br>
+        {{ user.account.sbd_balance }}
       </div>
     </b-modal>
   </section>
@@ -266,19 +271,19 @@ export default {
         let command = comment.body.split('\n')[0];
         if (command === '> The End!' && meta.day > 10) {
           return true;
-        } else if (command.indexOf('> ') === 0 && command.length <= 152) {
+        } else if (command.indexOf('> ') === 0 && command.length <= 252) {
           return true;
         }
         return false;
       });
     },
     commandCharactersLeft() {
-      return 150 - this.commandInput.length;
+      return 250 - this.commandInput.length;
     }
   },
   methods: {
     limitCommandCharacters() {
-      this.commandInput = this.commandInput.substr(0, 150);
+      this.commandInput = this.commandInput.substr(0, 250);
     },
     getStoryPart(body) {
       const start = body.indexOf('# Once upon a time,');
@@ -306,7 +311,7 @@ export default {
       let body = null;
       if (this.endStory) {
         body = '> The End!\n\n' + this.commentInput;
-      } else if (this.commandInput && this.commandInput.length < 150) {
+      } else if (this.commandInput && this.commandInput.length < 250) {
         body = '> ' + this.commandInput + '\n\n' + this.commentInput;
       }
 
