@@ -151,7 +151,7 @@
       </div>
     </b-modal>
 
-    <notifications group="errors" classes="vue-notification error" position="top center" :duration="50000" />
+    <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
   </section>
 </template>
 
