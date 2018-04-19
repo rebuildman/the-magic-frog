@@ -7,17 +7,17 @@
       <svg class="spinner" viewBox="0 0 24 24" v-else>
         <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
       </svg>
-      I like!
+      {{ likeLabel || 'I like!' }}
     </b-button>
 
-    <b-button :size="size" variant="secondary" class="like-button" @click="vote(0)" v-else>
+    <b-button :size="size" variant="outline-secondary" class="like-button" @click="vote(0)" v-else>
       <svg viewBox="0 0 24 24" v-if="!loading">
         <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12C4,13.85 4.63,15.55 5.68,16.91L16.91,5.68C15.55,4.63 13.85,4 12,4M12,20A8,8 0 0,0 20,12C20,10.15 19.37,8.45 18.32,7.09L7.09,18.32C8.45,19.37 10.15,20 12,20Z" />
       </svg>
       <svg class="spinner" viewBox="0 0 24 24" v-else>
         <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
       </svg>
-      I don't like!
+      {{ unlikeLabel || 'I don\'t like this anymore!' }}
     </b-button>
   </div>
 </template>
@@ -26,7 +26,7 @@
   import steem from 'steem'
 
   export default {
-    props: ['size', 'user', 'author', 'permlink'],
+    props: ['size', 'user', 'author', 'permlink', 'likeLabel', 'unlikeLabel'],
     data() {
       return {
         loading: false,
@@ -38,15 +38,21 @@
       vote(weight) {
         this.loading = true;
         this.$parent.sc2.vote(this.user.name, this.author, this.permlink, weight, (err) => {
+          this.loading = false;
           if (err) {
             console.log(err);
+            this.$notify({
+              group: 'errors',
+              title: 'Oh no! An error occurred! :(',
+              text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+            });
           } else {
             this.hasVoted = weight > 0;
+            this.$emit('voteCasted');
             steem.api.getActiveVotes(this.author, this.permlink, (err, votes) => {
               if (err) {
                 console.log(err);
               } else {
-                this.loading = false;
                 this.votes = votes;
               }
             });

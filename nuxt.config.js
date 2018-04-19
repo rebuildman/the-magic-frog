@@ -43,6 +43,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/vue-notification',
     { src: '~plugins/cookie-consent', ssr: false }
   ],
 

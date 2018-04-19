@@ -10,11 +10,31 @@
         <p class="lead pt-5">
           Help the magic frog to remember all his interesting an fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.
         </p>
-        <h4 class="pt-5 pb-3">A Pot Full Of Gold</h4>
+      </div>
+
+      <div class="text-center pb-5">
+        <h2 class="pt-5 pb-3">A Pot Full Of Gold</h2>
         <img src="/pot.png" alt=""/>
-        <h5>Current Value:</h5>
-        <h2>$ {{ potValue }}</h2>
-        <h5>Participants: {{ participants }}</h5>
+        <h5 class="mt-3">Current Value:</h5>
+        <h1 class="pot-value">$ {{ potValue }}</h1>
+
+        <div class="my-4">
+          <LikeButton @voteCasted="updateData" :user="user" likeLabel="Generate more coins!" unlikeLabel="Coins generated! Undo?" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
+          <b-button variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
+            <svg viewBox="0 0 24 24">
+              <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
+            </svg>
+            Login to generate more!
+          </b-button>
+        </div>
+
+        <p class="mt-5">
+          Yes, it's totally free to participate and you even get something for it! Isn't that great? And yes, we're talking about money. You might wonder who pays for this. Well, this website is indeed very magical. It's not only about the "magical" stories but also about the magic of technology, the magic of <i>the Blockchain</i> and digital currencies.<br>
+          <br>
+          This website issues a cryptocurrency called <i>STEEM</i> based on a decentralized community voting process. You can use this currency to give your own votes more weight or sell it for actual money. In a nutshell, STEEM enables you to earn, sell and buy <i>influence</i> in a global, decentralized content network.<br>
+          <br>
+          The influence of <i>The Magic Frog</i> and the whole STEEM community is used to reward the people that take part in this collaborative storytelling project. The content of the story however is based purely on vote counts and not the influence of the individual.
+        </p>
       </div>
 
       <div class="py-5">
@@ -22,22 +42,14 @@
           <h2>Read the current story</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
           <div id="currentStory" class="text-center" v-html="currentStoryBody"></div>
+          <h3>To be continued...</h3>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
-          <div>
-            <LikeButton size="lg" :user="user" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
-            <b-button size="lg" variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
-              <svg viewBox="0 0 24 24">
-                <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
-              </svg>
-              Login to vote!
-            </b-button>
-          </div>
         </div>
       </div>
 
       <div class="mx-auto mb-4" style="max-width: 800px;">
         <h2 class="pt-5">How will the story go on?</h2>
-        <p class="text-center mt-4">First, read how others see the story evolve and give them your vote if you like it.</p>
+        <p class="text-center mt-4">First, read how others see the story evolve and vote for them if you like it.</p>
 
         <div id="comments">
           <Command v-for="command in currentCommands" :key="command.id" :command="command" :user="user" />
@@ -76,9 +88,9 @@
         <div v-if="!user" class="text-center">
           <b-button variant="primary" class="login-button mx-auto" v-b-modal.scRedirectModal>
             <svg viewBox="0 0 24 24">
-              <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
+              <path d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z" />
             </svg>
-            Log in to continue the story yourself.
+            Log in to write!
           </b-button>
         </div>
       </div>
@@ -94,7 +106,7 @@
       Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
       <br>
       The first story is about the Magic Frog and his Master Wizard.
-      <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read their full story.</a></h5>
+      <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read the intro.</a></h5>
       Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
       <br>
       <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
@@ -115,7 +127,7 @@
       <br>
       <a href="https://steem.io/" target="_blank">Learn more about Steem!</a>
       <div class="alert alert-info mt-4">
-        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature or the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
+        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature of the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
         <br>
         Choose a <b>secure password</b> and make sure you <b>keep it safe</b>. Ideally you simply write it down on a piece of paper and store in a safe place.<br>
         <br>
@@ -129,7 +141,7 @@
 
     <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
       <div class="alert alert-info text-center">
-        Here you will soon be able to access and manage all your Steem funds. In the meantime, for more details go to:
+        Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:
         <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
       </div>
       <h4>Your Account Balance</h4>
@@ -138,6 +150,8 @@
         {{ user.account.sbd_balance }}
       </div>
     </b-modal>
+
+    <notifications group="errors" classes="vue-notification error" position="top center" :duration="50000" />
   </section>
 </template>
 
@@ -241,7 +255,11 @@ export default {
       return pot.toFixed(2);
     },
     participants() {
-      return this.currentStoryPosts.length;
+      let meta = JSON.parse(this.latestStoryPost.json_metadata);
+      return meta.hasOwnProperty('participants') ? meta.participants : {};
+    },
+    participantsCount() {
+      return Object.keys(this.participants).length;
     },
     allStoryPosts() {
       return this.posts.filter(post => {
@@ -260,7 +278,9 @@ export default {
       return meta.storyNumber
     },
     currentStoryBody() {
-      return marked(this.getStoryPart(this.latestStoryPost.body));
+      let storyBody = marked(this.getStoryPart(this.latestStoryPost.body));
+      storyBody = storyBody.replace(/\(by @([\w-.]+)\)/g, '<br><span class="author">by <a href="https://steemit.com/@$1">@$1</a></span>');
+      return storyBody;
     },
     latestStoryPost() {
       return this.allStoryPosts[0];
@@ -282,6 +302,46 @@ export default {
     }
   },
   methods: {
+    async updateData() {
+      console.log('updated data');
+      const getPosts = (accountName, limit = 100) => {
+        return new Promise((resolve, reject) => {
+          steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(posts);
+            }
+          });
+        });
+      };
+
+      const getComments = (accountName, permlink) => {
+        return new Promise((resolve, reject) => {
+          steem.api.getContentReplies(accountName, permlink, function(err, comments) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(comments);
+            }
+          });
+        });
+      };
+
+      let accountName = 'the-magic-frog';
+      let posts = await getPosts(accountName);
+      let comments = [];
+      for (let i = 0; i < posts.length; i++) {
+        let meta = JSON.parse(posts[i].json_metadata);
+        if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+          comments = await getComments(accountName, posts[i].permlink);
+          break;
+        }
+      }
+
+      this.posts = posts;
+      this.comments = comments;
+    },
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
     },
@@ -348,6 +408,11 @@ export default {
         );
       }
     }
+  },
+  events: {
+    onVoteCasted: function () {
+      this.updateData();
+    },
   }
 }
 </script>
@@ -384,8 +449,8 @@ export default {
     border-color: #2B4000
     box-shadow: 0 0 0 0.2rem rgba(128, 191, 0, .5)
 
-    .rotate-180
-      transform: rotate(180deg)
+  .rotate-180
+    transform: rotate(180deg)
 
   h1, h2, h3, h4, h5
     font-family: 'Berkshire Swash', cursive
@@ -394,6 +459,11 @@ export default {
   #currentStory,
   #currentStory p
     font-weight: normal
+    font-size: 1.2rem
+
+    .author
+      color: #aaa
+      font-size: .8rem
 
   input,
   textarea
@@ -413,6 +483,22 @@ export default {
       vertical-align: middle
       path
         fill: #fff
+        transition: fill .3s ease
+    &.btn-outline-secondary
+      color: #aaa
+      border-color: #ccc
+      svg
+        path
+          fill: #aaa
+      &:hover,
+      &:active,
+      &:focus
+        color: #fff
+        background: #ccc
+        border-color: #bbb
+        svg
+          path
+            fill: #fff
     &.btn-lg
       line-height: 26px
       svg
@@ -474,4 +560,10 @@ export default {
   #comments .comment .comment-content
     padding: 10px 0
     font-style: italic
+
+  .pot-value
+    font-size: 3rem
+
+  .notifications
+    top: 5px !important
 </style>
