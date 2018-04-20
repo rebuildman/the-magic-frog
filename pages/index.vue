@@ -287,7 +287,7 @@ export default {
     },
     currentCommands() {
       return this.comments.filter(comment => {
-        let meta = JSON.parse(comment.json_metadata);
+        let meta = JSON.parse(this.latestStoryPost.json_metadata);
         let command = comment.body.split('\n')[0];
         if (command === '> The End!' && meta.day > 10) {
           return true;
