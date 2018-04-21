@@ -537,6 +537,11 @@ export default {
   #currentStory p
     font-weight: normal
 
+  #currentStory
+    h1
+      &:first-child
+        margin-bottom: 40px
+
   #command-form
     border: solid 1px #ddd
     border-radius: 10px
