@@ -3,8 +3,10 @@
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
     <div class="comment-command" v-html="append"></div>
-    <sub>Comment:</sub><br>
-    <div class="comment-comment" v-html="comment" v-if="comment"></div>
+    <div v-if="comment">
+      <sub>Comment:</sub><br>
+      <div class="comment-comment" v-html="comment"></div>
+    </div>
     <div>
       <LikeButton @voteCasted="$parent.updateData" size="sm" :user="user" :author="command.author" :permlink="command.permlink" v-if="user" />
       <b-button size="sm" variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
