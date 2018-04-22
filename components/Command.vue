@@ -2,7 +2,9 @@
   <div class="comment text-center">
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
-    <div class="comment-content" v-html="commandBody"></div>
+    <div class="comment-command" v-html="append"></div>
+    <sub>Comment:</sub><br>
+    <div class="comment-comment" v-html="comment" v-if="comment"></div>
     <div>
       <LikeButton @voteCasted="$parent.updateData" size="sm" :user="user" :author="command.author" :permlink="command.permlink" v-if="user" />
       <b-button size="sm" variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
@@ -26,8 +28,16 @@
     },
     props: ['user', 'command'],
     computed: {
-      commandBody() {
-        return marked(this.command.body);
+      append() {
+        let append = this.command.body.split('\n')[0];
+        return marked(append);
+      },
+      comment() {
+        let comment = this.command.body.replace(this.command.body.split('\n')[0], '').trim();
+        if (comment) {
+          return marked(comment);
+        }
+        return null;
       },
       sc2() {
         return this.$parent.sc2;
@@ -35,3 +45,38 @@
     }
   }
 </script>
+
+<style lang="sass">
+  .comment
+    font-weight: 300
+    padding: 25px 0
+    border-top: solid 1px #eee
+
+    &:first-child
+      border-top: none
+
+    .comment-profile-image
+      width: 40px
+      height: 40px
+      background-size: cover
+      background-position: center
+      border-radius: 50%
+      margin: 0 auto
+
+    .comment-command
+      padding: 10px 0
+      font-style: italic
+      p,
+      blockquote
+        margin: 0
+
+    .comment-comment
+      background: #f8f8f8
+      border-radius: 5px
+      padding: 5px 10px
+      margin-bottom: 10px
+      display: inline-block
+      color: #888
+      p
+        margin: 0
+</style>

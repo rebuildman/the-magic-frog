@@ -99,17 +99,21 @@
     <Footer />
 
     <b-modal id="whatIsThisModal" hide-footer title="What is this?">
-      On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
-      <br>
-      Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
-      <br>
-      Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
-      <br>
-      The first story is about the Magic Frog and his Master Wizard.
+      <p>
+        On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
+        <br>
+        Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
+        <br>
+        Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
+        <br>
+        The first story is about the Magic Frog and his Master Wizard.
+      </p>
       <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read the intro.</a></h5>
-      Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
-      <br>
-      <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
+      <p>
+        Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
+        <br>
+        <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
+      </p>
       <h4 class="mt-4">Have Fun!</h4>
     </b-modal>
 
@@ -545,26 +549,6 @@ export default {
   #command-form
     border: solid 1px #ddd
     border-radius: 10px
-
-  #comments .comment
-    font-weight: 300
-    padding: 25px 0
-    border-top: solid 1px #eee
-
-  #comments .comment:first-child
-    border-top: none
-
-  #comments .comment .comment-profile-image
-    width: 40px
-    height: 40px
-    background-size: cover
-    background-position: center
-    border-radius: 50%
-    margin: 0 auto
-
-  #comments .comment .comment-content
-    padding: 10px 0
-    font-style: italic
 
   .pot-value
     font-size: 3rem
