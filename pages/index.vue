@@ -7,15 +7,13 @@
         <img src="/avatar.png" alt=""/>
         <h1 class="pt-4">{{ $t('index.themagicfrog') }}</h1>
         <h2>{{ $t('index.storymachine') }}</h2>
-        <p class="lead pt-5">
-          Help the magic frog to remember all his interesting an fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.
-        </p>
+        <p class="lead pt-5">{{ $t('index.helpremember') }}</p>
       </div>
 
       <div class="text-center pb-5">
-        <h2 class="pt-5 pb-3">A Pot Full Of Gold</h2>
+        <h2 class="pt-5 pb-3">{{ $t('index.fullofgold') }}</h2>
         <img src="/pot.png" alt=""/>
-        <h5 class="mt-3">Current Value:</h5>
+        <h5 class="mt-3">{{ $t('index.currentvalue') }}</h5>
         <h1 class="pot-value">$ {{ potValue }}</h1>
 
         <div class="my-4">
@@ -98,9 +96,8 @@
 
     <Footer />
 
-    <b-modal id="whatIsThisModal" hide-footer title="What is this?">
-      <p>
-        On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
+    <b-modal id="whatIsThisModal" hide-footer title="this.$t('thismod.title')">
+      <p>{{ $t('thismod.collaborative') }}<br>
         <br>
         Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
         <br>

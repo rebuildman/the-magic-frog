@@ -1,16 +1,13 @@
 {
   "index": {
-    "themagicfrog": "The Magic Silly Frog",
+    "themagicfrog": "The Magic Frog",
     "storymachine": "And The Magic Story Machine",
-    "english": "English version",
-    "french": "French version"
+    "helpremember": "Help the magic frog to remember all his interesting an fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.",
+    "fullofgold": "A Pot Full Of Gold",
+    "currentvalue": "Current Value:"
   },
-  "home": {
-    "title": "Welcome",
-    "introduction": "This is an introduction in English."
-  },
-  "about": {
-    "title": "About",
-    "introduction": "This page is made to give you more informations."
+  "thismod": {
+    "title": "What is this?",
+    "collaborative": "On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are."
   }
 }

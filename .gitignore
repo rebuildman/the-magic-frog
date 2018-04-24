@@ -15,3 +15,4 @@ dist
 
 # Yarn files
 yarn.lock
+yarn-error.log

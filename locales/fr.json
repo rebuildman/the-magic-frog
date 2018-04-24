@@ -2,15 +2,12 @@
   "index": {
     "themagicfrog": "La grenouille magique",
     "storymachine": "et la machine à histoire magique",
-    "english": "Version Anglaise",
-    "french": "Version FranÃ§aise"
+    "helpremember": "Aidez la grenouille magique à se souvenir de toutes ses histoires amusantes et intéressantes en alimentant la machine à histoire magique avec vos idées sur la façon dont l'histoire pourrait continuer! La machine calcule alors la réponse la plus probable (ou la plus drôle) et génère des pièces d'or pour que vous puissiez gagner à chaque fois qu'une histoire est complétée. Vous pourriez même trouver des pièces en participant.",
+    "fullofgold": "Un pot plein d'or",
+    "currentvalue": "Valeur actuelle:"
   },
-  "home": {
-    "title": "Bienvenue",
-    "introduction": "Ceci est un texte d'introduction en Francais."
-  },
-  "about": {
-    "title": "Ã propos",
-    "introduction": "Cette page est faite pour vous donner plus d'informations."
+  "thismod": {
+    "title": "Qu'est-ce que c'est?",
+    "collaborative": "Sur ce site, vous pouvez participer à une histoire collaborative. Tout le monde peut soumettre le prochain petit morceau de l'histoire et la communauté décide tous les jours, en votant, quelle partie est annexée. Vous pouvez donc soumettre quelque chose tous les jours. Si votre soumission entre dans l'histoire, vous avez une chance de gagner le pot dw l'histoire. Plus vous contribuer à l'histoire, plus vos chances sont élevées."
   }
 }
