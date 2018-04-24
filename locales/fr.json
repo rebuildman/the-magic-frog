@@ -1,0 +1,16 @@
+{
+  "index": {
+    "themagicfrog": "La grenouille magique",
+    "storymachine": "et la machine à histoire magique",
+    "english": "Version Anglaise",
+    "french": "Version FranÃ§aise"
+  },
+  "home": {
+    "title": "Bienvenue",
+    "introduction": "Ceci est un texte d'introduction en Francais."
+  },
+  "about": {
+    "title": "Ã propos",
+    "introduction": "Cette page est faite pour vous donner plus d'informations."
+  }
+}

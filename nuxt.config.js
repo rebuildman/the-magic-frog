@@ -40,13 +40,25 @@ module.exports = {
   ],
 
   /*
+  ** Router for internationalisation
+  */
+  router: {
+    middleware: 'i18n'
+  },
+  
+  /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/i18n.js',
     '~/plugins/vue-notification',
     { src: '~plugins/cookie-consent', ssr: false }
   ],
 
+  generate: {
+    routes: ['/', '/fr']
+  },
+  
   /*
   ** Nuxt.js modules
   */

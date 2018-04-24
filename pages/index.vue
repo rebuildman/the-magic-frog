@@ -5,8 +5,8 @@
     <b-container>
       <div class="text-center py-5">
         <img src="/avatar.png" alt=""/>
-        <h1 class="pt-4">The Magic Frog</h1>
-        <h2>And The Magic Story Machine</h2>
+        <h1 class="pt-4">{{ $t('index.themagicfrog') }}</h1>
+        <h2>{{ $t('index.storymachine') }}</h2>
         <p class="lead pt-5">
           Help the magic frog to remember all his interesting an fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.
         </p>
