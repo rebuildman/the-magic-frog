@@ -45,7 +45,7 @@ module.exports = {
   router: {
     middleware: 'i18n'
   },
-  
+
   /*
   ** Plugins to load before mounting the App
   */
@@ -55,10 +55,6 @@ module.exports = {
     { src: '~plugins/cookie-consent', ssr: false }
   ],
 
-  generate: {
-    routes: ['/', '/fr']
-  },
-  
   /*
   ** Nuxt.js modules
   */

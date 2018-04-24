@@ -14,7 +14,7 @@
         <h2 class="pt-5 pb-3">{{ $t('index.fullofgold') }}</h2>
         <img src="/pot.png" alt=""/>
         <h5 class="mt-3">{{ $t('index.currentvalue') }}</h5>
-        <h1 class="pot-value">$ {{ potValue }}</h1>
+        <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
 
         <div class="my-4">
           <LikeButton @voteCasted="updateData" :user="user" likeLabel="Generate more coins!" unlikeLabel="Coins generated! Undo?" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
