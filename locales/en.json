@@ -6,7 +6,20 @@
     "fullofgold": "A Pot Full Of Gold",
     "currentvalue": "Current Value:",
     "endollar": "$",
-    "frdollar": ""
+    "frdollar": "",
+    "generatemore": "Login to generate more!",
+    "itsfree": "Yes, it's totally free to participate and you even get something for it! Isn't that great? And yes, we're talking about money. You might wonder who pays for this. Well, this website is indeed very magical. It's not only about the \"magical\" stories but also about the magic of technology, the magic of ",
+    "blockchain": "the Blockchain",
+    "digital": " and digital currencies.",
+    "thiswebsite": "This website issues a cryptocurrency called ",
+    "steem": "STEEM",
+    "basedon": "based on a decentralized community voting process. You can use this currency to give your own votes more weight or sell it for actual money. In a nutshell, STEEM enables you to earn, sell and buy ",
+    "influence": "influence",
+    "network": "in a global, decentralized content network.",
+    "theinfluence": "The influence of ",
+    "community": "and the whole STEEM community is used to reward the people that take part in this collaborative storytelling project. The content of the story however is based purely on vote counts and not the influence of the individual.",
+    "read": "Read the current story",
+    "tobe": "To be continued..."
   },
   "thismod": {
     "title": "What is this?",

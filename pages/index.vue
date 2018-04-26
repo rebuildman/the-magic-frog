@@ -22,25 +22,23 @@
             <svg viewBox="0 0 24 24">
               <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
             </svg>
-            Login to generate more!
+            {{ $t('index.generatemore') }}
           </b-button>
         </div>
 
-        <p class="mt-5">
-          Yes, it's totally free to participate and you even get something for it! Isn't that great? And yes, we're talking about money. You might wonder who pays for this. Well, this website is indeed very magical. It's not only about the "magical" stories but also about the magic of technology, the magic of <i>the Blockchain</i> and digital currencies.<br>
-          <br>
-          This website issues a cryptocurrency called <i>STEEM</i> based on a decentralized community voting process. You can use this currency to give your own votes more weight or sell it for actual money. In a nutshell, STEEM enables you to earn, sell and buy <i>influence</i> in a global, decentralized content network.<br>
-          <br>
-          The influence of <i>The Magic Frog</i> and the whole STEEM community is used to reward the people that take part in this collaborative storytelling project. The content of the story however is based purely on vote counts and not the influence of the individual.
+        <p class="mt-5">{{ $t('index.itsfree') }} <i> {{ $t('index.blockchain') }} </i> {{ $t('index.digital') }} <br><br>
+         {{ $t('index.thiswebsite') }} <i> {{ $t('index.steem') }} </i> {{ $t('index.basedon') }}
+        <i> {{ $t('index.influence') }} </i> {{ $t('index.network') }} <br><br>
+        {{ $t('index.theinfluence') }} <i> {{ $t('index.themagicfrog') }} </i> {{ $t('index.basedon') }} {{ $t('index.community') }}
         </p>
       </div>
 
       <div class="py-5">
         <div class="text-center">
-          <h2>Read the current story</h2>
+          <h2>{{ $t('index.read') }}</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
           <div id="currentStory" class="text-center" v-html="currentStoryBody"></div>
-          <h3>To be continued...</h3>
+          <h3>{{ $t('index.tobe') }}</h3>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
         </div>
       </div>
