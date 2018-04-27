@@ -475,6 +475,7 @@ export default {
     border: solid 2px #ccc
     font-size: 1.2rem
     padding: 5px 10px
+    background: #fff
     &::placeholder
       color: #ccc
 
