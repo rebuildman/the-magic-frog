@@ -59,7 +59,7 @@
         <h2 class="pt-5">Now it's your turn!</h2>
         <p class="text-center mt-4">Continue writing the story where it stopped, so that it is funny or exciting to read and maybe even makes a bit of sense. Be creative!</p>
 
-        <form class="mt-4 p-3 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
             <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
@@ -475,7 +475,8 @@ export default {
     border: solid 2px #ccc
     font-size: 1.2rem
     padding: 5px 10px
-    box-shadow: inset 0 -3px 5px rgba(0, 0, 0, .1)
+    &::placeholder
+      color: #ccc
 
   p
     font-weight: 300
