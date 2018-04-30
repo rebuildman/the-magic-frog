@@ -302,7 +302,7 @@ export default {
       });
     },
     commandCharactersLeft() {
-      return 250 - this.commandInput.length;
+      return Math.max(250 - this.commandInput.length, 0);
     }
   },
   methods: {
