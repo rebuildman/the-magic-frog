@@ -59,7 +59,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['steem', 'sc2-sdk', 'marked'],
+    vendor: ['steem', 'sc2-sdk', 'marked', 'axios'],
     /*
     ** You can extend webpack config here
     */
