@@ -41,8 +41,11 @@
         <div class="text-center">
           <h2>Read the current story</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
-          <div id="currentStory" class="text-center" v-html="currentStoryBody"></div>
-          <h3>To be continued...</h3>
+          <div id="currentStory" class="text-center">
+            <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
+            <StoryPart v-for="(part, index) in latestStoryPostMeta.commands" :key="index" :part="part" />
+            <h3 class="mt-4">{{ latestStoryPostMeta.toBeContinued }}</h3>
+          </div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
         </div>
       </div>
@@ -62,7 +65,7 @@
         <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
             <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
-            <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
+            <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
             <div v-if="!showImageUpload" class="text-center my-4">
               <p>You can even upload an image if you want.</p>
               <b-button  @click="showImageUpload = true" class="btn btn-outline-success">Yes, upload an image!</b-button>
@@ -194,6 +197,7 @@ import NavbarLoggedIn from '~/components/NavbarLoggedIn'
 import NavbarLoggedOut from '~/components/NavbarLoggedOut'
 import LikeButton from '~/components/LikeButton'
 import Command from '~/components/Command'
+import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
 
 export default {
@@ -202,6 +206,7 @@ export default {
     NavbarLoggedOut,
     LikeButton,
     Command,
+    StoryPart,
     Footer
   },
   data() {
@@ -287,13 +292,6 @@ export default {
       }
       return pot.toFixed(2);
     },
-    participants() {
-      let meta = JSON.parse(this.latestStoryPost.json_metadata);
-      return meta.hasOwnProperty('participants') ? meta.participants : {};
-    },
-    participantsCount() {
-      return Object.keys(this.participants).length;
-    },
     allStoryPosts() {
       return this.posts.filter(post => {
         let meta = JSON.parse(post.json_metadata);
@@ -307,27 +305,20 @@ export default {
       });
     },
     currentStoryNumber() {
-      let meta = JSON.parse(this.latestStoryPost.json_metadata);
-      return meta.storyNumber
-    },
-    currentStoryBody() {
-      let storyBody = marked(this.getStoryPart(this.latestStoryPost.body));
-      storyBody = storyBody.replace(/\(by @([\w-.]+)\)/g, '<br><span class="author">by <a href="https://steemit.com/@$1">@$1</a></span>');
-      return storyBody;
+      return this.latestStoryPostMeta.storyNumber
     },
     latestStoryPost() {
       return this.allStoryPosts[0];
     },
+    latestStoryPostMeta() {
+      return JSON.parse(this.latestStoryPost.json_metadata);
+    },
     currentCommands() {
+      let canEnd = this.latestStoryPostMeta.day > 10;
+
       return this.comments.filter(comment => {
-        let meta = JSON.parse(this.latestStoryPost.json_metadata);
-        let command = comment.body.split('\n')[0];
-        if (command === '> The End!' && meta.day > 10) {
-          return true;
-        } else if (command.indexOf('> ') === 0 && command.length <= 252) {
-          return true;
-        }
-        return false;
+        let meta = JSON.parse(comment.json_metadata);
+        return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
       });
     },
     commandCharactersLeft() {
@@ -378,16 +369,6 @@ export default {
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
     },
-    getStoryPart(body) {
-      const start = body.indexOf('# Once upon a time,');
-      const end = body.indexOf('## To be continued!');
-      if (start !== -1 && end !== -1) {
-        return body.slice(start, end);
-      } else {
-        console.log('Could not find story part in content. :(');
-        return false;
-      }
-    },
     getPostPot(post) {
       if (post.last_payout === '1970-01-01T00:00:00') {
         return parseFloat(post.pending_payout_value.replace(' SBD', '')) * 0.75 / 2;
@@ -401,35 +382,33 @@ export default {
       return null;
     },
     submitComment() {
-      let body = null;
-      let meta = {};
+      let meta = {
+        type: 'append',
+        appendText: this.commandInput.trim(),
+        comment: this.commentInput.trim(),
+        image: this.image,
+      };
+
       if (this.endStory) {
-        // append end
         meta.type = 'end';
         meta.appendText = '# The End!';
-        body = '> The End';
-      } else if (this.commandInput && this.commandInput.length < 251 && this.image) {
-        // append text and image
-        meta.type = 'append';
-        meta.appendText = this.commandInput + '\n\n' + '![image-' + (new Date()).getTime() + '](' + this.image + ')';
-        body = '> ' + meta.appendText;
-      } else if (this.commandInput && this.commandInput.length < 251) {
-        // append only text
-        meta.type = 'append';
-        meta.appendText = this.commandInput;
-        body = '> ' + meta.appendText;
-      } else if (this.image) {
-        // append only image
-        meta.type = 'append';
-        meta.appendText = '![image-' + (new Date()).getTime() + '](' + this.image + ')';
-        body = '> ' + meta.appendText;
       }
 
-      if (body) {
-        body += '\n\n' + this.commentInput;
-        let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+      if (meta.appendText || meta.image) {
+        let body = '';
+        if (meta.appendText) {
+          body += '> ' + meta.appendText + '\n\n';
+        }
 
-        console.log(meta, body);
+        if (meta.image) {
+          body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+        }
+
+        if (meta.comment) {
+          body += meta.comment;
+        }
+
+        let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
 
         this.submitLoading = true;
         this.sc2.comment(
