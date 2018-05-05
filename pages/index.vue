@@ -63,16 +63,40 @@
           <div v-if="!endStory">
             <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
-            <p class="text-center mt-4 mb-1" v-if="currentStoryPosts.length > 10">
-              No, I don't want this story to be continued!<br>
-              <b-button class="btn btn-outline-danger mt-3" @click="endStory = true">Stop it!</b-button>
+            <div v-if="!showImageUpload" class="text-center my-4">
+              <p>You can even upload an image if you want.</p>
+              <b-button  @click="showImageUpload = true" class="btn btn-outline-success">Yes, upload an image!</b-button>
+            </div>
+            <div v-if="showImageUpload">
+              <p class="text-center my-4">
+                <b-alert variant="info"
+                         dismissible
+                         :show="showImageUploadInfo"
+                         @dismissed="showImageUploadInfo=false"
+                         class="text-left">
+                  Please note that only images under the <a href="https://wiki.creativecommons.org/wiki/CC0" target="_blank">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href="https://wiki.creativecommons.org/wiki/Public_domain" target="_blank">public domain</a>.
+                </b-alert>
+                <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
+                <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
+                <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">Changed my mind. No image please!</b-button>
+              </p>
+              <div class="spinner" v-if="imageIsUploading">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+              </div>
+            </div>
+            <hr>
+            <p class="text-center mt-4 mb-4" v-if="currentStoryPosts.length > 10">
+              No, I think this story should end now!<br>
+              <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
             </p>
           </div>
-          <div v-if="endStory" class="text-center">
+          <div v-if="endStory" class="text-center mb-4">
             <h3><i>The End!</i></h3>
-            <sup>A new story will start!</sup><br>
+            <sup>If the community thinks the same, the pot ($ {{ potValue }}) will be distributed to all participants (including you) and a new story will start!</sup><br>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">No, just kidding....</b-button>
           </div>
+          <hr>
           <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
           <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
           <div v-if="showSuccessMessage" class="text-center alert alert-success">
@@ -160,6 +184,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import steem from 'steem'
 import sc2 from 'sc2-sdk'
 import marked from 'marked'
@@ -186,7 +211,11 @@ export default {
       commandInput: '',
       commentInput: '',
       submitLoading: false,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      image: null,
+      imageIsUploading: false,
+      showImageUpload: false,
+      showImageUploadInfo: true
     }
   },
   async asyncData() {
@@ -373,14 +402,34 @@ export default {
     },
     submitComment() {
       let body = null;
+      let meta = {};
       if (this.endStory) {
-        body = '> The End!\n\n' + this.commentInput;
-      } else if (this.commandInput && this.commandInput.length < 250) {
-        body = '> ' + this.commandInput + '\n\n' + this.commentInput;
+        // append end
+        meta.type = 'end';
+        meta.appendText = '# The End!';
+        body = '> The End';
+      } else if (this.commandInput && this.commandInput.length < 251 && this.image) {
+        // append text and image
+        meta.type = 'append';
+        meta.appendText = this.commandInput + '\n\n' + '![image-' + (new Date()).getTime() + '](' + this.image + ')';
+        body = '> ' + meta.appendText;
+      } else if (this.commandInput && this.commandInput.length < 251) {
+        // append only text
+        meta.type = 'append';
+        meta.appendText = this.commandInput;
+        body = '> ' + meta.appendText;
+      } else if (this.image) {
+        // append only image
+        meta.type = 'append';
+        meta.appendText = '![image-' + (new Date()).getTime() + '](' + this.image + ')';
+        body = '> ' + meta.appendText;
       }
 
       if (body) {
+        body += '\n\n' + this.commentInput;
         let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+
+        console.log(meta, body);
 
         this.submitLoading = true;
         this.sc2.comment(
@@ -390,7 +439,7 @@ export default {
           permlink,
           '',
           body,
-          null,
+          meta,
           (err) => {
             if (err) {
               console.log(err);
@@ -399,6 +448,8 @@ export default {
               this.commentInput = '';
               this.submitLoading = false;
               this.showSuccessMessage = true;
+              this.image = null;
+              this.$refs.image.value = null;
 
               steem.api.getContentReplies('the-magic-frog', this.latestStoryPost.permlink, (err, comments) => {
                 if (err) {
@@ -411,6 +462,49 @@ export default {
           }
         );
       }
+    },
+    onImageChange() {
+      if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+      }
+
+      else if (!this.$refs.image.files) {
+        alert("This browser doesn't seem to support the `files` property of file inputs.");
+      }
+      else if (!this.$refs.image.files[0]) {
+        alert("Please select a file before clicking 'Load'");
+      }
+      else {
+        let file = this.$refs.image.files[0];
+
+        let fr = new FileReader();
+        fr.onload = () => {
+          let data = fr.result;
+          this.imageIsUploading = true;
+          axios({
+            method: 'post',
+            url: 'https://api.imgur.com/3/image',
+            data: {
+              image: data.replace('data:image/png;base64,', ''),
+              type: 'base64'
+            },
+            headers: {
+              'Authorization': 'Client-ID a57bbb06e896db0',
+              'content-type': 'application/json'
+            },
+          }).then(result => {
+            this.imageIsUploading = false;
+            this.image = result.data.data.link;
+          });
+        };
+        fr.readAsDataURL(file);
+      }
+    },
+    resetImage() {
+      this.image = null;
+      this.showImageUpload = false;
+      this.$refs.image.value = null;
     }
   },
   events: {
@@ -476,7 +570,8 @@ export default {
     font-size: 1.2rem
     padding: 5px 10px
     background: #fff
-    &::placeholder
+    &::placeholder,
+    &[type=file]
       color: #ccc
 
   p
@@ -552,9 +647,71 @@ export default {
     border: solid 1px #ddd
     border-radius: 10px
 
+    .the-end-button
+      font-family: 'Berkshire Swash', cursive
+
   .pot-value
     font-size: 3rem
 
   .notifications
     top: 5px !important
+
+  .uploaded-image
+    padding: 15px
+    border-radius: 5px
+    border: solid 1px #eee
+    margin-top: 1rem
+
+  .spinner
+    margin: 100px auto
+    width: 40px
+    height: 40px
+    position: relative
+    text-align: center
+    -webkit-animation: sk-rotate 2.0s infinite linear
+    animation: sk-rotate 2.0s infinite linear
+
+  .dot1,
+  .dot2
+    width: 60%
+    height: 60%
+    display: inline-block
+    position: absolute
+    top: 0
+    background-color: #557F00
+    border-radius: 100%
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out
+    animation: sk-bounce 2.0s infinite ease-in-out
+
+  .dot2
+    background-color: #80b900
+    top: auto
+    bottom: 0
+    -webkit-animation-delay: -1.0s
+    animation-delay: -1.0s
+
+  @-webkit-keyframes sk-rotate
+    100%
+      -webkit-transform: rotate(360deg)
+
+  @keyframes sk-rotate
+    100%
+      transform: rotate(360deg)
+      -webkit-transform: rotate(360deg)
+
+  @-webkit-keyframes sk-bounce
+    0%,
+    100%
+      -webkit-transform: scale(0.0)
+    50%
+      -webkit-transform: scale(1.0)
+
+  @keyframes sk-bounce
+    0%,
+    100%
+      transform: scale(0.0)
+      -webkit-transform: scale(0.0)
+    50%
+      transform: scale(1.0)
+      -webkit-transform: scale(1.0)
 </style>
