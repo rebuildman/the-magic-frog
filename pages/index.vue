@@ -317,8 +317,11 @@ export default {
       let canEnd = this.latestStoryPostMeta.day > 10;
 
       return this.comments.filter(comment => {
-        let meta = JSON.parse(comment.json_metadata);
-        return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
+        if (comment.json_metadata) {
+          let meta = JSON.parse(comment.json_metadata);
+          return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
+        }
+        return false;
       });
     },
     commandCharactersLeft() {
