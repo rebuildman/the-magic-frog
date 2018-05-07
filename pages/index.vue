@@ -449,26 +449,28 @@ export default {
       if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
         alert('The File APIs are not fully supported in this browser.');
         return;
-      }
-
-      else if (!this.$refs.image.files) {
-        alert("This browser doesn't seem to support the `files` property of file inputs.");
-      }
-      else if (!this.$refs.image.files[0]) {
-        alert("Please select a file before clicking 'Load'");
-      }
-      else {
+      } else if (!this.$refs.image.files) {
+        alert('This browser doesn\'t seem to support the `files` property of file inputs.');
+      } else if (!this.$refs.image.files[0]) {
+        alert("No file selected.");
+      } else {
         let file = this.$refs.image.files[0];
 
         let fr = new FileReader();
         fr.onload = () => {
-          let data = fr.result;
           this.imageIsUploading = true;
+
+          let data = fr.result;
+          let base64image = data.replace('data:image/png;base64,', '')
+            .replace('data:image/jpg;base64,', '')
+            .replace('data:image/jpeg;base64,', '')
+            .replace('data:image/gif;base64,', '');
+
           axios({
             method: 'post',
             url: 'https://api.imgur.com/3/image',
             data: {
-              image: data.replace('data:image/png;base64,', ''),
+              image: base64image,
               type: 'base64'
             },
             headers: {
