@@ -390,6 +390,7 @@ export default {
         appendText: this.commandInput.trim(),
         comment: this.commentInput.trim(),
         image: this.image,
+        author: this.user.name
       };
 
       if (this.endStory) {
