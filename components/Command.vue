@@ -3,7 +3,7 @@
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
     <div class="comment-command" v-html="meta.appendText" v-if="meta.appendText"></div>
-    <div v-if="meta.image" class="text-center">
+    <div v-if="meta.image" class="text-center my-3">
       <img :src="meta.image" alt="" class="img-fluid" />
     </div>
     <div v-if="meta.comment">
