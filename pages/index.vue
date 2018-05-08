@@ -200,6 +200,10 @@ import Command from '~/components/Command'
 import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
 
+// TODO: wallet integration
+// TODO: edit comments/submissions
+// TODO: allow only one "The End!" comment, show upvote button for others
+
 export default {
   components: {
     NavbarLoggedIn,
@@ -447,6 +451,7 @@ export default {
       }
     },
     onImageChange() {
+      // TODO: add validation of filesize and type
       if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
         alert('The File APIs are not fully supported in this browser.');
         return;
