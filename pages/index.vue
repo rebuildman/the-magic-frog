@@ -294,6 +294,7 @@ export default {
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
         pot += parseFloat(this.getPostPot(this.currentStoryPosts[i]));
       }
+      pot *= 0.95; // 5 % goes to beneficiaries
       return pot.toFixed(2);
     },
     allStoryPosts() {
