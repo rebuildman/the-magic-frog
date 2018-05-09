@@ -23,6 +23,8 @@
 </template>
 
 <script>
+  // TODO: vote weight slider
+
   import steem from 'steem'
 
   export default {
