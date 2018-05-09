@@ -96,21 +96,29 @@
           </div>
           <div v-if="endStory" class="text-center mb-4">
             <h3><i>The End!</i></h3>
-            <sup>If the community thinks the same, the pot ($ {{ potValue }}) will be distributed to all participants (including you) and a new story will start!</sup><br>
+            <div v-if="endCommand">
+              <p>There is already someone suggesting to end the story. Vote for him/her to make it happen! The pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story and a new one will start the next day!</p>
+              <Command :command="endCommand" :user="user" />
+            </div>
+            <div v-else>
+              <p>If the community thinks the same, the pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story (including you) and a new one will start the next day!</p>
+            </div>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">No, just kidding....</b-button>
           </div>
-          <hr>
-          <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
-          <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
-          <div v-if="showSuccessMessage" class="text-center alert alert-success">
-            Thank you for participating!
+          <div v-if="!(endStory && endCommand)">
+            <hr>
+            <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
+            <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
+            <div v-if="showSuccessMessage" class="text-center alert alert-success">
+              Thank you for participating!
+            </div>
+            <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
+              <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
+                <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
+              </svg>
+              Submit!
+            </button>
           </div>
-          <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
-            <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
-              <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
-            </svg>
-            Submit!
-          </button>
         </form>
         <div v-if="!user" class="text-center">
           <b-button variant="primary" class="login-button mx-auto" v-b-modal.scRedirectModal>
@@ -202,7 +210,6 @@ import Footer from '~/components/Footer'
 
 // TODO: wallet integration
 // TODO: edit comments/submissions
-// TODO: allow only one "The End!" comment, show upvote button for others
 
 export default {
   components: {
@@ -328,6 +335,16 @@ export default {
         }
         return false;
       });
+    },
+    endCommand() {
+      let endCommand = null;
+      this.currentCommands.forEach(comment => {
+        let meta = JSON.parse(comment.json_metadata);
+        if (meta.type === 'end') {
+          endCommand = comment;
+        }
+      });
+      return endCommand;
     },
     commandCharactersLeft() {
       return Math.max(250 - this.commandInput.length, 0);
