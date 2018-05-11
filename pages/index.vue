@@ -412,7 +412,7 @@ export default {
         type: 'append',
         appendText: this.commandInput.trim(),
         comment: this.commentInput.trim(),
-        image: this.image,
+        image: this.image || '', // don't set to null, would be removed if edited via steemit.com
         author: this.user.name
       };
 
