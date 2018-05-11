@@ -2,13 +2,13 @@
   <div class="comment text-center">
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
-    <div class="comment-command" v-html="meta.appendText" v-if="meta.appendText"></div>
+    <div class="comment-command" v-html="appendHtml" v-if="meta.appendText"></div>
     <div v-if="meta.image" class="text-center my-3">
       <img :src="meta.image" alt="" class="img-fluid" />
     </div>
     <div v-if="meta.comment">
       <sub>Comment:</sub><br>
-      <div class="comment-comment" v-html="meta.comment"></div>
+      <div class="comment-comment" v-html="commentHtml"></div>
     </div>
     <div>
       <LikeButton @voteCasted="$parent.updateData" size="sm" :user="user" :author="command.author" :permlink="command.permlink" v-if="user" />
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+  import marked from 'marked'
   import LikeButton from '~/components/LikeButton'
 
   export default {
@@ -36,6 +37,12 @@
       },
       sc2() {
         return this.$parent.sc2;
+      },
+      appendHtml() {
+        return marked(this.meta.appendText)
+      },
+      commentHtml() {
+        return marked(this.meta.comment)
       }
     }
   }
