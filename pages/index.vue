@@ -133,62 +133,7 @@
 
     <Footer />
 
-    <b-modal id="whatIsThisModal" hide-footer title="What is this?">
-      <p>
-        On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
-        <br>
-        Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
-        <br>
-        Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
-        <br>
-        The first story is about the Magic Frog and his Master Wizard.
-      </p>
-      <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read the intro.</a></h5>
-      <p>
-        Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
-        <br>
-        <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
-      </p>
-      <h4 class="mt-4">Have Fun!</h4>
-    </b-modal>
-
-    <b-modal id="scRedirectModal" title="Login with SteemConnect">
-      In order to participate you need a Steem account. You will be redirected to SteemConnect to authenticate to the Steem blockchain. SteemConnect is developed and maintained by Steemit, Inc. and Busy.org.
-      <div slot="modal-footer" class="w-100 text-center">
-        <a :href="loginUrl" class="btn btn-primary">Login with SteemConnect</a>
-      </div>
-    </b-modal>
-
-    <b-modal id="steemSignupModal" title="Create a Steem account">
-      In order to participate you need a Steem account. Steem is a blockchain platform that rewards content creators with the cryptocurrency STEEM. Once your Steem account has been verified and enabled, you can use it to log in.<br>
-      <br>
-      There are a lot more interesting apps and websites you can access with this account. You'll probably need one sooner or later anyway, so don't hesitate... it's free!<br>
-      <br>
-      <a href="https://steem.io/" target="_blank">Learn more about Steem!</a>
-      <div class="alert alert-info mt-4">
-        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature of the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
-        <br>
-        Choose a <b>secure password</b> and make sure you <b>keep it safe</b>. Ideally you simply write it down on a piece of paper and store in a safe place.<br>
-        <br>
-        <b>You have full responsibility for the security of your account and the rewards you earn.</b>
-      </div>
-      You will be redirected to the sign-up process of steemit.com.
-      <div slot="modal-footer" class="w-100 text-center">
-        <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">Create a Steem account</a>
-      </div>
-    </b-modal>
-
-    <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
-      <div class="alert alert-info text-center">
-        Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:
-        <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
-      </div>
-      <h4>Your Account Balance</h4>
-      <div class="text-center">
-        {{ user.account.balance }}<br>
-        {{ user.account.sbd_balance }}
-      </div>
-    </b-modal>
+    <Modals :user="user" :loginUrl="loginUrl" />
 
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
   </section>
@@ -207,6 +152,7 @@ import LikeButton from '~/components/LikeButton'
 import Command from '~/components/Command'
 import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
+import Modals from '~/components/Modals'
 
 // TODO: wallet integration
 // TODO: edit comments/submissions
@@ -219,7 +165,8 @@ export default {
     LikeButton,
     Command,
     StoryPart,
-    Footer
+    Footer,
+    Modals
   },
   data() {
     return {
@@ -473,7 +420,6 @@ export default {
       // TODO: add validation of filesize and type
       if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
         alert('The File APIs are not fully supported in this browser.');
-        return;
       } else if (!this.$refs.image.files) {
         alert('This browser doesn\'t seem to support the `files` property of file inputs.');
       } else if (!this.$refs.image.files[0]) {
@@ -523,204 +469,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-  *
-    outline: none !important
-
-  .green
-    color: #557F00
-
-  .green-light
-    color: #80BF00
-
-  .green-dark
-    color: #2B4000
-
-  a
-    color: #557F00
-
-    &:hover
-      color: #2B4000
-
-  .btn-primary:not(:disabled):not(.disabled)
-    background: #557F00
-    border-color: #2B4000
-
-  .btn-primary:not(:disabled):not(.disabled).active,
-  .btn-primary:not(:disabled):not(.disabled):active,
-  .btn-primary:not(:disabled):not(.disabled):active:focus,
-  .btn-primary:not(:disabled):not(.disabled):focus,
-  .show > .btn-primary.dropdown-toggle
-    background: #2B4000
-    border-color: #2B4000
-    box-shadow: 0 0 0 0.2rem rgba(128, 191, 0, .5)
-
-  .rotate-180
-    transform: rotate(180deg)
-
-  h1, h2, h3, h4, h5
-    font-family: 'Berkshire Swash', cursive
-    text-align: center
-
-  #currentStory,
-  #currentStory p
-    font-weight: normal
-    font-size: 1.2rem
-
-    .author
-      color: #aaa
-      font-size: .8rem
-
-  input,
-  textarea
-    border-radius: 5px
-    border: solid 2px #ccc
-    font-size: 1.2rem
-    padding: 5px 10px
-    background: #fff
-    &::placeholder,
-    &[type=file]
-      color: #ccc
-
-  p
-    font-weight: 300
-
-  .btn
-    svg
-      width: 16px
-      margin-top: -3px
-      vertical-align: middle
-      path
-        fill: #fff
-        transition: fill .3s ease
-    &.btn-outline-secondary
-      color: #aaa
-      border-color: #ccc
-      svg
-        path
-          fill: #aaa
-      &:hover,
-      &:active,
-      &:focus
-        color: #fff
-        background: #ccc
-        border-color: #bbb
-        svg
-          path
-            fill: #fff
-    &.btn-lg
-      line-height: 26px
-      svg
-        margin-top: -4px
-        width: 20px
-    &.btn-sm
-      line-height: 20px
-      svg
-        margin-top: -2px
-        width: 14px
-    .spinner
-      animation-name: spin
-      animation-duration: 1s
-      animation-iteration-count: infinite
-      animation-timing-function: linear
-
-      @-moz-keyframes spin
-        from
-          -moz-transform: rotate(0deg)
-        to
-          -moz-transform: rotate(360deg)
-
-      @-webkit-keyframes spin
-        from
-          -webkit-transform: rotate(0deg)
-        to
-          -webkit-transform: rotate(360deg)
-
-      @keyframes spin
-        from
-          transform: rotate(0deg)
-        to
-          transform: rotate(360deg)
-
-  #currentStory,
-  #currentStory p
-    font-weight: normal
-
-  #currentStory
-    h1
-      &:first-child
-        margin-bottom: 40px
-
-  #command-form
-    border: solid 1px #ddd
-    border-radius: 10px
-
-    .the-end-button
-      font-family: 'Berkshire Swash', cursive
-
-  .pot-value
-    font-size: 3rem
-
-  .notifications
-    top: 5px !important
-
-  .uploaded-image
-    padding: 15px
-    border-radius: 5px
-    border: solid 1px #eee
-    margin-top: 1rem
-
-  .spinner
-    margin: 100px auto
-    width: 40px
-    height: 40px
-    position: relative
-    text-align: center
-    -webkit-animation: sk-rotate 2.0s infinite linear
-    animation: sk-rotate 2.0s infinite linear
-
-  .dot1,
-  .dot2
-    width: 60%
-    height: 60%
-    display: inline-block
-    position: absolute
-    top: 0
-    background-color: #557F00
-    border-radius: 100%
-    -webkit-animation: sk-bounce 2.0s infinite ease-in-out
-    animation: sk-bounce 2.0s infinite ease-in-out
-
-  .dot2
-    background-color: #80b900
-    top: auto
-    bottom: 0
-    -webkit-animation-delay: -1.0s
-    animation-delay: -1.0s
-
-  @-webkit-keyframes sk-rotate
-    100%
-      -webkit-transform: rotate(360deg)
-
-  @keyframes sk-rotate
-    100%
-      transform: rotate(360deg)
-      -webkit-transform: rotate(360deg)
-
-  @-webkit-keyframes sk-bounce
-    0%,
-    100%
-      -webkit-transform: scale(0.0)
-    50%
-      -webkit-transform: scale(1.0)
-
-  @keyframes sk-bounce
-    0%,
-    100%
-      transform: scale(0.0)
-      -webkit-transform: scale(0.0)
-    50%
-      transform: scale(1.0)
-      -webkit-transform: scale(1.0)
-</style>
