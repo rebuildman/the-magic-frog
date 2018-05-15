@@ -83,7 +83,7 @@
                 <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
                 <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">Changed my mind. No image please!</b-button>
               </p>
-              <div class="spinner" v-if="imageIsUploading">
+              <div class="upload-spinner" v-if="imageIsUploading">
                 <div class="dot1"></div>
                 <div class="dot2"></div>
               </div>
