@@ -8,7 +8,7 @@
         <h1 class="pt-4">The Magic Frog</h1>
         <h2>And The Magic Story Machine</h2>
         <p class="lead pt-5">
-          Help the magic frog to remember all his interesting and fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.
+          Help the magic frog to remember all his interesting and fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You will even find some coins yourself just by taking part.
         </p>
       </div>
 
@@ -88,11 +88,13 @@
                 <div class="dot2"></div>
               </div>
             </div>
-            <hr>
-            <p class="text-center mt-4 mb-4" v-if="currentStoryPosts.length > 10">
-              No, I think this story should end now!<br>
-              <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
-            </p>
+            <div v-if="currentStoryPosts.length > 10">
+              <hr>
+              <p class="text-center mt-4 mb-4">
+                No, I think this story should end now!<br>
+                <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
+              </p>
+            </div>
           </div>
           <div v-if="endStory" class="text-center mb-4">
             <h3><i>The End!</i></h3>
