@@ -15,9 +15,10 @@
       <div class="no-audio" v-else>The audio version will be available once the story is completed!</div>
     </div>
 
-    <b-modal :id="'archivedStoryModal' + meta.storyNumber" :title="'The Magic Story #' + meta.storyNumber" size="lg" hide-footer>
+    <b-modal class="storyModal" :id="'archivedStoryModal' + meta.storyNumber" :title="'The Magic Story #' + meta.storyNumber" size="lg" hide-footer>
       <h1 class="mb-5">{{ meta.startPhrase }}</h1>
       <StoryPart v-for="(part, index) in meta.commands" :key="index" :part="part" />
+      <h2 class="text-center" v-if="!hasEnded">{{ meta.toBeContinued }}</h2>
     </b-modal>
   </b-col>
 </template>
@@ -49,6 +50,9 @@
         });
 
         return image || '/default-cover.png';
+      },
+      hasEnded() {
+        return this.meta.commands[this.meta.commands.length - 1].type === 'end';
       }
     },
     mounted() {
@@ -89,6 +93,9 @@
       vertical-align: middle
       color: #aaa
       font-size: 13px
+  .storyModal
+    p
+      margin-bottom: 5px
 
   @media (max-width: 991px)
     .archivedStory
