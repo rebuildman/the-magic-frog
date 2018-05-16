@@ -66,6 +66,7 @@
     border: solid 1px #ccc
     border-radius: 4px
     overflow: hidden
+    margin-bottom: 15px
     h3
       margin: 15px 0
       a
