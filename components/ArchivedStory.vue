@@ -48,7 +48,7 @@
           }
         });
 
-        return image || 'https://steemitimages.com/DQmeK9D1q35gERzGWfQBD9MKGzuU5wjDNSM1q561dbGxdmL/avatar.png';
+        return image || '/default-cover.png';
       }
     },
     mounted() {
