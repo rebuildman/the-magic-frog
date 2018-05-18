@@ -1,0 +1,28 @@
+{
+  "index": {
+    "themagicfrog": "The Magic Frog",
+    "storymachine": "And The Magic Story Machine",
+    "helpremember": "Help the magic frog to remember all his interesting an fun stories by feeding the Magic Story Machine with your ideas how the story could go on! The machine then calculates the most likely (or funniest) answer and generates some golden coins for you to win, whenever a story is completed. You might even find some coins yourself just by taking part.",
+    "fullofgold": "A Pot Full Of Gold",
+    "currentvalue": "Current Value:",
+    "endollar": "$",
+    "frdollar": "",
+    "generatemore": "Login to generate more!",
+    "itsfree": "Yes, it's totally free to participate and you even get something for it! Isn't that great? And yes, we're talking about money. You might wonder who pays for this. Well, this website is indeed very magical. It's not only about the \"magical\" stories but also about the magic of technology, the magic of ",
+    "blockchain": "the Blockchain",
+    "digital": " and digital currencies.",
+    "thiswebsite": "This website issues a cryptocurrency called ",
+    "steem": "STEEM",
+    "basedon": "based on a decentralized community voting process. You can use this currency to give your own votes more weight or sell it for actual money. In a nutshell, STEEM enables you to earn, sell and buy ",
+    "influence": "influence",
+    "network": "in a global, decentralized content network.",
+    "theinfluence": "The influence of ",
+    "community": "and the whole STEEM community is used to reward the people that take part in this collaborative storytelling project. The content of the story however is based purely on vote counts and not the influence of the individual.",
+    "read": "Read the current story",
+    "tobe": "To be continued..."
+  },
+  "thismod": {
+    "title": "What is this?",
+    "collaborative": "On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are."
+  }
+}
