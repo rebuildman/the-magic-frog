@@ -12,7 +12,15 @@
         Your browser does not support the audio element. :(
         You can download the mp3 file here: <a href="">https://the-magic-frog.com/audio/the-magic-story-{{ meta.storyNumber }}.mp3</a>
       </audio>
-      <div class="no-audio" v-else>The audio version will be available once the story is completed!</div>
+      <div class="no-audio" v-else>
+        <div v-if="audioIsLoading">
+          <svg class="spinner" style="width:12px;height:12px" viewBox="0 0 24 24">
+            <path fill="#aaaaaa" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
+          </svg>
+          looking for audio...
+        </div>
+        <div v-else>The audio version will be available once the story is completed!</div>
+      </div>
     </div>
 
     <b-modal class="storyModal" :id="'archivedStoryModal' + meta.storyNumber" :title="'The Magic Story #' + meta.storyNumber" size="lg" hide-footer>
@@ -34,7 +42,8 @@
     props: ['story'],
     data() {
       return {
-        hasAudio: false
+        hasAudio: false,
+        audioIsLoading: true
       }
     },
     computed: {
@@ -58,8 +67,10 @@
     mounted() {
       axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '.mp3').then(res => {
         this.hasAudio = res.status === 200;
+        this.audioIsLoading = false;
       }).catch((err) => {
         console.log(err);
+        this.audioIsLoading = false;
       });
     }
   }
