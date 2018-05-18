@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="whatIsThisModal" hide-footer title="What is this?">
+    <b-modal id="whatIsThisModal" size="lg" hide-footer title="What is this?">
       <p>
         On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
         <br>
