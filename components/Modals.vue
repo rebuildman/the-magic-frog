@@ -45,7 +45,7 @@
       </div>
     </b-modal>
 
-    <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
+    <b-modal id="userModal" title="Wallet" v-if="user" hide-footer>
       <div class="alert alert-info text-center">
         Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:
         <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
