@@ -90,9 +90,14 @@
             </div>
             <div v-if="currentStoryPosts.length > 10">
               <hr>
-              <p class="text-center mt-4 mb-4">
+              <p class="text-center my-4">
                 No, I think this story should end now!<br>
                 <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
+              </p>
+            </div>
+            <div v-else>
+              <p class="text-center my-4">
+                <small class="text-muted"><i>(After 10 days you can suggest to end the story and to distribute the pot.)</i></small>
               </p>
             </div>
           </div>
