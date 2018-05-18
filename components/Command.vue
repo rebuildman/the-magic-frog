@@ -2,10 +2,13 @@
   <div class="comment text-center">
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> wrote:</div>
-    <div class="comment-command" v-html="append"></div>
-    <div v-if="comment">
+    <div class="comment-command" v-html="appendHtml" v-if="meta.appendText"></div>
+    <div v-if="meta.image" class="text-center my-3">
+      <img :src="meta.image" alt="" class="img-fluid" />
+    </div>
+    <div v-if="meta.comment">
       <sub>Comment:</sub><br>
-      <div class="comment-comment" v-html="comment"></div>
+      <div class="comment-comment" v-html="commentHtml"></div>
     </div>
     <div>
       <LikeButton @voteCasted="$parent.updateData" size="sm" :user="user" :author="command.author" :permlink="command.permlink" v-if="user" />
@@ -21,7 +24,6 @@
 
 <script>
   import marked from 'marked'
-
   import LikeButton from '~/components/LikeButton'
 
   export default {
@@ -30,19 +32,17 @@
     },
     props: ['user', 'command'],
     computed: {
-      append() {
-        let append = this.command.body.split('\n')[0];
-        return marked(append);
-      },
-      comment() {
-        let comment = this.command.body.replace(this.command.body.split('\n')[0], '').trim();
-        if (comment) {
-          return marked(comment);
-        }
-        return null;
+      meta() {
+        return JSON.parse(this.command.json_metadata);
       },
       sc2() {
         return this.$parent.sc2;
+      },
+      appendHtml() {
+        return marked(this.meta.appendText)
+      },
+      commentHtml() {
+        return marked(this.meta.comment)
       }
     }
   }

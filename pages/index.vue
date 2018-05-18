@@ -26,10 +26,11 @@
           </b-button>
         </div>
 
-        <p class="mt-5">{{ $t('index.itsfree') }} <i> {{ $t('index.blockchain') }} </i> {{ $t('index.digital') }} <br><br>
-         {{ $t('index.thiswebsite') }} <i> {{ $t('index.steem') }} </i> {{ $t('index.basedon') }}
-        <i> {{ $t('index.influence') }} </i> {{ $t('index.network') }} <br><br>
-        {{ $t('index.theinfluence') }} <i> {{ $t('index.themagicfrog') }} </i> {{ $t('index.basedon') }} {{ $t('index.community') }}
+        <p class="mt-5">
+          {{ $t('index.itsfree') }} <i> {{ $t('index.blockchain') }} </i> {{ $t('index.digital') }} <br><br>
+          {{ $t('index.thiswebsite') }} <i> {{ $t('index.steem') }} </i> {{ $t('index.basedon') }}
+          <i> {{ $t('index.influence') }} </i> {{ $t('index.network') }} <br><br>
+          {{ $t('index.theinfluence') }} <i> {{ $t('index.themagicfrog') }} </i> {{ $t('index.basedon') }} {{ $t('index.community') }}
         </p>
       </div>
 
@@ -37,8 +38,11 @@
         <div class="text-center">
           <h2>{{ $t('index.read') }}</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
-          <div id="currentStory" class="text-center" v-html="currentStoryBody"></div>
-          <h3>{{ $t('index.tobe') }}</h3>
+          <div id="currentStory" class="text-center">
+            <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
+            <StoryPart v-for="(part, index) in latestStoryPostMeta.commands" :key="index" :part="part" />
+            <h3 class="mt-4">{{ $t('index.tobe') }}</h3>
+          </div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
         </div>
       </div>
@@ -55,31 +59,70 @@
         <h2 class="pt-5">Now it's your turn!</h2>
         <p class="text-center mt-4">Continue writing the story where it stopped, so that it is funny or exciting to read and maybe even makes a bit of sense. Be creative!</p>
 
-        <form class="mt-4 p-3 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
             <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
-            <sup class="d-block text-center pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
-            <p class="text-center mt-4 mb-1" v-if="currentStoryPosts.length > 10">
-              No, I don't want this story to be continued!<br>
-              <b-button class="btn btn-outline-danger mt-3" @click="endStory = true">Stop it!</b-button>
-            </p>
+            <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
+            <div v-if="!showImageUpload" class="text-center my-4">
+              <p>You can even upload an image if you want.</p>
+              <b-button  @click="showImageUpload = true" class="btn btn-outline-success">Yes, upload an image!</b-button>
+            </div>
+            <div v-if="showImageUpload">
+              <p class="text-center my-4">
+                <b-alert variant="info"
+                         dismissible
+                         :show="showImageUploadInfo"
+                         @dismissed="showImageUploadInfo=false"
+                         class="text-left">
+                  Please note that only images under the <a href="https://wiki.creativecommons.org/wiki/CC0" target="_blank">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href="https://wiki.creativecommons.org/wiki/Public_domain" target="_blank">public domain</a>.
+                </b-alert>
+                <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
+                <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
+                <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">Changed my mind. No image please!</b-button>
+              </p>
+              <div class="upload-spinner" v-if="imageIsUploading">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+              </div>
+            </div>
+            <div v-if="currentStoryPosts.length > 10">
+              <hr>
+              <p class="text-center my-4">
+                No, I think this story should end now!<br>
+                <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
+              </p>
+            </div>
+            <div v-else>
+              <p class="text-center my-4">
+                <small class="text-muted"><i>(After 10 days you can suggest to end the story and to distribute the pot.)</i></small>
+              </p>
+            </div>
           </div>
-          <div v-if="endStory" class="text-center">
+          <div v-if="endStory" class="text-center mb-4">
             <h3><i>The End!</i></h3>
-            <sup>A new story will start!</sup><br>
+            <div v-if="endCommand">
+              <p>There is already someone suggesting to end the story. Vote for him/her to make it happen! The pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story and a new one will start the next day!</p>
+              <Command :command="endCommand" :user="user" />
+            </div>
+            <div v-else>
+              <p>If the community thinks the same, the pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story (including you) and a new one will start the next day!</p>
+            </div>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">No, just kidding....</b-button>
           </div>
-          <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
-          <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
-          <div v-if="showSuccessMessage" class="text-center alert alert-success">
-            Thank you for participating!
+          <div v-if="!(endStory && endCommand)">
+            <hr>
+            <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
+            <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
+            <div v-if="showSuccessMessage" class="text-center alert alert-success">
+              Thank you for participating!
+            </div>
+            <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
+              <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
+                <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
+              </svg>
+              Submit!
+            </button>
           </div>
-          <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
-            <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
-              <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
-            </svg>
-            Submit!
-          </button>
         </form>
         <div v-if="!user" class="text-center">
           <b-button variant="primary" class="login-button mx-auto" v-b-modal.scRedirectModal>
@@ -94,67 +137,14 @@
 
     <Footer />
 
-    <b-modal id="whatIsThisModal" hide-footer title="this.$t('thismod.title')">
-      <p>{{ $t('thismod.collaborative') }}<br>
-        <br>
-        Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
-        <br>
-        Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
-        <br>
-        The first story is about the Magic Frog and his Master Wizard.
-      </p>
-      <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read the intro.</a></h5>
-      <p>
-        Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
-        <br>
-        <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
-      </p>
-      <h4 class="mt-4">Have Fun!</h4>
-    </b-modal>
-
-    <b-modal id="scRedirectModal" title="Login with SteemConnect">
-      In order to participate you need a Steem account. You will be redirected to SteemConnect to authenticate to the Steem blockchain. SteemConnect is developed and maintained by Steemit, Inc. and Busy.org.
-      <div slot="modal-footer" class="w-100 text-center">
-        <a :href="loginUrl" class="btn btn-primary">Login with SteemConnect</a>
-      </div>
-    </b-modal>
-
-    <b-modal id="steemSignupModal" title="Create a Steem account">
-      In order to participate you need a Steem account. Steem is a blockchain platform that rewards content creators with the cryptocurrency STEEM. Once your Steem account has been verified and enabled, you can use it to log in.<br>
-      <br>
-      There are a lot more interesting apps and websites you can access with this account. You'll probably need one sooner or later anyway, so don't hesitate... it's free!<br>
-      <br>
-      <a href="https://steem.io/" target="_blank">Learn more about Steem!</a>
-      <div class="alert alert-info mt-4">
-        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature of the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
-        <br>
-        Choose a <b>secure password</b> and make sure you <b>keep it safe</b>. Ideally you simply write it down on a piece of paper and store in a safe place.<br>
-        <br>
-        <b>You have full responsibility for the security of your account and the rewards you earn.</b>
-      </div>
-      You will be redirected to the sign-up process of steemit.com.
-      <div slot="modal-footer" class="w-100 text-center">
-        <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">Create a Steem account</a>
-      </div>
-    </b-modal>
-
-    <b-modal id="userModal" :title="user.name" v-if="user" hide-footer>
-      <div class="alert alert-info text-center">
-        Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:
-        <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
-      </div>
-      <h4>Your Account Balance</h4>
-      <div class="text-center">
-        {{ user.account.balance }}<br>
-        {{ user.account.sbd_balance }}
-      </div>
-    </b-modal>
+    <Modals :user="user" :loginUrl="loginUrl" />
 
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
   </section>
 </template>
 
 <script>
+import axios from 'axios'
 import steem from 'steem'
 import sc2 from 'sc2-sdk'
 import marked from 'marked'
@@ -164,7 +154,13 @@ import NavbarLoggedIn from '~/components/NavbarLoggedIn'
 import NavbarLoggedOut from '~/components/NavbarLoggedOut'
 import LikeButton from '~/components/LikeButton'
 import Command from '~/components/Command'
+import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
+import Modals from '~/components/Modals'
+
+// TODO: wallet integration
+// TODO: edit comments/submissions
+// TODO: story archive (maybe with covers by @hennifant xD)
 
 export default {
   components: {
@@ -172,7 +168,9 @@ export default {
     NavbarLoggedOut,
     LikeButton,
     Command,
-    Footer
+    StoryPart,
+    Footer,
+    Modals
   },
   data() {
     return {
@@ -181,7 +179,11 @@ export default {
       commandInput: '',
       commentInput: '',
       submitLoading: false,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      image: null,
+      imageIsUploading: false,
+      showImageUpload: false,
+      showImageUploadInfo: true
     }
   },
   async asyncData() {
@@ -251,14 +253,8 @@ export default {
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
         pot += parseFloat(this.getPostPot(this.currentStoryPosts[i]));
       }
+      pot *= 0.95; // 5 % goes to beneficiaries
       return pot.toFixed(2);
-    },
-    participants() {
-      let meta = JSON.parse(this.latestStoryPost.json_metadata);
-      return meta.hasOwnProperty('participants') ? meta.participants : {};
-    },
-    participantsCount() {
-      return Object.keys(this.participants).length;
     },
     allStoryPosts() {
       return this.posts.filter(post => {
@@ -273,31 +269,37 @@ export default {
       });
     },
     currentStoryNumber() {
-      let meta = JSON.parse(this.latestStoryPost.json_metadata);
-      return meta.storyNumber
-    },
-    currentStoryBody() {
-      let storyBody = marked(this.getStoryPart(this.latestStoryPost.body));
-      storyBody = storyBody.replace(/\(by @([\w-.]+)\)/g, '<br><span class="author">by <a href="https://steemit.com/@$1">@$1</a></span>');
-      return storyBody;
+      return this.latestStoryPostMeta.storyNumber
     },
     latestStoryPost() {
       return this.allStoryPosts[0];
     },
+    latestStoryPostMeta() {
+      return JSON.parse(this.latestStoryPost.json_metadata);
+    },
     currentCommands() {
+      let canEnd = this.latestStoryPostMeta.day > 10;
+
       return this.comments.filter(comment => {
-        let meta = JSON.parse(this.latestStoryPost.json_metadata);
-        let command = comment.body.split('\n')[0];
-        if (command === '> The End!' && meta.day > 10) {
-          return true;
-        } else if (command.indexOf('> ') === 0 && command.length <= 252) {
-          return true;
+        if (comment.json_metadata) {
+          let meta = JSON.parse(comment.json_metadata);
+          return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
         }
         return false;
       });
     },
+    endCommand() {
+      let endCommand = null;
+      this.currentCommands.forEach(comment => {
+        let meta = JSON.parse(comment.json_metadata);
+        if (meta.type === 'end') {
+          endCommand = comment;
+        }
+      });
+      return endCommand;
+    },
     commandCharactersLeft() {
-      return 250 - this.commandInput.length;
+      return Math.max(250 - this.commandInput.length, 0);
     }
   },
   methods: {
@@ -344,16 +346,6 @@ export default {
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
     },
-    getStoryPart(body) {
-      const start = body.indexOf('# Once upon a time,');
-      const end = body.indexOf('## To be continued!');
-      if (start !== -1 && end !== -1) {
-        return body.slice(start, end);
-      } else {
-        console.log('Could not find story part in content. :(');
-        return false;
-      }
-    },
     getPostPot(post) {
       if (post.last_payout === '1970-01-01T00:00:00') {
         return parseFloat(post.pending_payout_value.replace(' SBD', '')) * 0.75 / 2;
@@ -367,14 +359,33 @@ export default {
       return null;
     },
     submitComment() {
-      let body = null;
+      let meta = {
+        type: 'append',
+        appendText: this.commandInput.trim(),
+        comment: this.commentInput.trim(),
+        image: this.image || '', // don't set to null, would be removed if edited via steemit.com
+        author: this.user.name
+      };
+
       if (this.endStory) {
-        body = '> The End!\n\n' + this.commentInput;
-      } else if (this.commandInput && this.commandInput.length < 250) {
-        body = '> ' + this.commandInput + '\n\n' + this.commentInput;
+        meta.type = 'end';
+        meta.appendText = '# The End!';
       }
 
-      if (body) {
+      if (meta.appendText || meta.image) {
+        let body = '';
+        if (meta.appendText) {
+          body += '> ' + meta.appendText + '\n\n';
+        }
+
+        if (meta.image) {
+          body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+        }
+
+        if (meta.comment) {
+          body += meta.comment;
+        }
+
         let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
 
         this.submitLoading = true;
@@ -385,7 +396,7 @@ export default {
           permlink,
           '',
           body,
-          null,
+          meta,
           (err) => {
             if (err) {
               console.log(err);
@@ -394,6 +405,8 @@ export default {
               this.commentInput = '';
               this.submitLoading = false;
               this.showSuccessMessage = true;
+              this.image = null;
+              this.$refs.image.value = null;
 
               steem.api.getContentReplies('the-magic-frog', this.latestStoryPost.permlink, (err, comments) => {
                 if (err) {
@@ -406,6 +419,51 @@ export default {
           }
         );
       }
+    },
+    onImageChange() {
+      // TODO: add validation of filesize and type
+      if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+      } else if (!this.$refs.image.files) {
+        alert('This browser doesn\'t seem to support the `files` property of file inputs.');
+      } else if (!this.$refs.image.files[0]) {
+        alert("No file selected.");
+      } else {
+        let file = this.$refs.image.files[0];
+
+        let fr = new FileReader();
+        fr.onload = () => {
+          this.imageIsUploading = true;
+
+          let data = fr.result;
+          let base64image = data.replace('data:image/png;base64,', '')
+            .replace('data:image/jpg;base64,', '')
+            .replace('data:image/jpeg;base64,', '')
+            .replace('data:image/gif;base64,', '');
+
+          axios({
+            method: 'post',
+            url: 'https://api.imgur.com/3/image',
+            data: {
+              image: base64image,
+              type: 'base64'
+            },
+            headers: {
+              'Authorization': 'Client-ID a57bbb06e896db0',
+              'content-type': 'application/json'
+            },
+          }).then(result => {
+            this.imageIsUploading = false;
+            this.image = result.data.data.link;
+          });
+        };
+        fr.readAsDataURL(file);
+      }
+    },
+    resetImage() {
+      this.image = null;
+      this.showImageUpload = false;
+      this.$refs.image.value = null;
     }
   },
   events: {
@@ -415,139 +473,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-  *
-    outline: none !important
-
-  .green
-    color: #557F00
-
-  .green-light
-    color: #80BF00
-
-  .green-dark
-    color: #2B4000
-
-  a
-    color: #557F00
-
-    &:hover
-      color: #2B4000
-
-  .btn-primary:not(:disabled):not(.disabled)
-    background: #557F00
-    border-color: #2B4000
-
-  .btn-primary:not(:disabled):not(.disabled).active,
-  .btn-primary:not(:disabled):not(.disabled):active,
-  .btn-primary:not(:disabled):not(.disabled):active:focus,
-  .btn-primary:not(:disabled):not(.disabled):focus,
-  .show > .btn-primary.dropdown-toggle
-    background: #2B4000
-    border-color: #2B4000
-    box-shadow: 0 0 0 0.2rem rgba(128, 191, 0, .5)
-
-  .rotate-180
-    transform: rotate(180deg)
-
-  h1, h2, h3, h4, h5
-    font-family: 'Berkshire Swash', cursive
-    text-align: center
-
-  #currentStory,
-  #currentStory p
-    font-weight: normal
-    font-size: 1.2rem
-
-    .author
-      color: #aaa
-      font-size: .8rem
-
-  input,
-  textarea
-    border-radius: 5px
-    border: solid 2px #ccc
-    font-size: 1.2rem
-    padding: 5px 10px
-    box-shadow: inset 0 -3px 5px rgba(0, 0, 0, .1)
-
-  p
-    font-weight: 300
-
-  .btn
-    svg
-      width: 16px
-      margin-top: -3px
-      vertical-align: middle
-      path
-        fill: #fff
-        transition: fill .3s ease
-    &.btn-outline-secondary
-      color: #aaa
-      border-color: #ccc
-      svg
-        path
-          fill: #aaa
-      &:hover,
-      &:active,
-      &:focus
-        color: #fff
-        background: #ccc
-        border-color: #bbb
-        svg
-          path
-            fill: #fff
-    &.btn-lg
-      line-height: 26px
-      svg
-        margin-top: -4px
-        width: 20px
-    &.btn-sm
-      line-height: 20px
-      svg
-        margin-top: -2px
-        width: 14px
-    .spinner
-      animation-name: spin
-      animation-duration: 1s
-      animation-iteration-count: infinite
-      animation-timing-function: linear
-
-      @-moz-keyframes spin
-        from
-          -moz-transform: rotate(0deg)
-        to
-          -moz-transform: rotate(360deg)
-
-      @-webkit-keyframes spin
-        from
-          -webkit-transform: rotate(0deg)
-        to
-          -webkit-transform: rotate(360deg)
-
-      @keyframes spin
-        from
-          transform: rotate(0deg)
-        to
-          transform: rotate(360deg)
-
-  #currentStory,
-  #currentStory p
-    font-weight: normal
-
-  #currentStory
-    h1
-      &:first-child
-        margin-bottom: 40px
-
-  #command-form
-    border: solid 1px #ddd
-    border-radius: 10px
-
-  .pot-value
-    font-size: 3rem
-
-  .notifications
-    top: 5px !important
-</style>

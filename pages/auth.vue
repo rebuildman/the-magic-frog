@@ -1,5 +1,14 @@
 <template>
-  <div>{{ message }}</div>
+  <b-container>
+    <div class="text-center py-5">
+      <img src="/avatar.png" alt=""/>
+      <h1 class="pt-4">{{ message }}</h1>
+      <div class="upload-spinner" v-if="loading">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
+    </div>
+  </b-container>
 </template>
 
 <script>
@@ -8,7 +17,8 @@
   export default {
     data() {
       return {
-        message: 'Logging in...'
+        message: 'Trying to open the door...',
+        loading: true
       }
     },
     mounted() {
@@ -19,7 +29,8 @@
         Cookies.set('frog_token', accessToken, {expires});
         window.location.href = '/';
       } else {
-        this.message = 'No access token.'
+        this.loading = false;
+        this.message = 'No magic key.'
       }
     }
   }

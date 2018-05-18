@@ -1,11 +1,12 @@
 {
   "name": "the-magic-frog",
   "version": "1.0.0",
-  "description": "Help the magic frog to remember all his interesting an fun stories and win the pot full of gold!",
+  "description": "Help the magic frog to remember all his interesting and fun stories and win the pot full of gold!",
   "keywords": [
     "magic",
     "frog",
-    "machig story machine",
+    "story",
+    "machine",
     "collaborative",
     "storytelling",
     "steem",
@@ -20,12 +21,13 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
     "bootstrap-vue": "^1.0.2",
     "js-cookie": "^2.2.0",
     "marked": "^0.3.19",
     "moment": "^2.22.1",
-    "moment-timezone": "^0.5.16",
+    "moment-timezone": "^0.5.17",
     "nuxt": "^1.0.0",
     "sc2-sdk": "^1.0.2",
     "steem": "^0.7.1",
@@ -34,8 +36,8 @@
     "vue-notification": "^1.3.7"
   },
   "devDependencies": {
-    "cross-env": "^5.0.1",
-    "node-sass": "^4.8.3",
+    "cross-env": "^5.1.5",
+    "node-sass": "^4.9.0",
     "sass-loader": "^6.0.7"
   }
 }

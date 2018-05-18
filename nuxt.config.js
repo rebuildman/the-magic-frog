@@ -15,7 +15,7 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
-      { hid: 'keywords', name: 'keywords', content: pkg.keywords }
+      { hid: 'keywords', name: 'keywords', content: pkg.keywords.join(',') }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
@@ -37,6 +37,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    { src: '~assets/css/main.sass', lang: 'sass' },
   ],
 
   /*
@@ -67,7 +68,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['steem', 'sc2-sdk', 'marked'],
+    vendor: ['steem', 'sc2-sdk', 'marked', 'axios'],
     /*
     ** You can extend webpack config here
     */
