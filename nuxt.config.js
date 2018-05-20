@@ -3,7 +3,8 @@ const pkg = require('./package')
 module.exports = {
   mode: 'universal',
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    lang: process.env.LANG || 'en',
   },
 
   /*
@@ -53,7 +54,7 @@ module.exports = {
   plugins: [
     '~/plugins/i18n.js',
     '~/plugins/vue-notification',
-    { src: '~plugins/cookie-consent', ssr: false }
+    { src: '~/plugins/cookie-consent', ssr: false }
   ],
 
   /*
@@ -68,7 +69,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['steem', 'sc2-sdk', 'marked', 'axios'],
+    vendor: ['steem', 'sc2-sdk', 'marked', 'axios', 'vue-i18n'],
     /*
     ** You can extend webpack config here
     */

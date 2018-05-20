@@ -37,7 +37,7 @@
         user: null
       }
     },
-    async asyncData() {
+    async asyncData(context) {
       const getPosts = function (account, start_author, start_permlink) {
         return new Promise((resolve, reject) => {
           steem.api.getDiscussionsByBlog({
@@ -62,7 +62,7 @@
       let startPermlink = null;
 
       do {
-        posts = await getPosts('the-magic-frog', startAuthor, startPermlink);
+        posts = await getPosts(context.app.account, startAuthor, startPermlink);
         lastPost = posts[posts.length - 1];
         startAuthor = lastPost.author;
         startPermlink = lastPost.permlink;

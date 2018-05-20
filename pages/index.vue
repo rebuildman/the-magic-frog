@@ -186,7 +186,7 @@ export default {
       showImageUploadInfo: true
     }
   },
-  async asyncData() {
+  async asyncData(context) {
     const getPosts = (accountName, limit = 100) => {
       return new Promise((resolve, reject) => {
         steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
@@ -211,7 +211,7 @@ export default {
       });
     };
 
-    let accountName = 'the-magic-frog';
+    let accountName = context.app.account;
     let posts = await getPosts(accountName);
     let comments = [];
     for (let i = 0; i < posts.length; i++) {
@@ -244,6 +244,9 @@ export default {
         });
       }
       return api;
+    },
+    account() {
+      return this.$i18n.account();
     },
     loginUrl() {
       return this.sc2.getLoginURL();
@@ -329,8 +332,7 @@ export default {
         });
       };
 
-      let accountName = 'the-magic-frog';
-      let posts = await getPosts(accountName);
+      let posts = await getPosts(this.account);
       let comments = [];
       for (let i = 0; i < posts.length; i++) {
         let meta = JSON.parse(posts[i].json_metadata);
@@ -390,7 +392,7 @@ export default {
 
         this.submitLoading = true;
         this.sc2.comment(
-          'the-magic-frog',
+          this.$i18n.accountn,
           this.latestStoryPost.permlink,
           this.user.name,
           permlink,
@@ -408,7 +410,7 @@ export default {
               this.image = null;
               this.$refs.image.value = null;
 
-              steem.api.getContentReplies('the-magic-frog', this.latestStoryPost.permlink, (err, comments) => {
+              steem.api.getContentReplies(this.account, this.latestStoryPost.permlink, (err, comments) => {
                 if (err) {
                   console.log(err);
                 } else {
