@@ -160,7 +160,6 @@ import Modals from '~/components/Modals'
 
 // TODO: wallet integration
 // TODO: edit comments/submissions
-// TODO: story archive (maybe with covers by @hennifant xD)
 
 export default {
   components: {
