@@ -4,10 +4,12 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 
 export default ({ app, store }, inject) => {
-  // Set i18n instance on app
-  // This way we can use it in middleware and pages asyncData/fetch
+  let locale = process.env.host.split('.')[0];
+  if (['de', 'fr'].indexOf(locale) === -1) {
+    locale = 'en';
+  }
   app.i18n = new VueI18n({
-    locale: process.env.lang,
+    locale: locale,
     fallbackLocale: 'en',
     messages: {
       'en': require('~/locales/en.json'),

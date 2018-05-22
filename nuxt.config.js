@@ -3,8 +3,9 @@ const pkg = require('./package')
 module.exports = {
   mode: 'universal',
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    lang: process.env.LANG || 'en',
+    scheme: process.env.SCHEME || 'https',
+    host: process.env.HOST || 'localhost',
+    port: process.env.PORT || '',
   },
 
   /*
@@ -40,13 +41,6 @@ module.exports = {
   css: [
     { src: '~assets/css/main.sass', lang: 'sass' },
   ],
-
-  /*
-  ** Router for internationalisation
-  */
-  router: {
-    middleware: 'i18n'
-  },
 
   /*
   ** Plugins to load before mounting the App
