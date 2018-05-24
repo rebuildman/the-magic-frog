@@ -3,7 +3,7 @@
     <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
-      <h1 class="my-5">Story Archive</h1>
+      <h1 class="my-5">{{ $t('archive.title') }}</h1>
       <b-row>
         <ArchivedStory v-for="(story, index) in stories" :key="index" :story="story" />
       </b-row>

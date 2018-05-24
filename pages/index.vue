@@ -26,12 +26,9 @@
           </b-button>
         </div>
 
-        <p class="mt-5">
-          {{ $t('index.itsfree') }} <i> {{ $t('index.blockchain') }} </i> {{ $t('index.digital') }} <br><br>
-          {{ $t('index.thiswebsite') }} <i> {{ $t('index.steem') }} </i> {{ $t('index.basedon') }}
-          <i> {{ $t('index.influence') }} </i> {{ $t('index.network') }} <br><br>
-          {{ $t('index.theinfluence') }} <i> {{ $t('index.themagicfrog') }} </i> {{ $t('index.basedon') }} {{ $t('index.community') }}
-        </p>
+        <p class="mt-5" v-html="$t('index.itsfree')"></p>
+        <p v-html="$t('index.thiswebsite')"></p>
+        <p v-html="$t('index.theinfluence')"></p>
       </div>
 
       <div class="py-5">
@@ -48,24 +45,24 @@
       </div>
 
       <div class="mx-auto mb-4" style="max-width: 800px;">
-        <h2 class="pt-5">How will the story go on?</h2>
-        <p class="text-center mt-4">First, read how others see the story evolve and vote for them if you like it.</p>
+        <h2 class="pt-5">{{ $t('index.howwillthestorygoon') }}</h2>
+        <p class="text-center mt-4">{{ $t('index.firstread') }}</p>
 
         <div id="comments">
           <Command v-for="command in currentCommands" :key="command.id" :command="command" :user="user" />
-          <p class="text-center" v-if="!currentCommands.length">There are no comments today yet. Be the first one!</p>
+          <p class="text-center" v-if="!currentCommands.length">{{ $t('index.thereareno') }}</p>
         </div>
 
-        <h2 class="pt-5">Now it's your turn!</h2>
-        <p class="text-center mt-4">Continue writing the story where it stopped, so that it is funny or exciting to read and maybe even makes a bit of sense. Be creative!</p>
+        <h2 class="pt-5">{{ $t('index.nowitsyourturn') }}</h2>
+        <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
         <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
-            <input class="w-100" id="command" placeholder="And they lived happily ever after..." v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
-            <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> characters left.</sup>
+            <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
+            <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
             <div v-if="!showImageUpload" class="text-center my-4">
-              <p>You can even upload an image if you want.</p>
-              <b-button  @click="showImageUpload = true" class="btn btn-outline-success">Yes, upload an image!</b-button>
+              <p v-html="$t('index.form.youcaneven')"></p>
+              <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
             </div>
             <div v-if="showImageUpload">
               <p class="text-center my-4">
@@ -73,12 +70,12 @@
                          dismissible
                          :show="showImageUploadInfo"
                          @dismissed="showImageUploadInfo=false"
-                         class="text-left">
-                  Please note that only images under the <a href="https://wiki.creativecommons.org/wiki/CC0" target="_blank">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href="https://wiki.creativecommons.org/wiki/Public_domain" target="_blank">public domain</a>.
+                         class="text-left"
+                         v-html="$t('index.form.licensenote')">
                 </b-alert>
                 <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
                 <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
-                <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">Changed my mind. No image please!</b-button>
+                <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">{{ $t('index.form.changedmymind') }}</b-button>
               </p>
               <div class="upload-spinner" v-if="imageIsUploading">
                 <div class="dot1"></div>
@@ -88,39 +85,39 @@
             <div v-if="currentStoryPosts.length > 10">
               <hr>
               <p class="text-center my-4">
-                No, I think this story should end now!<br>
-                <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">The End!</b-button>
+                {{ $t('index.form.stopit') }}<br>
+                <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">{{ $t('index.form.theend') }}</b-button>
               </p>
             </div>
             <div v-else>
               <p class="text-center my-4">
-                <small class="text-muted"><i>(After 10 days you can suggest to end the story and to distribute the pot.)</i></small>
+                <small class="text-muted"><i>{{ $t('index.form.after10days') }}</i></small>
               </p>
             </div>
           </div>
           <div v-if="endStory" class="text-center mb-4">
-            <h3><i>The End!</i></h3>
+            <h3><i>{{ $t('index.form.theend') }}</i></h3>
             <div v-if="endCommand">
-              <p>There is already someone suggesting to end the story. Vote for him/her to make it happen! The pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story and a new one will start the next day!</p>
+              <p v-html="$t('index.form.endalreadysuggested', {potValue})"></p>
               <Command :command="endCommand" :user="user" />
             </div>
             <div v-else>
-              <p>If the community thinks the same, the pot ($ {{ potValue }}) will be distributed to all participants that contributed to the story (including you) and a new one will start the next day!</p>
+              <p v-html="$t('index.form.ifthecommunity')"></p>
             </div>
-            <b-button class="btn btn-outline-success mt-3" @click="endStory = false">No, just kidding....</b-button>
+            <b-button class="btn btn-outline-success mt-3" @click="endStory = false">{{ $t('index.form.justkidding') }}</b-button>
           </div>
           <div v-if="!(endStory && endCommand)">
             <hr>
-            <p class="text-center mt-4 mb-1">Here you can add a personal note if you want:</p>
-            <textarea class="w-100" placeholder="What an amazing story!" v-model="commentInput"></textarea>
+            <p class="text-center mt-4 mb-1">{{ $t('index.form.addpersonalnote') }}</p>
+            <textarea class="w-100" :placeholder="$t('index.form.commentplaceholder')" v-model="commentInput"></textarea>
             <div v-if="showSuccessMessage" class="text-center alert alert-success">
-              Thank you for participating!
+              {{ $t('index.form.thanksforparticipating') }}
             </div>
             <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
               <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
                 <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
               </svg>
-              Submit!
+              {{ $t('index.form.submit') }}
             </button>
           </div>
         </form>
@@ -129,7 +126,7 @@
             <svg viewBox="0 0 24 24">
               <path d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z" />
             </svg>
-            Log in to write!
+            {{ $t('index.form.logintowrite') }}
           </b-button>
         </div>
       </div>

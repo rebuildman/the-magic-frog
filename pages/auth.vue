@@ -17,7 +17,7 @@
   export default {
     data() {
       return {
-        message: 'Trying to open the door...',
+        message: this.$t('auth.openthedoor'),
         loading: true
       }
     },
@@ -30,7 +30,7 @@
         window.location.href = '/';
       } else {
         this.loading = false;
-        this.message = 'No magic key.'
+        this.message = this.$t('auth.nokey')
       }
     }
   }

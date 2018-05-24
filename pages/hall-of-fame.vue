@@ -3,7 +3,7 @@
     <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
-      <h1 class="my-5">Hall of Fame</h1>
+      <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>

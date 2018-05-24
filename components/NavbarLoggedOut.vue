@@ -12,11 +12,11 @@
             </svg>
           </nuxt-link>
         </li>
-        <b-nav-item v-b-modal.whatIsThisModal>What is this?</b-nav-item>
-        <li class="nav-item"><nuxt-link to="/archive" class="nav-link">Story Archive</nuxt-link></li>
-        <li class="nav-item"><nuxt-link to="/hall-of-fame" class="nav-link">Hall of Fame</nuxt-link></li>
-        <b-nav-item v-b-modal.steemSignupModal>Sign Up</b-nav-item>
-        <b-nav-item v-b-modal.scRedirectModal>Login</b-nav-item>
+        <b-nav-item v-b-modal.whatIsThisModal>{{ $t('nav.whatisthis') }}</b-nav-item>
+        <li class="nav-item"><nuxt-link to="/archive" class="nav-link">{{ $t('nav.archive') }}</nuxt-link></li>
+        <li class="nav-item"><nuxt-link to="/hall-of-fame" class="nav-link">{{ $t('nav.halloffame') }}</nuxt-link></li>
+        <b-nav-item v-b-modal.steemSignupModal>{{ $t('nav.signup') }}</b-nav-item>
+        <b-nav-item v-b-modal.scRedirectModal>{{ $t('nav.login') }}</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
