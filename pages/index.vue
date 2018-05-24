@@ -222,10 +222,9 @@ export default {
   },
   computed: {
     sc2() {
-      let redirectUrl = process.env.scheme + '://' + process.env.host + (process.env.port ? ':' + process.env.port : '') + '/auth';
       const api = sc2.Initialize({
         app: 'themagicfrog.app',
-        callbackURL: redirectUrl,
+        callbackURL: this.redirectUrl,
         scope: ['vote', 'comment']
       });
 
@@ -241,6 +240,15 @@ export default {
         });
       }
       return api;
+    },
+    redirectUrl() {
+      if (process.env.NODE_ENV === 'development') {
+        return process.env.scheme + '://' + process.env.host + (process.env.port ? ':' + process.env.port : '') + '/auth';
+      } else if (this.$i18n.fallbackLocale === this.$i18n.locale) {
+        return 'https://the-magic-frog.com/auth'
+      }
+
+      return 'https://' + this.$i18n.locale + '.the-magic-frog.com/auth'
     },
     account() {
       return this.$i18n.account();
