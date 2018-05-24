@@ -12,10 +12,10 @@
             </svg>
           </nuxt-link>
         </li>
-        <b-nav-item v-b-modal.whatIsThisModal>What is this?</b-nav-item>
-        <li class="nav-item"><nuxt-link to="/archive" class="nav-link">Story Archive</nuxt-link></li>
-        <li class="nav-item"><nuxt-link to="/hall-of-fame" class="nav-link">Hall of Fame</nuxt-link></li>
-        <b-nav-item v-b-modal.userModal>Wallet</b-nav-item>
+        <b-nav-item v-b-modal.whatIsThisModal>{{ $t('nav.whatisthis') }}</b-nav-item>
+        <li class="nav-item"><nuxt-link to="/archive" class="nav-link">{{ $t('nav.archive') }}</nuxt-link></li>
+        <li class="nav-item"><nuxt-link to="/hall-of-fame" class="nav-link">{{ $t('nav.halloffame') }}</nuxt-link></li>
+        <b-nav-item v-b-modal.userModal>{{ $t('nav.wallet') }}</b-nav-item>
         <b-nav-item @click="logout">
           <svg style="width:18px;height:18px" viewBox="0 0 24 24">
             <path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z" />

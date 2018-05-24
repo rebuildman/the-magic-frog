@@ -3,7 +3,7 @@
     <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
-      <h1 class="my-5">Story Archive</h1>
+      <h1 class="my-5">{{ $t('archive.title') }}</h1>
       <b-row>
         <ArchivedStory v-for="(story, index) in stories" :key="index" :story="story" />
       </b-row>
@@ -38,7 +38,7 @@
         user: null
       }
     },
-    async asyncData() {
+    async asyncData(context) {
       const getPosts = function (account, start_author, start_permlink) {
         return new Promise((resolve, reject) => {
           steem.api.getDiscussionsByBlog({
@@ -63,7 +63,7 @@
       let startPermlink = null;
 
       do {
-        posts = await getPosts('the-magic-frog', startAuthor, startPermlink);
+        posts = await getPosts(context.app.account, startAuthor, startPermlink);
         lastPost = posts[posts.length - 1];
         startAuthor = lastPost.author;
         startPermlink = lastPost.permlink;
@@ -81,9 +81,10 @@
     },
     computed: {
       sc2() {
+        let redirectUrl = process.env.scheme + '://' + process.env.host + (process.env.port ? ':' + process.env.port : '') + '/auth';
         const api = sc2.Initialize({
           app: 'themagicfrog.app',
-          callbackURL: process.env.baseUrl + '/auth',
+          callbackURL: redirectUrl,
           scope: ['vote', 'comment']
         });
 

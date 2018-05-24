@@ -12,3 +12,7 @@ dist
 
 # IDE configs
 .idea
+
+# Yarn files
+yarn.lock
+yarn-error.log

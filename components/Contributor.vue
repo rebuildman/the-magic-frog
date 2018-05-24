@@ -4,7 +4,7 @@
       <h2>#{{ index + 1 }}</h2>
       <div class="contributor-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + contributor.name + '/avatar/large)', width: imageSize + 'px', height: imageSize + 'px' }"></div>
       <h3><a :href="'https://steemit.com/@' + contributor.name" target="_blank">@{{ contributor.name }}</a></h3>
-      <h5>Contributions: {{ contributor.contributions }}</h5>
+      <h5>{{ $t('halloffame.contributions') }}: {{ contributor.contributions }}</h5>
     </div>
   </b-col>
 </template>
