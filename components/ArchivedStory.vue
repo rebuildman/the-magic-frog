@@ -53,7 +53,7 @@
       image() {
         let image = null;
         this.meta.commands.forEach(command => {
-          if (command.hasOwnProperty('image') && command.image) {
+          if (!image && command.hasOwnProperty('image') && command.image) {
             image = command.image;
           }
         });
