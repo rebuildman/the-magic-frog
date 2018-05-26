@@ -7,7 +7,7 @@
       <svg class="spinner" viewBox="0 0 24 24" v-else>
         <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
       </svg>
-      {{ likeLabel || 'I like!' }}
+      {{ likeLabel || $t('likebutton.like') }}
     </b-button>
 
     <b-button :size="size" variant="outline-secondary" class="like-button" @click="vote(0)" v-else>
@@ -17,7 +17,7 @@
       <svg class="spinner" viewBox="0 0 24 24" v-else>
         <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
       </svg>
-      {{ unlikeLabel || 'I don\'t like this anymore!' }}
+      {{ unlikeLabel || $t('likebutton.unlike') }}
     </b-button>
   </div>
 </template>

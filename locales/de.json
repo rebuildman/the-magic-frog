@@ -7,6 +7,10 @@
     "login": "Einloggen",
     "wallet": "Geldbeutel"
   },
+  "likebutton": {
+    "like": "Gefällt mir!",
+    "unlike": "Gefällt mir nicht mehr!"
+  },
   "index": {
     "themagicfrog": "Der Zauberfrosch",
     "storymachine": "Und Die Magische Geschichtenmaschine",
@@ -15,7 +19,9 @@
     "currentvalue": "Aktueller Wert:",
     "endollar": "$",
     "frdollar": "",
-    "generatemore": "Melde dich an um selbst Gold zu schürfen!",
+    "logintogeneratemore": "Melde dich an um Gold für den Topf zu schürfen!",
+    "generatemore": "Gold für den Topf schürfen!",
+    "undogenerate": "Du hast heute schon Gold geschürft!",
     "itsfree": "Ja, es ist komplett kostenlos und du bekommst sogar etwas dafür! Ist das nicht toll? Und ja, wir reden hier über Geld. Du fragst dich wer das bezahlt? Nun, diese Website ist in der Tat sehr magisch. Allerdings nicht nur was die \"magischen\" Geschichten betrifft sondern auch die Technologie dahinter, die <b>Blockchain</b> und digitale Währungen.",
     "thiswebsite": "Diese Website schüttet eine Kryptowährung namens <b>STEEM</b> aus, basierend auf einem dezentralen Abstimmungsverfahren. Du kannst diese Währung nutzen, um deiner eigenen Stimme mehr Gewicht zu verleihen oder sie für echtes Geld verkaufen. Kurz gesagt, STEEM erlaubt es dir <b>Einfluss</b> in einem globalen, dezentralen Content-Netzwerk zu verdienen und zu kaufen oder verkaufen.",
     "theinfluence": "Der Einfluss des <b>Zauberfrosches</b> und der gesamten STEEM Community wird genutzt, um alle Teilnehmer an diesem kollaborativen Geschichten-Projekt für ihre Kreativität zu entlohnen. Der Inhalt der Geschichten hängt allerdings nicht vom Einfluss einzelner ab, sondern basiert rein auf Abstimmung.",
