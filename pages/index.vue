@@ -207,13 +207,12 @@ export default {
       });
     };
 
-    let accountName = context.app.account;
-    let posts = await getPosts(accountName);
+    let posts = await getPosts(context.app.account);
     let comments = [];
     for (let i = 0; i < posts.length; i++) {
       let meta = JSON.parse(posts[i].json_metadata);
       if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-        comments = await getComments(accountName, posts[i].permlink);
+        comments = await getComments(context.app.account, posts[i].permlink);
         break;
       }
     }
@@ -249,9 +248,6 @@ export default {
       }
 
       return 'https://' + this.$i18n.locale + '.the-magic-frog.com/auth'
-    },
-    account() {
-      return this.$i18n.account();
     },
     loginUrl() {
       return this.sc2.getLoginURL();
@@ -337,12 +333,12 @@ export default {
         });
       };
 
-      let posts = await getPosts(this.account);
+      let posts = await getPosts(this.$account);
       let comments = [];
       for (let i = 0; i < posts.length; i++) {
         let meta = JSON.parse(posts[i].json_metadata);
         if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-          comments = await getComments(accountName, posts[i].permlink);
+          comments = await getComments(this.$account, posts[i].permlink);
           break;
         }
       }
@@ -397,7 +393,7 @@ export default {
 
         this.submitLoading = true;
         this.sc2.comment(
-          this.$i18n.accountn,
+          this.$account,
           this.latestStoryPost.permlink,
           this.user.name,
           permlink,
@@ -415,7 +411,7 @@ export default {
               this.image = null;
               this.$refs.image.value = null;
 
-              steem.api.getContentReplies(this.account, this.latestStoryPost.permlink, (err, comments) => {
+              steem.api.getContentReplies(this.$account, this.latestStoryPost.permlink, (err, comments) => {
                 if (err) {
                   console.log(err);
                 } else {
