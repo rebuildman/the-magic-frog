@@ -61,7 +61,7 @@
         return image || '/default-cover.png';
       },
       hasEnded() {
-        return this.meta.commands[this.meta.commands.length - 1].type === 'end';
+        return this.meta.hasOwnProperty('commands') && this.meta.commands.length && this.meta.commands[this.meta.commands.length - 1].type === 'end';
       }
     },
     mounted() {
