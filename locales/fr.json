@@ -1,4 +1,12 @@
 {
+  "nav": {
+    "whatisthis": "Qu'est-ce que c'est?",
+    "archive": "Archive des histoires",
+    "halloffame": "Temple de la renommée",
+    "signup": "Inscription",
+    "login": "Connexion",
+    "wallet": "Portefeuille"
+  },
   "index": {
     "themagicfrog": "La grenouille magique",
     "storymachine": "et la machine à histoire magique",
@@ -8,21 +16,69 @@
     "endollar": "",
     "frdollar": "$",
     "generatemore": "Connectez-vous pour en générer plus!",
-    "itsfree": "Oui, c'est totalement gratuit et vous obtenez même quelque chose pour ça! N'est-ce pas génial? Et oui, nous parlons d'argent. Vous pourriez vous demander qui paie pour cela. Eh bien, ce site est en effet très magique. Il ne s'agit pas seulement des histoires «magiques», mais aussi de la magie de la technologie, de la magie de ",
-    "blockchain": "la Blockchain",
-    "digital": " et des monnaies numériques.",
-    "thiswebsite": "Ce site Web émet une crypto-monnaie appelée ",
-    "steem": "STEEM",
-    "basedon": "basé sur un processus de vote communautaire décentralisé. Vous pouvez utiliser cette devise pour donner plus de poids à vos propres votes ou les vendre pour de l'argent courante. En un mot, STEEM vous permet de gagner, vendre et acheter ",
-    "influence": "de l'influence",
-    "network": "dans un réseau mondial de contenu décentralisé.",
-    "theinfluence": "L'influence de ",
-    "community": "et de toute la communauté STEEM est utilisée pour récompenser les personnes qui participent à ce projet de narration collaborative. Le contenu de l'histoire est cependant basé uniquement sur le nombre de votes et non sur l'influence de l'individu.",
+    "itsfree": "Oui, c'est totalement gratuit et vous obtenez même quelque chose pour ça! N'est-ce pas génial? Et oui, nous parlons d'argent. Vous pourriez vous demander qui paie pour cela. Eh bien, ce site est en effet très magique. Il ne s'agit pas seulement des histoires «magiques», mais aussi de la magie de la technologie, de la magie de <b>la Blockchain</b> et des monnaies numériques.",
+    "thiswebsite": "Ce site Web émet une crypto-monnaie appelée <b>STEEM</b> basé sur un processus de vote communautaire décentralisé. Vous pouvez utiliser cette devise pour donner plus de poids à vos propres votes ou les vendre pour de l'argent courante. En un mot, STEEM vous permet de gagner, vendre et acheter <b>de l'influence</b> dans un réseau mondial de contenu décentralisé.",
+    "theinfluence": "L'influence de <b>La grenouille magique</b> et de toute la communauté STEEM est utilisée pour récompenser les personnes qui participent à ce projet de narration collaborative. Le contenu de l'histoire est cependant basé uniquement sur le nombre de votes et non sur l'influence de l'individu.",
     "read": "Lisez l'histoire actuelle",
-    "tobe": "À suivre..."
+    "tobe": "À suivre...",
+    "howwillthestorygoon": "Comment l'histoire va continuer?",
+    "firstread": "D'abord, lisez comment les autres voient l'histoire évoluer et votez pour eux si vous l'aimez.",
+    "thereareno": "Il n'y a pas de commentaires pour le moment Soyez le premier!",
+    "nowitsyourturn": "Maintenant c'est ton tour!",
+    "continuewriting": "Continuez à écrire l'histoire là où elle s'est arrêtée, de sorte que c'est drôle ou excitant à lire et peut-être même un peu logique. Sois créatif!",
+    "form": {
+      "appendplaceholder": "Et il vécurent heureux pour l'éternité!",
+      "charactersleft": "caractères restants.",
+      "youcaneven": "You can even upload an image if you want.",
+      "yesupload": "Yes, upload an image!",
+      "licensenote": "Please note that only images under the <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\">public domain</a>.",
+      "changedmymind": "Changed my mind. No image please!",
+      "stopit": "No, I think this story should end now!",
+      "theend": "La fin!",
+      "after10days": "(Après 10 jours, vous pouvez suggérer de terminer l'histoire et de distribuer le pot.)",
+      "endalreadysuggested": "Il y a déjà quelqu'un qui suggère de mettre fin à l'histoire. Votez pour lui/elle pour y arriver! Le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire et un nouveau commencera le jour suivant!",
+      "ifthecommunity": "Si la communauté pense la même chose, le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire (y compris vous) et une nouvelle histoire commencera le jour suivant!",
+      "justkidding": "Non je rigole....",
+      "addpersonalnote": "Ici vous pouvez ajouter une note personnelle si vous le souhaitez:",
+      "thanksforparticipating": "Merci d'avoir participé!",
+      "submit": "Soumettre!",
+      "logintowrite": "Connectez-vous pour écrire!",
+      "commentplaceholder": "Quelle histoire incroyable!"
+    }
   },
-  "thismod": {
+  "archive": {
+    "title": "Archive des histoires"
+  },
+  "halloffame": {
+    "title": "Temple de la renommée",
+    "contributions": "Contributions"
+  },
+  "auth": {
+    "openthedoor": "Essayons d'entrer....",
+    "nokey": "Pas de clé magique!"
+  },
+  "thismodal": {
     "title": "Qu'est-ce que c'est?",
-    "collaborative": "Sur ce site, vous pouvez participer à une histoire collaborative. Tout le monde peut soumettre le prochain petit morceau de l'histoire et la communauté décide tous les jours, en votant, quelle partie est annexée. Vous pouvez donc soumettre quelque chose tous les jours. Si votre soumission entre dans l'histoire, vous avez une chance de gagner le pot dw l'histoire. Plus vous contribuer à l'histoire, plus vos chances sont élevées."
+    "text1": "Sur ce site, vous pouvez participer à une histoire collaborative. Tout le monde peut soumettre le prochain petit morceau de l'histoire et la communauté décide tous les jours, en votant, quelle partie est annexée. Vous pouvez donc soumettre quelque chose tous les jours. Si votre soumission entre dans l'histoire, vous avez une chance de gagner le pot de l'histoire. Plus vous contribuer à l'histoire, plus vos chances sont élevées.",
+    "text2": "Utilisant la <a href=\"https://steem.io\" target=\"_blank\"><b>blockchain STEEM</b> </a>, ce site génère de la <b>Crypto-monnaie</b>, chaque fois que l'histoire se déroule. Ces pièces sont collectées dans le pot de l'histoire et libérées chaque fois qu'une histoire se termine. C'est aussi à vous de décider quand cela arrivera. Après les 10 premiers jours de chaque histoire, vous pourrez suggérer de terminer l'histoire. Si la communauté est d'accord, une nouvelle histoire commencera le jour suivant et le pot actuel sera tiré au sort parmi tous les contributeurs. <br><br> Même si votre soumission ne rentre pas dans l'histoire, vous gagnerez un petit peu de Crypto-monnaie STEEM, chaque fois que vous soumettez quelque chose, peu importe si la communauté décide de l'ajouter ou non. <br><br>La première histoire concerne la Grenouille Magique et son Maître Magicien.",
+    "text3": "Il n'y a pas de règles spécifiques mais essayez d'être constructif, positif et respectueux! Les histoires peuvent être sérieuses, drôles, étranges ou totalement absurdes. Ça dépend de toi! ;)",
+    "havefun": "Amusez-vous!"
+  },
+  "loginmodal": {
+    "title": "Connexion avec SteemConnect",
+    "text": "Pour participer, vous avez besoin d'un compte Steem. Vous serez redirigé vers SteemConnect pour vous authentifier auprès de la blockchain Steem. SteemConnect est le moyen le plus sûr de se connecter à la blockchain STEEM et est développé et maintenu par Steemit, Inc. et Busy.org.",
+    "button": "Connexion avec SteemConnect"
+  },
+  "signupmodal": {
+    "title": "Créer un compte Steem",
+    "text": "Pour participer, vous avez besoin d'un compte Steem. Steem est une plateforme blockchain qui récompense les créateurs de contenu avec la crypto-monnaie STEEM. Une fois que votre compte Steem a été vérifié et activé, vous pouvez l'utiliser pour vous connecter.<br><br> Il y a beaucoup plus d'applications intéressantes et de sites Web auxquels vous pouvez accéder avec ce compte. Vous en aurez probablement besoin tôt ou tard, alors n'hésitez pas... c'est gratuit!<br><br><a href=\"https://steem.io/\" target=\"_blank\">En savoir plus sur Steem!</a>",
+    "note": "<b>REMARQUE IMPORTANTE:</b><br><br>En raison de la nature décentralisée de la plate-forme Steem, aucune autorité centrale ne peut vous demander de récupérer votre compte si vous n'y avez plus accès.<br><br>Choisissez un <b>mot de passe sécurisé</b> et assurez-vous <b> de le garder en sécurité</b>. Idéalement, il vous suffit de l'écrire sur un morceau de papier et de le conserver dans un endroit sûr. <br><br><b> Vous êtes entièrement responsable de la sécurité de votre compte et des récompenses que vous gagnez. </b>",
+    "redirect": "Vous serez redirigé vers le processus d'inscription de steemit.com.",
+    "button": "Créer un compte Steem"
+  },
+  "walletmodal": {
+    "title": "Ton Portefeuille",
+    "text": "Ici, vous pourrez bientôt accéder et gérer tous vos fonds STEEM. En attendant, vous pouvez accéder à votre portefeuille là:",
+    "yourbalance": "Solde de votre compte"
   }
 }
