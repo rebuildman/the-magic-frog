@@ -86,5 +86,9 @@
     "title": "Your Wallet",
     "text": "Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:",
     "yourbalance": "Your Account Balance"
+  },
+  "langmodal": {
+    "title": "Magic Stories from all over the World",
+    "text": "More languages coming soon!"
   }
 }
