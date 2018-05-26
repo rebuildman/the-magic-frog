@@ -210,8 +210,9 @@ export default {
     let posts = await getPosts(context.app.account);
     let comments = [];
     for (let i = 0; i < posts.length; i++) {
-      let meta = JSON.parse(posts[i].json_metadata);
-      if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+      let post = posts[i];
+      let meta = JSON.parse(post.json_metadata);
+      if (post.author === context.app.account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
         comments = await getComments(context.app.account, posts[i].permlink);
         break;
       }
@@ -263,7 +264,7 @@ export default {
     allStoryPosts() {
       return this.posts.filter(post => {
         let meta = JSON.parse(post.json_metadata);
-        return meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
+        return post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
       });
     },
     currentStoryPosts() {

@@ -121,7 +121,7 @@
         let stories = [];
         this.posts.forEach(post => {
           let meta = JSON.parse(post.json_metadata);
-          if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+          if (post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
             stories[meta.storyNumber - 1] = post;
           }
         });
