@@ -56,12 +56,69 @@
         {{ user.account.sbd_balance }}
       </div>
     </b-modal>
+
+    <b-modal id="transferModal" title="Transfer" ref="transferModalRef" hide-footer>
+      <b-form >
+        <b-row>
+          <b-col sm="3"><label for="SBD">To :</label><br></b-col>
+          <b-col sm="9"><b-form-input v-model="reciever" placeholder="reciever e.g. aneilpatel"></b-form-input></b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="3"><label for="SBD">Amount :</label><br></b-col>
+          <b-col sm="9"><b-form-input v-model="amount" placeholder="X.XXX"></b-form-input></b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="3"><label for="SBD">Currency :</label><br></b-col>
+          <b-col sm="9"><b-form-radio-group id="cureency"
+                          buttons
+                          button-variant="outline-primary"
+                          size="md"
+                          v-model="currency"
+                          :options="options"
+                          name="currency" />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="3"><label for="SBD">Memo :</label><br></b-col>
+          <b-col sm="9"><b-form-textarea v-model="memo" placeholder="memo" rows="3"></b-form-textarea></b-col>
+        </b-row>
+        <br>
+        <div class="b-row text-center" @click="hideModal">
+        <a class="btn btn-primary " :href="transferUrl" target="_blank"  > Send </a>
+        </div>
+      </b-form>
+  </b-modal>
   </div>
 </template>
 
 <script>
 
   export default {
-    props: ['user', 'loginUrl']
+    props: ['user', 'loginUrl'],
+    data: function(){
+      return {
+        reciever:"",
+        amount:0.001,
+        currency:"SBD",
+        memo:"  -sent via the-magic-frog! ",
+        options: [
+        { text: 'STEEM', value: 'STEEM' },
+        { text: 'SBD', value: 'SBD' }
+      ]
+              }
+    },
+    computed:{
+      transferUrl:function(){
+      return "https://v2.steemconnect.com/sign/transfer?to="+this.reciever+"&amount="+this.amount+"%20"+this.currency+"&memo="+this.memo;
+
+      } 
+    },
+    methods:{
+      hideModal () {
+      this.$refs.transferModalRef.hide()
+    },
+    
+    }
+
   };
 </script>
