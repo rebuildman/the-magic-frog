@@ -8,7 +8,7 @@
       </h3>
       <a href="#" v-b-modal="'archivedStoryModal' + meta.storyNumber" class="cover" :style="'background-image: url(' + image + ')'"></a>
       <audio controls v-if="hasAudio">
-        <source :src="'/audio/the-magic-story-' + meta.storyNumber + '.mp3'" type="audio/mpeg">
+        <source :src="'/audio/the-magic-story-' + meta.storyNumber + '-' + $i18n.locale + '.mp3'" type="audio/mpeg">
         Your browser does not support the audio element. :(
         You can download the mp3 file here: <a href="">https://the-magic-frog.com/audio/the-magic-story-{{ meta.storyNumber }}.mp3</a>
       </audio>
@@ -65,7 +65,7 @@
       }
     },
     mounted() {
-      axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '.mp3').then(res => {
+      axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '-' + this.$i18n.locale + '.mp3').then(res => {
         this.hasAudio = res.status === 200;
         this.audioIsLoading = false;
       }).catch((err) => {
