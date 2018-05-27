@@ -27,7 +27,7 @@ export default ({ app, store }, inject) => {
 
   let accounts = {
     en: 'the-magic-frog',
-    de: 'der-zauberfrosch',
+    de: 'der-zauberfrosch'
   }
 
   app.account = accounts[app.i18n.locale]
