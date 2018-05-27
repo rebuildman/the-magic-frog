@@ -5,7 +5,8 @@
     "halloffame": "Hall of Fame",
     "signup": "Sign Up",
     "login": "Login",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "user":"User"
   },
   "likebutton": {
     "like": "I like!",

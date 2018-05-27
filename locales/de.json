@@ -5,7 +5,8 @@
     "halloffame": "Ruhmeshalle",
     "signup": "Registrieren",
     "login": "Einloggen",
-    "wallet": "Geldbeutel"
+    "wallet": "Geldbeutel",
+    "user":"User"
   },
   "likebutton": {
     "like": "Gefällt mir!",
