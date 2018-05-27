@@ -1,56 +1,34 @@
 <template>
   <div>
-    <b-modal id="whatIsThisModal" size="lg" hide-footer title="What is this?">
-      <p>
-        On this website you can take part in a collaborative story. Everyone can submit the next little piece of the story and the community decides every day, through voting, which part gets appended. You can therefore submit something everyday. If your submission makes it into the story, you have a chance to win the story pot. The more you can contribute to the story, the higher your chances are.<br>
-        <br>
-        Utilizing the <a href="https://steem.io" target="_blank"><i>STEEM blockchain</i></a>, this website generates <i>Cryptocurrency</i>, everytime the story proceeds. Those coins are collected in the story pot and released everytime a story ends. It's also up to you, when this will happen. After the first 10 days of each story, you will be able to suggest to end the story. If the community agrees, a new story will start the next day and the current pot will be raffled among all contributors.<br>
-        <br>
-        Even if you don't make it into the story, you will earn a tiny little bit of STEEM cryptocurrency, everytime you submit something, no matter if the community decides to append it or not.<br>
-        <br>
-        The first story is about the Magic Frog and his Master Wizard.
-      </p>
-      <h5 class="my-4"><a href="https://steemit.com/introduceyourself/@the-magic-frog/this-is-the-magic-story-machine-help-the-not-so-magic-frog-collaborative-storytelling-click-it-there-s-money-to-win" target="_blank">Read the intro.</a></h5>
-      <p>
-        Once this initial story is finished, all future stories will start with „Once upon a time,...“ and from there on it's up to you and the community.<br>
-        <br>
-        <b>There are no specific rules but please try to be constructive, positive and respectful! The stories can be serious, funny, weird or total nonsense. That's up to you! ;)</b>
-      </p>
-      <h4 class="mt-4">Have Fun!</h4>
+    <b-modal id="whatIsThisModal" size="lg" hide-footer :title="$t('thismodal.title')">
+      <p v-html="$t('thismodal.text1')"></p>
+      <p v-html="$t('thismodal.text2')"></p>
+      <p v-html="$t('thismodal.text3')"></p>
+      <h4 class="mt-4">{{ $t('thismodal.havefun') }}</h4>
     </b-modal>
 
-    <b-modal id="scRedirectModal" title="Login with SteemConnect">
-      In order to participate you need a Steem account. You will be redirected to SteemConnect to authenticate to the Steem blockchain. SteemConnect is developed and maintained by Steemit, Inc. and Busy.org.
+    <b-modal id="scRedirectModal" :title="$t('loginmodal.title')">
+      <p v-html="$t('loginmodal.text')" class="mb-0"></p>
       <div slot="modal-footer" class="w-100 text-center">
-        <a :href="loginUrl" class="btn btn-primary">Login with SteemConnect</a>
+        <a :href="loginUrl" class="btn btn-primary">{{ $t('loginmodal.button') }}</a>
       </div>
     </b-modal>
 
-    <b-modal id="steemSignupModal" title="Create a Steem account">
-      In order to participate you need a Steem account. Steem is a blockchain platform that rewards content creators with the cryptocurrency STEEM. Once your Steem account has been verified and enabled, you can use it to log in.<br>
-      <br>
-      There are a lot more interesting apps and websites you can access with this account. You'll probably need one sooner or later anyway, so don't hesitate... it's free!<br>
-      <br>
-      <a href="https://steem.io/" target="_blank">Learn more about Steem!</a>
-      <div class="alert alert-info mt-4">
-        <b>IMPORTANT NOTE:</b><br><br>Due to the decentralized nature of the Steem platform, there is no central authority you can ask to recover your account in case you lose access to it.<br>
-        <br>
-        Choose a <b>secure password</b> and make sure you <b>keep it safe</b>. Ideally you simply write it down on a piece of paper and store in a safe place.<br>
-        <br>
-        <b>You have full responsibility for the security of your account and the rewards you earn.</b>
-      </div>
-      You will be redirected to the sign-up process of steemit.com.
+    <b-modal id="steemSignupModal" :title="$t('signupmodal.title')">
+      <p class="mb-0" v-html="$t('signupmodal.text')"></p>
+      <div class="alert alert-info mt-4" v-html="$t('signupmodal.note')"></div>
+      <p class="mb-0">{{ $t('signupmodal.redirect') }}</p>
       <div slot="modal-footer" class="w-100 text-center">
-        <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">Create a Steem account</a>
+        <a href="https://signup.steemit.com/?ref=the-magic-frog" class="btn btn-primary">{{ $t('signupmodal.button') }}</a>
       </div>
     </b-modal>
 
-    <b-modal id="userModal" title="Wallet" v-if="user" hide-footer>
+    <b-modal id="userModal" :title="$t('walletmodal.title')" v-if="user" hide-footer>
       <div class="alert alert-info text-center">
-        Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:
+        {{ $t('walletmodal.text') }}
         <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
       </div>
-      <h4>Your Account Balance</h4>
+      <h4>{{ $t('walletmodal.yourbalance') }}</h4>
       <div class="text-center">
         {{ user.account.balance }}<br>
         {{ user.account.sbd_balance }}
@@ -88,11 +66,27 @@
         </div>
       </b-form>
   </b-modal>
+    <b-modal id="langModal" :title="$t('langmodal.title')" hide-footer size="sm">
+      <b-row>
+        <b-col sm="3" v-for="(lang, index) in langs" :lang="lang" :key="index" class="text-center mb-3">
+          <a :href="'https://' + (lang == 'en' ? '' : lang + '.') + 'the-magic-frog.com'" class="lang-link">
+            <img :src="'/flags/' + lang + '.svg'" class="img-fluid rounded-circle"/><br>
+            {{ lang }}
+          </a>
+        </b-col>
+        <b-col sm="3" v-for="(lang, index) in disabledLangs" :lang="lang" :key="index" class="text-center mb-3">
+          <span class="lang-link-disabled">
+            <img :src="'/flags/' + lang + '.svg'" class="img-fluid rounded-circle"/><br>
+            {{ lang }}
+          </span>
+        </b-col>
+      </b-row>
+      <p class="my-0 text-center"><i>{{ $t('langmodal.text') }}</i></p>
+    </b-modal>
   </div>
 </template>
 
 <script>
-
   export default {
     props: ['user', 'loginUrl'],
     data: function(){
@@ -111,6 +105,12 @@
       transferUrl:function(){
       return "https://v2.steemconnect.com/sign/transfer?to="+this.reciever+"&amount="+this.amount+"%20"+this.currency+"&memo="+this.memo;
 
+      },
+      langs() {
+        return Object.keys(this.$i18n.messages).filter(lang => lang !== this.$i18n.locale && this.disabledLangs.indexOf(lang) === -1);
+      },
+      disabledLangs() {
+        return ['fr', 'in', 'ru', 'cn', 'es'];
       } 
     },
     methods:{
@@ -122,3 +122,24 @@
 
   };
 </script>
+
+<style lang="sass">
+  .lang-link
+    color: #000
+    font-family: 'Berkshire Swash', cursive
+    text-transform: uppercase
+    &:hover
+      text-decoration: none
+    img
+      transition: transform .5s cubic-bezier(0.68, -0.8, 0.265, 2)
+      &:hover
+        transform: scale(1.2)
+  .lang-link-disabled
+    color: #aaa
+    font-family: 'Berkshire Swash', cursive
+    text-transform: uppercase
+    img
+      -webkit-filter: grayscale(100%)
+      filter: grayscale(100%)
+      opacity: .5
+</style>

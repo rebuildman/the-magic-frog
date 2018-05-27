@@ -3,7 +3,7 @@
     <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
-      <h1 class="my-5">Hall of Fame</h1>
+      <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>
@@ -37,7 +37,7 @@
         user: null
       }
     },
-    async asyncData() {
+    async asyncData(context) {
       const getPosts = function (account, start_author, start_permlink) {
         return new Promise((resolve, reject) => {
           steem.api.getDiscussionsByBlog({
@@ -62,7 +62,7 @@
       let startPermlink = null;
 
       do {
-        posts = await getPosts('the-magic-frog', startAuthor, startPermlink);
+        posts = await getPosts(context.app.account, startAuthor, startPermlink);
         lastPost = posts[posts.length - 1];
         startAuthor = lastPost.author;
         startPermlink = lastPost.permlink;
@@ -82,7 +82,7 @@
       sc2() {
         const api = sc2.Initialize({
           app: 'themagicfrog.app',
-          callbackURL: process.env.baseUrl + '/auth',
+          callbackURL: this.redirectUrl,
           scope: ['vote', 'comment']
         });
 
@@ -99,6 +99,15 @@
         }
         return api;
       },
+      redirectUrl() {
+        if (process.env.NODE_ENV === 'development') {
+          return process.env.scheme + '://' + process.env.host + (process.env.port ? ':' + process.env.port : '') + '/auth';
+        } else if (this.$i18n.fallbackLocale === this.$i18n.locale) {
+          return 'https://the-magic-frog.com/auth'
+        }
+
+        return 'https://' + this.$i18n.locale + '.the-magic-frog.com/auth'
+      },
       loginUrl() {
         return this.sc2.getLoginURL();
       },
@@ -106,7 +115,7 @@
         let stories = [];
         this.posts.forEach(post => {
           let meta = JSON.parse(post.json_metadata);
-          if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+          if (post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
             stories[meta.storyNumber - 1] = post;
           }
         });

@@ -1,0 +1,28 @@
+{
+  "index": {
+    "themagicfrog": "La grenouille magique",
+    "storymachine": "et la machine à histoire magique",
+    "helpremember": "Aidez la grenouille magique à se souvenir de toutes ses histoires amusantes et intéressantes en alimentant la machine à histoire magique avec vos idées sur la façon dont l'histoire pourrait continuer! La machine calcule alors la réponse la plus probable (ou la plus drôle) et génère des pièces d'or pour que vous puissiez gagner à chaque fois qu'une histoire est complétée. Vous pourriez même trouver des pièces en participant.",
+    "fullofgold": "Un pot plein d'or",
+    "currentvalue": "Valeur actuelle:",
+    "endollar": "",
+    "frdollar": "$",
+    "generatemore": "Connectez-vous pour en générer plus!",
+    "itsfree": "Oui, c'est totalement gratuit et vous obtenez même quelque chose pour ça! N'est-ce pas génial? Et oui, nous parlons d'argent. Vous pourriez vous demander qui paie pour cela. Eh bien, ce site est en effet très magique. Il ne s'agit pas seulement des histoires «magiques», mais aussi de la magie de la technologie, de la magie de ",
+    "blockchain": "la Blockchain",
+    "digital": " et des monnaies numériques.",
+    "thiswebsite": "Ce site Web émet une crypto-monnaie appelée ",
+    "steem": "STEEM",
+    "basedon": "basé sur un processus de vote communautaire décentralisé. Vous pouvez utiliser cette devise pour donner plus de poids à vos propres votes ou les vendre pour de l'argent courante. En un mot, STEEM vous permet de gagner, vendre et acheter ",
+    "influence": "de l'influence",
+    "network": "dans un réseau mondial de contenu décentralisé.",
+    "theinfluence": "L'influence de ",
+    "community": "et de toute la communauté STEEM est utilisée pour récompenser les personnes qui participent à ce projet de narration collaborative. Le contenu de l'histoire est cependant basé uniquement sur le nombre de votes et non sur l'influence de l'individu.",
+    "read": "Lisez l'histoire actuelle",
+    "tobe": "À suivre..."
+  },
+  "thismod": {
+    "title": "Qu'est-ce que c'est?",
+    "collaborative": "Sur ce site, vous pouvez participer à une histoire collaborative. Tout le monde peut soumettre le prochain petit morceau de l'histoire et la communauté décide tous les jours, en votant, quelle partie est annexée. Vous pouvez donc soumettre quelque chose tous les jours. Si votre soumission entre dans l'histoire, vous avez une chance de gagner le pot dw l'histoire. Plus vous contribuer à l'histoire, plus vos chances sont élevées."
+  }
+}

@@ -32,11 +32,11 @@
     },
     props: ['user', 'command'],
     computed: {
+      sc2() {
+        return this.$parent.sc2
+      },
       meta() {
         return JSON.parse(this.command.json_metadata);
-      },
-      sc2() {
-        return this.$parent.sc2;
       },
       appendHtml() {
         return marked(this.meta.appendText)
