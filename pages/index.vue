@@ -17,12 +17,12 @@
         <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
 
         <div class="my-4">
-          <LikeButton @voteCasted="updateData" :user="user" likeLabel="Generate more coins!" unlikeLabel="Coins generated! Undo?" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
+          <LikeButton @voteCasted="updateData" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
           <b-button variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
             <svg viewBox="0 0 24 24">
               <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
             </svg>
-            {{ $t('index.generatemore') }}
+            {{ $t('index.logintogeneratemore') }}
           </b-button>
         </div>
 
@@ -207,13 +207,13 @@ export default {
       });
     };
 
-    let accountName = context.app.account;
-    let posts = await getPosts(accountName);
+    let posts = await getPosts(context.app.account);
     let comments = [];
     for (let i = 0; i < posts.length; i++) {
-      let meta = JSON.parse(posts[i].json_metadata);
-      if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-        comments = await getComments(accountName, posts[i].permlink);
+      let post = posts[i];
+      let meta = JSON.parse(post.json_metadata);
+      if (post.author === context.app.account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
+        comments = await getComments(context.app.account, posts[i].permlink);
         break;
       }
     }
@@ -250,9 +250,6 @@ export default {
 
       return 'https://' + this.$i18n.locale + '.the-magic-frog.com/auth'
     },
-    account() {
-      return this.$i18n.account();
-    },
     loginUrl() {
       return this.sc2.getLoginURL();
     },
@@ -267,7 +264,7 @@ export default {
     allStoryPosts() {
       return this.posts.filter(post => {
         let meta = JSON.parse(post.json_metadata);
-        return meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
+        return post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
       });
     },
     currentStoryPosts() {
@@ -337,12 +334,12 @@ export default {
         });
       };
 
-      let posts = await getPosts(this.account);
+      let posts = await getPosts(this.$account);
       let comments = [];
       for (let i = 0; i < posts.length; i++) {
         let meta = JSON.parse(posts[i].json_metadata);
         if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-          comments = await getComments(accountName, posts[i].permlink);
+          comments = await getComments(this.$account, posts[i].permlink);
           break;
         }
       }
@@ -397,7 +394,7 @@ export default {
 
         this.submitLoading = true;
         this.sc2.comment(
-          this.$i18n.accountn,
+          this.$account,
           this.latestStoryPost.permlink,
           this.user.name,
           permlink,
@@ -415,7 +412,7 @@ export default {
               this.image = null;
               this.$refs.image.value = null;
 
-              steem.api.getContentReplies(this.account, this.latestStoryPost.permlink, (err, comments) => {
+              steem.api.getContentReplies(this.$account, this.latestStoryPost.permlink, (err, comments) => {
                 if (err) {
                   console.log(err);
                 } else {

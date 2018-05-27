@@ -8,7 +8,7 @@
       </h3>
       <a href="#" v-b-modal="'archivedStoryModal' + meta.storyNumber" class="cover" :style="'background-image: url(' + image + ')'"></a>
       <audio controls v-if="hasAudio">
-        <source :src="'/audio/the-magic-story-' + meta.storyNumber + '.mp3'" type="audio/mpeg">
+        <source :src="'/audio/the-magic-story-' + meta.storyNumber + '-' + $i18n.locale + '.mp3'" type="audio/mpeg">
         Your browser does not support the audio element. :(
         You can download the mp3 file here: <a href="">https://the-magic-frog.com/audio/the-magic-story-{{ meta.storyNumber }}.mp3</a>
       </audio>
@@ -53,7 +53,7 @@
       image() {
         let image = null;
         this.meta.commands.forEach(command => {
-          if (command.hasOwnProperty('image') && command.image) {
+          if (!image && command.hasOwnProperty('image') && command.image) {
             image = command.image;
           }
         });
@@ -61,11 +61,11 @@
         return image || '/default-cover.png';
       },
       hasEnded() {
-        return this.meta.commands[this.meta.commands.length - 1].type === 'end';
+        return this.meta.hasOwnProperty('commands') && this.meta.commands.length && this.meta.commands[this.meta.commands.length - 1].type === 'end';
       }
     },
     mounted() {
-      axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '.mp3').then(res => {
+      axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '-' + this.$i18n.locale + '.mp3').then(res => {
         this.hasAudio = res.status === 200;
         this.audioIsLoading = false;
       }).catch((err) => {

@@ -1,11 +1,15 @@
 {
   "nav": {
-    "whatisthis": "Was is this?",
-    "archive": "Story Archiv",
+    "whatisthis": "What is this?",
+    "archive": "Story Archive",
     "halloffame": "Hall of Fame",
     "signup": "Sign Up",
     "login": "Login",
     "wallet": "Wallet"
+  },
+  "likebutton": {
+    "like": "I like!",
+    "unlike": "I don't like this anymore!"
   },
   "index": {
     "themagicfrog": "The Magic Frog",
@@ -15,7 +19,9 @@
     "currentvalue": "Current Value:",
     "endollar": "$",
     "frdollar": "",
-    "generatemore": "Login to generate more!",
+    "logintogeneratemore": "Login to mine gold for the pot!",
+    "generatemore": "Mine gold for the pot!",
+    "undogenerate": "You already mined gold today.",
     "itsfree": "Yes, it's totally free to participate and you even get something for it! Isn't that great? And yes, we're talking about money. You might wonder who pays for this. Well, this website is indeed very magical. It's not only about the \"magical\" stories but also about the magic of technology, the magic of the <b>Blockchain</b> and digital currencies.",
     "thiswebsite": "This website issues a cryptocurrency called <b>STEEM</b> based on a decentralized community voting process. You can use this currency to give your own votes more weight or sell it for actual money. In a nutshell, STEEM enables you to earn, sell and buy <b>influence</b> in a global, decentralized content network.",
     "theinfluence": "The influence of <b>The Magic Frog</b> and the whole STEEM community is used to reward the people that take part in this collaborative storytelling project. The content of the story however is based purely on vote counts and not the influence of the individual.",
@@ -80,5 +86,9 @@
     "title": "Your Wallet",
     "text": "Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:",
     "yourbalance": "Your Account Balance"
+  },
+  "langmodal": {
+    "title": "Magic Stories from all over the World",
+    "text": "More languages coming soon!"
   }
 }

@@ -14,7 +14,6 @@ export default ({ app, store }, inject) => {
     messages: {
       'en': require('~/locales/en.json'),
       'de': require('~/locales/de.json'),
-      'fr': require('~/locales/fr.json')
     }
   })
 
@@ -28,9 +27,9 @@ export default ({ app, store }, inject) => {
 
   let accounts = {
     en: 'the-magic-frog',
-    de: 'der-zauberfrosch',
-    fr: 'grenouille'
+    de: 'der-zauberfrosch'
   }
 
   app.account = accounts[app.i18n.locale]
+  Vue.prototype.$account = app.account
 }
