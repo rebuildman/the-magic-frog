@@ -12,8 +12,9 @@
     "unlike": "Gefällt mir nicht mehr!"
   },
   "command": {
-    "comment": "Comment:",
-    "logintovote": "Login to vote!"
+    "wrote": "schrieb:",
+    "comment": "Kommentar:",
+    "logintovote": "Anmelden um abzustimmen!"
   },
   "index": {
     "themagicfrog": "Der Zauberfrosch",

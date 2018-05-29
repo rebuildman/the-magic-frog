@@ -12,6 +12,7 @@
     "unlike": "I don't like this anymore!"
   },
   "command": {
+    "wrote": "wrote:",
     "comment": "Comment:",
     "logintovote": "Login to vote!"
   },
