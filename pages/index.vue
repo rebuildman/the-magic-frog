@@ -56,7 +56,7 @@
         <h2 class="pt-5">{{ $t('index.nowitsyourturn') }}</h2>
         <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
-        <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
             <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
@@ -409,6 +409,7 @@ export default {
               this.commentInput = '';
               this.submitLoading = false;
               this.showSuccessMessage = true;
+              this.showImageUpload = false;
               this.image = null;
               this.$refs.image.value = null;
 

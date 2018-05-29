@@ -14,7 +14,11 @@
   "command": {
     "wrote": "wrote:",
     "comment": "Comment:",
-    "logintovote": "Login to vote!"
+    "logintovote": "Login to vote!",
+    "edit": "edit",
+    "editmodal": {
+      "title": "Edit Suggestion"
+    }
   },
   "index": {
     "themagicfrog": "La grenouille magique",

@@ -14,7 +14,11 @@
   "command": {
     "wrote": "schrieb:",
     "comment": "Kommentar:",
-    "logintovote": "Anmelden um abzustimmen!"
+    "logintovote": "Anmelden um abzustimmen!",
+    "edit": "bearbeiten",
+    "editmodal": {
+      "title": "Vorschlag bearbeiten"
+    }
   },
   "index": {
     "themagicfrog": "Der Zauberfrosch",
