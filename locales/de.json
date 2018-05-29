@@ -11,6 +11,10 @@
     "like": "Gefällt mir!",
     "unlike": "Gefällt mir nicht mehr!"
   },
+  "command": {
+    "comment": "Comment:",
+    "logintovote": "Login to vote!"
+  },
   "index": {
     "themagicfrog": "Der Zauberfrosch",
     "storymachine": "Und Die Magische Geschichtenmaschine",

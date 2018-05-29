@@ -7,6 +7,14 @@
     "login": "Connexion",
     "wallet": "Portefeuille"
   },
+  "likebutton": {
+    "like": "I like!",
+    "unlike": "I don't like this anymore!"
+  },
+  "command": {
+    "comment": "Comment:",
+    "logintovote": "Login to vote!"
+  },
   "index": {
     "themagicfrog": "La grenouille magique",
     "storymachine": "et la machine à histoire magique",

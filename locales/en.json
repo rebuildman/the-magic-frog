@@ -11,6 +11,10 @@
     "like": "I like!",
     "unlike": "I don't like this anymore!"
   },
+  "command": {
+    "comment": "Comment:",
+    "logintovote": "Login to vote!"
+  },
   "index": {
     "themagicfrog": "The Magic Frog",
     "storymachine": "And The Magic Story Machine",
