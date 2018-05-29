@@ -43,7 +43,7 @@
             {{ lang }}
           </a>
         </b-col>
-        <b-col sm="3" v-for="(lang, index) in disabledLangs" :lang="lang" :key="index" class="text-center mb-3">
+        <b-col sm="3" v-for="(lang, index) in disabledLangs" :lang="lang" :key="index + 1000" class="text-center mb-3">
           <span class="lang-link-disabled">
             <img :src="'/flags/' + lang + '.svg'" class="img-fluid rounded-circle"/><br>
             {{ lang }}
