@@ -8,16 +8,16 @@
     "wallet": "Portefeuille"
   },
   "likebutton": {
-    "like": "I like!",
-    "unlike": "I don't like this anymore!"
+    "like": "J'aime!",
+    "unlike": "Je n'aime plus ça!"
   },
   "command": {
-    "wrote": "wrote:",
-    "comment": "Comment:",
-    "logintovote": "Login to vote!",
-    "edit": "edit",
+    "wrote": "a écrit:",
+    "comment": "Commentaire:",
+    "logintovote": "Identifiez-vous pour voter!",
+    "edit": "modifier",
     "editmodal": {
-      "title": "Edit Suggestion"
+      "title": "Modifier la suggestion"
     }
   },
   "index": {
@@ -42,11 +42,11 @@
     "form": {
       "appendplaceholder": "Et il vécurent heureux pour l'éternité!",
       "charactersleft": "caractères restants.",
-      "youcaneven": "You can even upload an image if you want.",
-      "yesupload": "Yes, upload an image!",
-      "licensenote": "Please note that only images under the <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\">public domain</a>.",
-      "changedmymind": "Changed my mind. No image please!",
-      "stopit": "No, I think this story should end now!",
+      "youcaneven": "Vous pouvez même télécharger une image si vous le souhaitez.",
+      "yesupload": "Oui, téléchargez une image!",
+      "licensenote": "S'il vous plaît noter que seules les images sous la <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\"> Licence CC0 </a>peut être inclus dans l'histoire finale. De préférence, ne téléchargez que votre propre travail et, ce faisant, vous acceptez de le fournir au <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\"> domaine public </a>.",
+      "changedmymind": "Changé d'avis. Aucune image s'il vous plaît!",
+      "stopit": "Non, je pense que cette histoire devrait se terminer maintenant!",
       "theend": "La fin!",
       "after10days": "(Après 10 jours, vous pouvez suggérer de terminer l'histoire et de distribuer le pot.)",
       "endalreadysuggested": "Il y a déjà quelqu'un qui suggère de mettre fin à l'histoire. Votez pour lui/elle pour y arriver! Le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire et un nouveau commencera le jour suivant!",
