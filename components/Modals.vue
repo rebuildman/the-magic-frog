@@ -63,7 +63,7 @@
         return Object.keys(this.$i18n.messages).filter(lang => lang !== this.$i18n.locale && this.disabledLangs.indexOf(lang) === -1);
       },
       disabledLangs() {
-        return ['fr', 'in', 'ru', 'cn', 'es'];
+        return ['in', 'ru', 'cn', 'es'];
       }
     }
   };
