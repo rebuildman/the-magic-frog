@@ -157,6 +157,7 @@ import Modals from '~/components/Modals'
 
 // TODO: wallet integration
 // TODO: edit comments/submissions
+// TODO: voting weight slider
 
 export default {
   components: {
