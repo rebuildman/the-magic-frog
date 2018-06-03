@@ -64,16 +64,17 @@
 
       do {
         posts = await getPosts(context.app.account, startAuthor, startPermlink);
-        lastPost = posts[posts.length - 1];
-        startAuthor = lastPost.author;
-        startPermlink = lastPost.permlink;
+        if (posts.length) {
+          lastPost = posts[posts.length - 1];
+          startAuthor = lastPost.author;
+          startPermlink = lastPost.permlink;
 
-        for (let i = 0; i < posts.length; i++) {
-          allPosts.push(posts[i]);
+          for (let i = 0; i < posts.length; i++) {
+            allPosts.push(posts[i]);
+          }
+
+          allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
         }
-
-        allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
-
       } while (posts.length === 100);
 
       allPosts = allPosts.reverse(); // reverse to have oldest post first

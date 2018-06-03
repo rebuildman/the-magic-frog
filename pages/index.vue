@@ -281,7 +281,7 @@ export default {
       return this.allStoryPosts[0];
     },
     latestStoryPostMeta() {
-      return JSON.parse(this.latestStoryPost.json_metadata);
+      return this.latestStoryPost ? JSON.parse(this.latestStoryPost.json_metadata) : {};
     },
     currentCommands() {
       let canEnd = this.latestStoryPostMeta.day > 10;
