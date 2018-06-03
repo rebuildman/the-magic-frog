@@ -158,6 +158,7 @@ import Modals from '~/components/Modals'
 // TODO: wallet integration
 // TODO: edit comments/submissions
 // TODO: voting weight slider
+// TODO: account creation proxy account... brilliant!
 
 export default {
   components: {
