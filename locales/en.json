@@ -66,6 +66,9 @@
   },
   "halloffame": {
     "title": "Hall of Fame",
+    "sponsors": "Sponsors",
+    "delegated": "Delegated",
+    "storytellers": "Storytellers",
     "contributions": "Contributions"
   },
   "auth": {

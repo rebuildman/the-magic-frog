@@ -64,6 +64,9 @@
   },
   "halloffame": {
     "title": "Temple de la renommée",
+    "sponsors": "Parrains",
+    "delegated": "Délègue",
+    "storytellers": "Conteurs",
     "contributions": "Contributions"
   },
   "auth": {

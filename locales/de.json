@@ -66,6 +66,9 @@
   },
   "halloffame": {
     "title": "Ruhmeshalle",
+    "sponsors": "Sponsoren",
+    "delegated": "Delegiert",
+    "storytellers": "Geschichtenerzähler",
     "contributions": "Beiträge"
   },
   "auth": {

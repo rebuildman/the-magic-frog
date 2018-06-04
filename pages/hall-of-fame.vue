@@ -4,6 +4,11 @@
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
+      <h2 v-if="delegators.length">{{ $t('halloffame.sponsors') }}</h2>
+      <b-row v-if="delegators.length">
+        <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
+      </b-row>
+      <h2 v-if="delegators.length">{{ $t('halloffame.storytellers') }}</h2>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>
@@ -16,6 +21,7 @@
 <script>
   import steem from 'steem'
   import sc2 from 'sc2-sdk'
+  import axios from 'axios'
   import Cookies from 'js-cookie'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -23,6 +29,7 @@
   import Footer from '~/components/Footer'
   import Modals from '~/components/Modals'
   import Contributor from '~/components/Contributor'
+  import Delegator from '~/components/Delegator'
 
   export default {
     components: {
@@ -30,7 +37,8 @@
       NavbarLoggedOut,
       Footer,
       Modals,
-      Contributor
+      Contributor,
+      Delegator
     },
     data() {
       return {
@@ -38,6 +46,7 @@
       }
     },
     async asyncData(context) {
+      // used in while loop below to get all posts
       const getPosts = function (account, start_author, start_permlink) {
         return new Promise((resolve, reject) => {
           steem.api.getDiscussionsByBlog({
@@ -72,13 +81,32 @@
             allPosts.push(posts[i]);
           }
 
+          // the last post of one iteration and the first of the next iteration are the same, so we remove duplicates here
           allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
         }
 
       } while (posts.length === 100);
 
       allPosts = allPosts.reverse(); // reverse to have oldest post first
-      return { posts: allPosts };
+
+      // get all delegators
+      const getDelegators = (account) => {
+        return new Promise((resolve, reject) => {
+          axios.get('https://happyukgo.com/api/steemit/delegators/?id=' + account + '&hash=ca399c4b2b637e27eaadcfa255165432').then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
+          });
+        });
+      };
+
+      // sort by delegated sp
+      const delegators = await getDelegators(context.app.account);
+      delegators.sort((a, b) => {
+        return a.sp < b.sp;
+      });
+
+      return { posts: allPosts, delegators };
     },
     computed: {
       sc2() {

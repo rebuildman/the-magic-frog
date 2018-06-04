@@ -159,6 +159,7 @@ import Modals from '~/components/Modals'
 // TODO: edit comments/submissions
 // TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
+// TODO: implement revenue mechanism for delegetors
 
 export default {
   components: {
