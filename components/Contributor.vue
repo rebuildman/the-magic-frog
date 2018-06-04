@@ -14,6 +14,8 @@
     props: ['contributor', 'index'],
     computed: {
       imageSize() {
+        // image size based on position:
+        // 1st: 150px, 2nd: 100px, 3rd and following: 50px
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
       }
     }

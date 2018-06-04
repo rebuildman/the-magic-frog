@@ -39,6 +39,7 @@
       }
     },
     async asyncData(context) {
+      // used in while loop below to get all posts
       const getPosts = function (account, start_author, start_permlink) {
         return new Promise((resolve, reject) => {
           steem.api.getDiscussionsByBlog({
@@ -73,6 +74,7 @@
             allPosts.push(posts[i]);
           }
 
+          // the last post of one iteration and the first of the next iteration are the same, so we remove duplicates here
           allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
         }
       } while (posts.length === 100);
