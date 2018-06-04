@@ -59,8 +59,8 @@
       "commentplaceholder": "Quelle histoire incroyable!"
     },
     "startingsoon": {
-      "title": "The first story will start soon!",
-      "text": "Follow the <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> to stay up to date!"
+      "title": "La première histoire va commencer bientôt!",
+      "text": "Suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique pour rester à jour avec ces aventures!"
     }
   },
   "archive": {
