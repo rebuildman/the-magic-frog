@@ -186,18 +186,47 @@ export default {
     }
   },
   async asyncData(context) {
-    const getPosts = (accountName, limit = 100) => {
+    // used in while loop below to get all posts
+    const getPosts = function (account, start_author, start_permlink) {
       return new Promise((resolve, reject) => {
-        steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
-          if (err) {
-            reject(err);
+        steem.api.getDiscussionsByBlog({
+          tag: account,
+          limit: 100,
+          start_author: start_author,
+          start_permlink: start_permlink
+        }, (err, res) => {
+          if (!err) {
+            resolve(res);
           } else {
-            resolve(posts);
+            reject(err);
           }
         });
       });
     };
 
+    let allPosts = [];
+    let posts;
+    let lastPost;
+    let startAuthor = null;
+    let startPermlink = null;
+
+    do {
+      posts = await getPosts(context.app.account, startAuthor, startPermlink);
+      if (posts.length) {
+        lastPost = posts[posts.length - 1];
+        startAuthor = lastPost.author;
+        startPermlink = lastPost.permlink;
+
+        for (let i = 0; i < posts.length; i++) {
+          allPosts.push(posts[i]);
+        }
+
+        // the last post of one iteration and the first of the next iteration are the same, so we remove duplicates here
+        allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
+      }
+    } while (posts.length === 100);
+
+    // used below to get comments for latest story post
     const getComments = (accountName, permlink) => {
       return new Promise((resolve, reject) => {
         steem.api.getContentReplies(accountName, permlink, function(err, comments) {
@@ -210,7 +239,7 @@ export default {
       });
     };
 
-    let posts = await getPosts(context.app.account);
+    // find latest story post and get its comments
     let comments = [];
     for (let i = 0; i < posts.length; i++) {
       let post = posts[i];
