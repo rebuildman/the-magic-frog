@@ -160,7 +160,6 @@ import Footer from '~/components/Footer'
 import Modals from '~/components/Modals'
 
 // TODO: wallet integration
-// TODO: edit comments/submissions
 // TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
 // TODO: implement revenue mechanism for delegetors
