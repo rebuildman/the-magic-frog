@@ -59,6 +59,10 @@
       "submit": "Senden!",
       "logintowrite": "Melde dich an um etwas zu schreiben!",
       "commentplaceholder": "Wow! Was für eine tolle Geschichte!"
+    },
+    "startingsoon": {
+      "title": "Die erste Geschichte startet bald!",
+      "text": "Folge dem <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> um auf dem Laufenden zu bleiben!"
     }
   },
   "archive": {

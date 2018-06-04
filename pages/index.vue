@@ -16,7 +16,7 @@
         <h5 class="mt-3">{{ $t('index.currentvalue') }}</h5>
         <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
 
-        <div class="my-4">
+        <div class="my-4" v-if="latestStoryPost">
           <LikeButton @voteCasted="updateData" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
           <b-button variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
             <svg viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
         <p v-html="$t('index.theinfluence')"></p>
       </div>
 
-      <div class="py-5">
+      <div class="py-5" v-if="latestStoryPost">
         <div class="text-center">
           <h2>{{ $t('index.read') }}</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="mx-auto mb-4" style="max-width: 800px;">
+      <div class="mx-auto mb-4" style="max-width: 800px;" v-if="latestStoryPost">
         <h2 class="pt-5">{{ $t('index.howwillthestorygoon') }}</h2>
         <p class="text-center mt-4">{{ $t('index.firstread') }}</p>
 
@@ -129,6 +129,10 @@
             {{ $t('index.form.logintowrite') }}
           </b-button>
         </div>
+      </div>
+      <div class="mb-4 text-center" v-if="!latestStoryPost">
+        <h1>{{ $t('index.startingsoon.title') }}</h1>
+        <h3 v-html="$t('index.startingsoon.text', {account: $account})"></h3>
       </div>
     </b-container>
 
