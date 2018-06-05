@@ -92,7 +92,7 @@
       // get all delegators
       const getDelegators = (account) => {
         return new Promise((resolve, reject) => {
-          axios.get('https://happyukgo.com/api/steemit/delegators/?id=' + account + '&hash=ca399c4b2b637e27eaadcfa255165432').then((result) => {
+          axios.get('https://uploadbeta.com/api/steemit/delegators/?cached&hash=' + process.env.delegatorsApiKey + '&id=' + account).then((result) => {
             resolve(result.data);
           }).catch((err) => {
             reject(err);
