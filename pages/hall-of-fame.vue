@@ -89,10 +89,10 @@
 
       allPosts = allPosts.reverse(); // reverse to have oldest post first
 
-      // get all delegators
-      const getDelegators = (account) => {
+      // get all delegators for all frog accounts
+      const getDelegators = () => {
         return new Promise((resolve, reject) => {
-          axios.get('https://uploadbeta.com/api/steemit/delegators/?cached&hash=' + process.env.delegatorsApiKey + '&id=' + account).then((result) => {
+          axios.get('https://api.the-magic-frog.com/delegators').then((result) => {
             resolve(result.data);
           }).catch((err) => {
             reject(err);
@@ -100,8 +100,10 @@
         });
       };
 
-      // sort by delegated sp
-      const delegators = await getDelegators(context.app.account);
+      let delegators = await getDelegators();
+      // get delegators for this frog account
+      delegators = delegators[context.app.account];
+      // and sort them by delegated amount
       delegators.sort((a, b) => {
         return a.sp < b.sp;
       });
