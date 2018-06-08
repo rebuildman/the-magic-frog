@@ -189,71 +189,31 @@ export default {
     }
   },
   async asyncData(context) {
-    // used in while loop below to get all posts
-    const getPosts = function (account, start_author, start_permlink) {
+    // get all delegators for frog account
+    const getCurrentCommands = () => {
       return new Promise((resolve, reject) => {
-        steem.api.getDiscussionsByBlog({
-          tag: account,
-          limit: 100,
-          start_author: start_author,
-          start_permlink: start_permlink
-        }, (err, res) => {
-          if (!err) {
-            resolve(res);
-          } else {
-            reject(err);
-          }
+        axios.get('https://api.the-magic-frog.com/submissions?account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
         });
       });
     };
+    let currentCommands = await getCurrentCommands();
 
-    let allPosts = [];
-    let posts;
-    let lastPost;
-    let startAuthor = null;
-    let startPermlink = null;
-
-    do {
-      posts = await getPosts(context.app.account, startAuthor, startPermlink);
-      if (posts.length) {
-        lastPost = posts[posts.length - 1];
-        startAuthor = lastPost.author;
-        startPermlink = lastPost.permlink;
-
-        for (let i = 0; i < posts.length; i++) {
-          allPosts.push(posts[i]);
-        }
-
-        // the last post of one iteration and the first of the next iteration are the same, so we remove duplicates here
-        allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
-      }
-    } while (posts.length === 100);
-
-    // used below to get comments for latest story post
-    const getComments = (accountName, permlink) => {
+    // get all delegators for frog account
+    const getAllStoryPosts = () => {
       return new Promise((resolve, reject) => {
-        steem.api.getContentReplies(accountName, permlink, function(err, comments) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(comments);
-          }
+        axios.get('https://api.the-magic-frog.com/storyposts?account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
         });
       });
     };
+    let allStoryPosts = await getAllStoryPosts();
 
-    // find latest story post and get its comments
-    let comments = [];
-    for (let i = 0; i < posts.length; i++) {
-      let post = posts[i];
-      let meta = JSON.parse(post.json_metadata);
-      if (post.author === context.app.account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-        comments = await getComments(context.app.account, posts[i].permlink);
-        break;
-      }
-    }
-
-    return { posts, comments }
+    return { allStoryPosts, currentCommands }
   },
   computed: {
     sc2() {
@@ -296,12 +256,6 @@ export default {
       pot *= 0.95; // 5 % goes to beneficiaries
       return pot.toFixed(2);
     },
-    allStoryPosts() {
-      return this.posts.filter(post => {
-        let meta = JSON.parse(post.json_metadata);
-        return post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
-      });
-    },
     currentStoryPosts() {
       return this.allStoryPosts.filter(post => {
         let meta = JSON.parse(post.json_metadata);
@@ -316,17 +270,6 @@ export default {
     },
     latestStoryPostMeta() {
       return this.latestStoryPost ? JSON.parse(this.latestStoryPost.json_metadata) : {};
-    },
-    currentCommands() {
-      let canEnd = this.latestStoryPostMeta.day > 10;
-
-      return this.comments.filter(comment => {
-        if (comment.json_metadata) {
-          let meta = JSON.parse(comment.json_metadata);
-          return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
-        }
-        return false;
-      });
     },
     endCommand() {
       let endCommand = null;
