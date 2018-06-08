@@ -46,69 +46,31 @@
       }
     },
     async asyncData(context) {
-      // used in while loop below to get all posts
-      const getPosts = function (account, start_author, start_permlink) {
-        return new Promise((resolve, reject) => {
-          steem.api.getDiscussionsByBlog({
-            tag: account,
-            limit: 100,
-            start_author: start_author,
-            start_permlink: start_permlink
-          }, (err, res) => {
-            if (!err) {
-              resolve(res);
-            } else {
-              reject(err);
-            }
-          });
-        });
-      };
-
-      let allPosts = [];
-      let posts;
-      let lastPost;
-      let startAuthor = null;
-      let startPermlink = null;
-
-      do {
-        posts = await getPosts(context.app.account, startAuthor, startPermlink);
-        if (posts.length) {
-          lastPost = posts[posts.length - 1];
-          startAuthor = lastPost.author;
-          startPermlink = lastPost.permlink;
-
-          for (let i = 0; i < posts.length; i++) {
-            allPosts.push(posts[i]);
-          }
-
-          // the last post of one iteration and the first of the next iteration are the same, so we remove duplicates here
-          allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
-        }
-
-      } while (posts.length === 100);
-
-      allPosts = allPosts.reverse(); // reverse to have oldest post first
-
-      // get all delegators for all frog accounts
+      // get all delegators for frog account
       const getDelegators = () => {
         return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/delegators').then((result) => {
+          axios.get('https://api.the-magic-frog.com/delegators?account=' + context.app.account).then((result) => {
             resolve(result.data);
           }).catch((err) => {
             reject(err);
           });
         });
       };
-
       let delegators = await getDelegators();
-      // get delegators for this frog account
-      delegators = delegators[context.app.account];
-      // and sort them by delegated amount
-      delegators.sort((a, b) => {
-        return a.sp < b.sp;
-      });
 
-      return { posts: allPosts, delegators };
+      // get contributors
+      const getContributors = () => {
+        return new Promise((resolve, reject) => {
+          axios.get('https://api.the-magic-frog.com/contributors?account=' + context.app.account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
+          });
+        });
+      };
+      let contributors = await getContributors();
+
+      return { delegators, contributors };
     },
     computed: {
       sc2() {
@@ -142,44 +104,13 @@
       },
       loginUrl() {
         return this.sc2.getLoginURL();
-      },
-      stories() {
-        let stories = [];
-        this.posts.forEach(post => {
-          let meta = JSON.parse(post.json_metadata);
-          if (post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-            stories[meta.storyNumber - 1] = post;
-          }
-        });
-        return stories;
-      },
-      allCommands() {
-        let allCommands = [];
-        this.stories.forEach(storyPost => {
-          let meta = JSON.parse(storyPost.json_metadata);
-          if (meta.hasOwnProperty('commands') && meta.commands.length) {
-            allCommands.push(...meta.commands);
-          }
-        });
-        return allCommands;
-      },
-      contributors() {
-        let contributors = [];
-        this.allCommands.forEach(command => {
-          let exists = contributors.find(contributor => contributor.name === command.author);
-          if (exists) {
-            contributors[contributors.indexOf(exists)].contributions += 1;
-          } else {
-            contributors.push({name: command.author, contributions: 1});
-          }
-        });
-        return contributors.sort((a, b) => {
-          if (a.contributions > b.contributions)
-            return -1;
-          if (a.contributions < b.contributions)
-            return 1;
-          return 0;
-        });
+      }
+    },
+    methods: {
+      logout() {
+        this.user = null;
+        Cookies.remove('frog_token');
+        return null;
       }
     }
   }
