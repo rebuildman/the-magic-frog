@@ -16,7 +16,7 @@
         <h5 class="mt-3">{{ $t('index.currentvalue') }}</h5>
         <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
 
-        <div class="my-4">
+        <div class="my-4" v-if="latestStoryPost">
           <LikeButton @voteCasted="updateData" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
           <b-button variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
             <svg viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
         <p v-html="$t('index.theinfluence')"></p>
       </div>
 
-      <div class="py-5">
+      <div class="py-5" v-if="latestStoryPost">
         <div class="text-center">
           <h2>{{ $t('index.read') }}</h2>
           <img src="/divider.png" alt="" class="img-fluid"/>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="mx-auto mb-4" style="max-width: 800px;">
+      <div class="mx-auto mb-4" style="max-width: 800px;" v-if="latestStoryPost">
         <h2 class="pt-5">{{ $t('index.howwillthestorygoon') }}</h2>
         <p class="text-center mt-4">{{ $t('index.firstread') }}</p>
 
@@ -56,7 +56,7 @@
         <h2 class="pt-5">{{ $t('index.nowitsyourturn') }}</h2>
         <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
-        <form class="mt-4 p-4 mx-auto" id="command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
           <div v-if="!endStory">
             <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
@@ -130,6 +130,10 @@
           </b-button>
         </div>
       </div>
+      <div class="mb-4 text-center" v-if="!latestStoryPost">
+        <h1>{{ $t('index.startingsoon.title') }}</h1>
+        <h3 v-html="$t('index.startingsoon.text', {account: $account})"></h3>
+      </div>
     </b-container>
 
     <Footer />
@@ -156,7 +160,9 @@ import Footer from '~/components/Footer'
 import Modals from '~/components/Modals'
 
 // TODO: wallet integration
-// TODO: edit comments/submissions
+// TODO: voting weight slider
+// TODO: account creation proxy account... brilliant!
+// TODO: implement revenue mechanism for delegetors
 
 export default {
   components: {
@@ -183,42 +189,31 @@ export default {
     }
   },
   async asyncData(context) {
-    const getPosts = (accountName, limit = 100) => {
+    // get all delegators for frog account
+    const getCurrentCommands = () => {
       return new Promise((resolve, reject) => {
-        steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(posts);
-          }
+        axios.get('https://api.the-magic-frog.com/submissions?account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
         });
       });
     };
+    let currentCommands = await getCurrentCommands();
 
-    const getComments = (accountName, permlink) => {
+    // get all delegators for frog account
+    const getAllStoryPosts = () => {
       return new Promise((resolve, reject) => {
-        steem.api.getContentReplies(accountName, permlink, function(err, comments) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(comments);
-          }
+        axios.get('https://api.the-magic-frog.com/storyposts?account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
         });
       });
     };
+    let allStoryPosts = await getAllStoryPosts();
 
-    let posts = await getPosts(context.app.account);
-    let comments = [];
-    for (let i = 0; i < posts.length; i++) {
-      let post = posts[i];
-      let meta = JSON.parse(post.json_metadata);
-      if (post.author === context.app.account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-        comments = await getComments(context.app.account, posts[i].permlink);
-        break;
-      }
-    }
-
-    return { posts, comments }
+    return { allStoryPosts, currentCommands }
   },
   computed: {
     sc2() {
@@ -261,12 +256,6 @@ export default {
       pot *= 0.95; // 5 % goes to beneficiaries
       return pot.toFixed(2);
     },
-    allStoryPosts() {
-      return this.posts.filter(post => {
-        let meta = JSON.parse(post.json_metadata);
-        return post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber');
-      });
-    },
     currentStoryPosts() {
       return this.allStoryPosts.filter(post => {
         let meta = JSON.parse(post.json_metadata);
@@ -280,18 +269,7 @@ export default {
       return this.allStoryPosts[0];
     },
     latestStoryPostMeta() {
-      return JSON.parse(this.latestStoryPost.json_metadata);
-    },
-    currentCommands() {
-      let canEnd = this.latestStoryPostMeta.day > 10;
-
-      return this.comments.filter(comment => {
-        if (comment.json_metadata) {
-          let meta = JSON.parse(comment.json_metadata);
-          return meta.hasOwnProperty('type') && ((meta.type === 'end' && canEnd) || meta.type === 'append');
-        }
-        return false;
-      });
+      return this.latestStoryPost ? JSON.parse(this.latestStoryPost.json_metadata) : {};
     },
     endCommand() {
       let endCommand = null;
@@ -409,6 +387,7 @@ export default {
               this.commentInput = '';
               this.submitLoading = false;
               this.showSuccessMessage = true;
+              this.showImageUpload = false;
               this.image = null;
               this.$refs.image.value = null;
 

@@ -17,6 +17,7 @@
   import marked from 'marked'
   import steem from 'steem'
   import sc2 from 'sc2-sdk'
+  import axios from 'axios'
   import Cookies from 'js-cookie'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -39,45 +40,19 @@
       }
     },
     async asyncData(context) {
-      const getPosts = function (account, start_author, start_permlink) {
+      // get all stories for frog account (last post from each story)
+      const getStories = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getDiscussionsByBlog({
-            tag: account,
-            limit: 100,
-            start_author: start_author,
-            start_permlink: start_permlink
-          }, (err, res) => {
-            if (!err) {
-              resolve(res);
-            } else {
-              reject(err);
-            }
+          axios.get('https://api.the-magic-frog.com/stories?account=' + context.app.account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
+      let stories = await getStories();
 
-      let allPosts = [];
-      let posts;
-      let lastPost;
-      let startAuthor = null;
-      let startPermlink = null;
-
-      do {
-        posts = await getPosts(context.app.account, startAuthor, startPermlink);
-        lastPost = posts[posts.length - 1];
-        startAuthor = lastPost.author;
-        startPermlink = lastPost.permlink;
-
-        for (let i = 0; i < posts.length; i++) {
-          allPosts.push(posts[i]);
-        }
-
-        allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
-
-      } while (posts.length === 100);
-
-      allPosts = allPosts.reverse(); // reverse to have oldest post first
-      return { posts: allPosts };
+      return { stories };
     },
     computed: {
       sc2() {
@@ -111,21 +86,13 @@
       },
       loginUrl() {
         return this.sc2.getLoginURL();
-      },
+      }
+    },
+    methods: {
       logout() {
         this.user = null;
         Cookies.remove('frog_token');
         return null;
-      },
-      stories() {
-        let stories = [];
-        this.posts.forEach(post => {
-          let meta = JSON.parse(post.json_metadata);
-          if (post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-            stories[meta.storyNumber - 1] = post;
-          }
-        });
-        return stories;
       }
     }
   }

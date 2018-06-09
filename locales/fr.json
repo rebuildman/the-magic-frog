@@ -7,9 +7,22 @@
     "login": "Connexion",
     "wallet": "Portefeuille"
   },
+  "likebutton": {
+    "like": "J'aime!",
+    "unlike": "Je n'aime plus ça!"
+  },
+  "command": {
+    "wrote": "a écrit:",
+    "comment": "Commentaire:",
+    "logintovote": "Identifiez-vous pour voter!",
+    "edit": "modifier",
+    "editmodal": {
+      "title": "Modifier la suggestion"
+    }
+  },
   "index": {
-    "themagicfrog": "La grenouille magique",
-    "storymachine": "et la machine à histoire magique",
+    "themagicfrog": "La Grenouille Magique",
+    "storymachine": "et la mystérieuse machine à histoire",
     "helpremember": "Aidez la grenouille magique à se souvenir de toutes ses histoires amusantes et intéressantes en alimentant la machine à histoire magique avec vos idées sur la façon dont l'histoire pourrait continuer! La machine calcule alors la réponse la plus probable (ou la plus drôle) et génère des pièces d'or pour que vous puissiez gagner à chaque fois qu'une histoire est complétée. Vous pourriez même trouver des pièces en participant.",
     "fullofgold": "Un pot plein d'or",
     "currentvalue": "Valeur actuelle:",
@@ -29,21 +42,25 @@
     "form": {
       "appendplaceholder": "Et il vécurent heureux pour l'éternité!",
       "charactersleft": "caractères restants.",
-      "youcaneven": "You can even upload an image if you want.",
-      "yesupload": "Yes, upload an image!",
-      "licensenote": "Please note that only images under the <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\">CC0 license</a> can be included in the final story. Preferably you upload only your own work and by doing so you agree to provide it to the <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\">public domain</a>.",
-      "changedmymind": "Changed my mind. No image please!",
-      "stopit": "No, I think this story should end now!",
+      "youcaneven": "Vous pouvez même télécharger une image si vous le souhaitez.",
+      "yesupload": "Oui, téléchargez une image!",
+      "licensenote": "S'il vous plaît noter que seules les images sous la <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\"> Licence CC0 </a>peut être inclus dans l'histoire finale. De préférence, ne téléchargez que votre propre travail et, ce faisant, vous acceptez de le fournir au <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\"> domaine public </a>.",
+      "changedmymind": "Changé d'avis. Aucune image s'il vous plaît!",
+      "stopit": "Non, je pense que cette histoire devrait se terminer maintenant!",
       "theend": "La fin!",
       "after10days": "(Après 10 jours, vous pouvez suggérer de terminer l'histoire et de distribuer le pot.)",
       "endalreadysuggested": "Il y a déjà quelqu'un qui suggère de mettre fin à l'histoire. Votez pour lui/elle pour y arriver! Le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire et un nouveau commencera le jour suivant!",
       "ifthecommunity": "Si la communauté pense la même chose, le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire (y compris vous) et une nouvelle histoire commencera le jour suivant!",
       "justkidding": "Non je rigole....",
       "addpersonalnote": "Ici vous pouvez ajouter une note personnelle si vous le souhaitez:",
-      "thanksforparticipating": "Merci d'avoir participé!",
+      "thanksforparticipating": "Merci d'avoir participé! Si vous avez plus d'idées, n'hésitez pas à les soumettre aussi.",
       "submit": "Soumettre!",
       "logintowrite": "Connectez-vous pour écrire!",
       "commentplaceholder": "Quelle histoire incroyable!"
+    },
+    "startingsoon": {
+      "title": "La première histoire va commencer bientôt!",
+      "text": "Suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique pour rester à jour avec ces aventures!"
     }
   },
   "archive": {
@@ -51,6 +68,9 @@
   },
   "halloffame": {
     "title": "Temple de la renommée",
+    "sponsors": "Parrains",
+    "delegated": "Délègue",
+    "storytellers": "Conteurs",
     "contributions": "Contributions"
   },
   "auth": {
@@ -80,5 +100,9 @@
     "title": "Ton Portefeuille",
     "text": "Ici, vous pourrez bientôt accéder et gérer tous vos fonds STEEM. En attendant, vous pouvez accéder à votre portefeuille là:",
     "yourbalance": "Solde de votre compte"
+  },
+  "langmodal": {
+    "title": "Magic Stories from all over the World",
+    "text": "More languages coming soon!"
   }
 }

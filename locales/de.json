@@ -12,6 +12,15 @@
     "like": "Gefällt mir!",
     "unlike": "Gefällt mir nicht mehr!"
   },
+  "command": {
+    "wrote": "schrieb:",
+    "comment": "Kommentar:",
+    "logintovote": "Anmelden um abzustimmen!",
+    "edit": "bearbeiten",
+    "editmodal": {
+      "title": "Vorschlag bearbeiten"
+    }
+  },
   "index": {
     "themagicfrog": "Der Zauberfrosch",
     "storymachine": "Und Die Magische Geschichtenmaschine",
@@ -47,10 +56,14 @@
       "ifthecommunity": "Wenn die Community genauso denkt, wird der Topf voll Gold ($ {potValue}) an alle verteilt, die zu der Geschichte beigetragen haben (dich eingeschlossen) und eine neue Geschichte starten am nächsten Tag!",
       "justkidding": "Ne, ich mach nur Spaß....",
       "addpersonalnote": "Hier kannst du noch einen persönlichen Kommentar hinterlassen, wenn du magst:",
-      "thanksforparticipating": "Danke für deine Teilnahme!",
+      "thanksforparticipating": "Danke für deine Teilnahme! Wenn du noch mehr Ideen hast, kannst du gerne weitere Vorschläge einreichen.",
       "submit": "Senden!",
       "logintowrite": "Melde dich an um etwas zu schreiben!",
       "commentplaceholder": "Wow! Was für eine tolle Geschichte!"
+    },
+    "startingsoon": {
+      "title": "Die erste Geschichte startet bald!",
+      "text": "Folge dem <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> um auf dem Laufenden zu bleiben!"
     }
   },
   "archive": {
@@ -58,6 +71,9 @@
   },
   "halloffame": {
     "title": "Ruhmeshalle",
+    "sponsors": "Sponsoren",
+    "delegated": "Delegiert",
+    "storytellers": "Geschichtenerzähler",
     "contributions": "Beiträge"
   },
   "auth": {
@@ -68,7 +84,7 @@
     "title": "Was ist das?",
     "text1": "Auf dieser Website kannst du Teil einer gemeinschaftlich erzählten Geschichte werden. Jeden Tag kannst du vorschlagen, wie die Geschichte weitergehen soll und die Community entscheidet per Abstimmung, was tatsächlich als nächstes passiert. Wenn dein Vorschlag es in die Geschichte schafft, hast du eine Chance den <b>Topf voll Gold</b> zu gewinnen. Je öfter du etwas zur Geschichte beiträgst, desto höher sind deine Chancen.",
     "text2": "Diese Website nutzt die <a href=\"https://steem.io\" target=\"_blank\"><b>STEEM blockchain</b></a>, um <b>Kryptowährung</b> zu generieren, immer wenn die Geschichte voran geht. Das passiert jeden Tag um 12:30 Uhr. Dieses Geld wird gesammelt und jedes mal an die Teilnehmer ausgeschüttet, wenn eine Geschichte ended. Wann genau das passiert, hängt von der Community ab. Nach den ersten 10 Tagen einer Geschichte, kann dafür abgestimmt werden, die Geschichte zu beenden. Dann wird eine Hälfte des Preisgeldes an einen glücklichen Gewinner verlost, während die andere Hälfte unter allen anderen Teilnehmern aufgeteilt wird. Dann startet eine neue Geschichte.<br><br>Sogar wenn deine Vorschläge es nicht in die Geschichte schaffen, wirst du alleine durch deine Teilnahme bereits ein bisschen STEEM Kryptowährung bekommen.",
-    "text3": "<b>Es gibt keine bestimmten Regeln aber bitte bleibt immer konstruktiv, positiv respektvoll! Die Geschichten können ernsthaft sein, witzig, bescheuert oder totaler Blödsinn. Das liegt an euch! ;)</b>",
+    "text3": "<b>Es gibt keine bestimmten Regeln aber bitte bleibt immer konstruktiv, positiv und respektvoll! Die Geschichten können ernsthaft sein, witzig oder total bescheuerter Blödsinn. Das liegt an euch! ;)</b>",
     "havefun": "Viel Spaß!"
   },
   "loginmodal": {

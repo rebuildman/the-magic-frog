@@ -12,6 +12,15 @@
     "like": "I like!",
     "unlike": "I don't like this anymore!"
   },
+  "command": {
+    "wrote": "wrote:",
+    "comment": "Comment:",
+    "logintovote": "Login to vote!",
+    "edit": "edit",
+    "editmodal": {
+      "title": "Edit Suggestion"
+    }
+  },
   "index": {
     "themagicfrog": "The Magic Frog",
     "storymachine": "And The Magic Story Machine",
@@ -47,10 +56,14 @@
       "ifthecommunity": "If the community thinks the same, the pot ($ {potValue}) will be distributed to all participants that contributed to the story (including you) and a new one will start the next day!",
       "justkidding": "No, just kidding....",
       "addpersonalnote": "Here you can add a personal note if you want:",
-      "thanksforparticipating": "Thank you for participating!",
+      "thanksforparticipating": "Thank you for participating! If you have more ideas, feel free to submit them too.",
       "submit": "Submit!",
       "logintowrite": "Log in to write!",
       "commentplaceholder": "What an amazing story!"
+    },
+    "startingsoon": {
+      "title": "The first story will start soon!",
+      "text": "Follow the <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> to stay up to date!"
     }
   },
   "archive": {
@@ -58,6 +71,9 @@
   },
   "halloffame": {
     "title": "Hall of Fame",
+    "sponsors": "Sponsors",
+    "delegated": "Delegated",
+    "storytellers": "Storytellers",
     "contributions": "Contributions"
   },
   "auth": {

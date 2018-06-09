@@ -4,6 +4,11 @@
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
+      <h2 v-if="delegators.length">{{ $t('halloffame.sponsors') }}</h2>
+      <b-row v-if="delegators.length">
+        <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
+      </b-row>
+      <h2 v-if="delegators.length">{{ $t('halloffame.storytellers') }}</h2>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>
@@ -16,6 +21,7 @@
 <script>
   import steem from 'steem'
   import sc2 from 'sc2-sdk'
+  import axios from 'axios'
   import Cookies from 'js-cookie'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -23,6 +29,7 @@
   import Footer from '~/components/Footer'
   import Modals from '~/components/Modals'
   import Contributor from '~/components/Contributor'
+  import Delegator from '~/components/Delegator'
 
   export default {
     components: {
@@ -30,7 +37,8 @@
       NavbarLoggedOut,
       Footer,
       Modals,
-      Contributor
+      Contributor,
+      Delegator
     },
     data() {
       return {
@@ -38,45 +46,31 @@
       }
     },
     async asyncData(context) {
-      const getPosts = function (account, start_author, start_permlink) {
+      // get all delegators for frog account
+      const getDelegators = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getDiscussionsByBlog({
-            tag: account,
-            limit: 100,
-            start_author: start_author,
-            start_permlink: start_permlink
-          }, (err, res) => {
-            if (!err) {
-              resolve(res);
-            } else {
-              reject(err);
-            }
+          axios.get('https://api.the-magic-frog.com/delegators?account=' + context.app.account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
+      let delegators = await getDelegators();
 
-      let allPosts = [];
-      let posts;
-      let lastPost;
-      let startAuthor = null;
-      let startPermlink = null;
+      // get contributors
+      const getContributors = () => {
+        return new Promise((resolve, reject) => {
+          axios.get('https://api.the-magic-frog.com/contributors?account=' + context.app.account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
+          });
+        });
+      };
+      let contributors = await getContributors();
 
-      do {
-        posts = await getPosts(context.app.account, startAuthor, startPermlink);
-        lastPost = posts[posts.length - 1];
-        startAuthor = lastPost.author;
-        startPermlink = lastPost.permlink;
-
-        for (let i = 0; i < posts.length; i++) {
-          allPosts.push(posts[i]);
-        }
-
-        allPosts = allPosts.filter((post, index, self) => self.findIndex(p => p.permlink === post.permlink) === index)
-
-      } while (posts.length === 100);
-
-      allPosts = allPosts.reverse(); // reverse to have oldest post first
-      return { posts: allPosts };
+      return { delegators, contributors };
     },
     computed: {
       sc2() {
@@ -110,44 +104,13 @@
       },
       loginUrl() {
         return this.sc2.getLoginURL();
-      },
-      stories() {
-        let stories = [];
-        this.posts.forEach(post => {
-          let meta = JSON.parse(post.json_metadata);
-          if (post.author === this.$account && meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-            stories[meta.storyNumber - 1] = post;
-          }
-        });
-        return stories;
-      },
-      allCommands() {
-        let allCommands = [];
-        this.stories.forEach(storyPost => {
-          let meta = JSON.parse(storyPost.json_metadata);
-          if (meta.hasOwnProperty('commands') && meta.commands.length) {
-            allCommands.push(...meta.commands);
-          }
-        });
-        return allCommands;
-      },
-      contributors() {
-        let contributors = [];
-        this.allCommands.forEach(command => {
-          let exists = contributors.find(contributor => contributor.name === command.author);
-          if (exists) {
-            contributors[contributors.indexOf(exists)].contributions += 1;
-          } else {
-            contributors.push({name: command.author, contributions: 1});
-          }
-        });
-        return contributors.sort((a, b) => {
-          if (a.contributions > b.contributions)
-            return -1;
-          if (a.contributions < b.contributions)
-            return 1;
-          return 0;
-        });
+      }
+    },
+    methods: {
+      logout() {
+        this.user = null;
+        Cookies.remove('frog_token');
+        return null;
       }
     }
   }

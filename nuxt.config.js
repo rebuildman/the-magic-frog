@@ -6,6 +6,7 @@ module.exports = {
     scheme: process.env.SCHEME || 'https',
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || '',
+    delegatorsApiKey: process.env.DELEGATORS_API_KEY || '',
   },
 
   /*

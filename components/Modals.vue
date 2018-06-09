@@ -74,7 +74,7 @@
             {{ lang }}
           </a>
         </b-col>
-        <b-col sm="3" v-for="(lang, index) in disabledLangs" :lang="lang" :key="index" class="text-center mb-3">
+        <b-col sm="3" v-for="(lang, index) in disabledLangs" :lang="lang" :key="index + 1000" class="text-center mb-3">
           <span class="lang-link-disabled">
             <img :src="'/flags/' + lang + '.svg'" class="img-fluid rounded-circle"/><br>
             {{ lang }}
@@ -110,16 +110,14 @@
         return Object.keys(this.$i18n.messages).filter(lang => lang !== this.$i18n.locale && this.disabledLangs.indexOf(lang) === -1);
       },
       disabledLangs() {
-        return ['fr', 'in', 'ru', 'cn', 'es'];
-      } 
+        return ['in', 'ru', 'cn', 'es'];
+      }
     },
-    methods:{
-      hideModal () {
-      this.$refs.transferModalRef.hide()
-    },
-    
+    methods: {
+      hideModal() {
+        this.$refs.transferModalRef.hide()
+      }
     }
-
   };
 </script>
 
