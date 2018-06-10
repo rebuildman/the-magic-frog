@@ -53,8 +53,11 @@
 
   import steem from 'steem'
 
+  import SteemConnect from '~/mixins/SteemConnect'
+
   export default {
     props: ['size', 'user', 'author', 'permlink', 'likeLabel', 'unlikeLabel', 'showLikes'],
+    mixins: [SteemConnect],
     data() {
       return {
         loading: false,
@@ -65,7 +68,7 @@
     methods: {
       vote(weight) {
         this.loading = true;
-        this.$parent.sc2.vote(this.user.name, this.author, this.permlink, weight, (err) => {
+        this.sc2.vote(this.user.name, this.author, this.permlink, weight, (err) => {
           this.loading = false;
           if (err) {
             console.log(err);
