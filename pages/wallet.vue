@@ -4,13 +4,11 @@
     <NavbarLoggedOut v-else/>
     <b-container>
       <h1 class="mt-5 mb-4">Wallet</h1>
-      <AccountBalance :user="user" v-if="user"/>
-      <div class="upload-spinner" v-else>
-        <div class="dot1"></div>
-        <div class="dot2"></div>
+      <div v-if="user">
+        <AccountBalance :user="user"/>
+        <h2 class="mt-5 mb-4">Transfer History</h2>
+        <TransferHistory :user="user" />
       </div>
-      <h2 class="mt-5 mb-4">Transfer History</h2>
-      <TransferHistory :user="user" v-if="user" />
       <div class="upload-spinner" v-else>
         <div class="dot1"></div>
         <div class="dot2"></div>
