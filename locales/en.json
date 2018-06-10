@@ -5,8 +5,7 @@
     "halloffame": "Hall of Fame",
     "signup": "Sign Up",
     "login": "Login",
-    "wallet": "Wallet",
-    "user":"User"
+    "wallet": "Wallet"
   },
   "likebutton": {
     "like": "I like!",
@@ -67,7 +66,9 @@
     }
   },
   "archive": {
-    "title": "Story Archive"
+    "title": "Story Archive",
+    "themagicstory": "The Magic Story",
+    "audiowillbe": "The audio version will be available once the story is completed!"
   },
   "halloffame": {
     "title": "Hall of Fame",
@@ -140,5 +141,10 @@
       "memo": "Sent via the-magic-frog.com!"
     },
     "submit": "Proceed with SteemConnect"
+  },
+  "cookie": {
+    "message": "The frog gave you a magic cookie to make you feel good! (And to keep you logged in...)",
+    "dismiss": "Cool! Thanks!",
+    "link": "A magic cookie?"
   }
 }

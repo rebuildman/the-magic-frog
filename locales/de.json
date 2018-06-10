@@ -5,8 +5,7 @@
     "halloffame": "Ruhmeshalle",
     "signup": "Registrieren",
     "login": "Einloggen",
-    "wallet": "Geldbeutel",
-    "user":"User"
+    "wallet": "Geldbeutel"
   },
   "likebutton": {
     "like": "Gefällt mir!",
@@ -67,7 +66,9 @@
     }
   },
   "archive": {
-    "title": "Geschichten Archiv"
+    "title": "Geschichten Archiv",
+    "themagicstory": "The Magic Story",
+    "audiowillbe": "The audio version will be available once the story is completed!"
   },
   "halloffame": {
     "title": "Ruhmeshalle",
@@ -140,5 +141,10 @@
       "memo": "Gesendet über the-magic-frog.com!"
     },
     "submit": "Fortfahren mit SteemConnect"
+  },
+  "cookie": {
+    "message": "The frog gave you a magic cookie to make you feel good! (And to keep you logged in...)",
+    "dismiss": "Cool! Thanks!",
+    "link": "A magic cookie?"
   }
 }
