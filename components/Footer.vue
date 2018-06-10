@@ -5,8 +5,8 @@
     </svg> by <a href="https://steemit.com/@mkt" target="_blank">@mkt</a><br>
     <br>
     <b>Maintainers:</b><br>
-    French: <a href="https://steemit.com/@helo">@helo</a> (<a href="https://v2.steemconnect.com/sign/account-witness-vote?witness=helo&approve=1">Vote for Witness!</a>)<br>
-    German: <a href="https://steemit.com/@mkt">@mkt</a>
+    French: <a href="https://steemit.com/@helo" target="_blank">@helo</a> (<a href="https://v2.steemconnect.com/sign/account-witness-vote?witness=helo&approve=1" target="_blank">Vote for Witness!</a>)<br>
+    German: <a href="https://steemit.com/@mkt" target="_blank">@mkt</a>
   </div>
 </template>
 
