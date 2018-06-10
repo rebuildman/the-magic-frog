@@ -3,10 +3,10 @@
     <NavbarLoggedIn v-if="user" :user="user" @logout="logoutAndGoHome" />
     <NavbarLoggedOut v-else/>
     <b-container>
-      <h1 class="mt-5 mb-4">Wallet</h1>
+      <h1 class="mt-5 mb-4">{{ $t('wallet.title') }}</h1>
       <div v-if="user">
         <AccountBalance :user="user"/>
-        <h2 class="mt-5 mb-4">Transfer History</h2>
+        <h2 class="mt-5 mb-4">{{ $t('wallet.history.title') }}</h2>
         <TransferHistory :user="user" />
       </div>
       <div class="upload-spinner" v-else>

@@ -1,38 +1,38 @@
 <template>
-  <b-modal id="transferModal" title="Transfer" ref="transferModalRef" hide-footer>
+  <b-modal id="transferModal" :title="$t('transfermodal.title')" ref="transferModalRef" hide-footer>
     <b-container>
       <b-alert variant="info"
                dismissible
                :show="true"
                class="text-left">
-        Keep in mind that transactions, including all details, such as amount and memo, will be publicly stored on the Steem blockchain!
+        {{ $t('transfermodal.info') }}
       </b-alert>
       <b-form>
-        <b-form-group id="receiver" label="To:" label-for="receiver" description="Enter a username to which you want to transfer funds.">
-          <b-form-input id="receiver" type="text" v-model="receiver" required placeholder="Username"></b-form-input>
+        <b-form-group id="receiver" :label="$t('transfermodal.labels.recipient')" label-for="receiver" :description="$t('transfermodal.descriptions.recipient')">
+          <b-form-input id="receiver" type="text" v-model="receiver" required :placeholder="$t('transfermodal.placeholders.recipient')"></b-form-input>
         </b-form-group>
 
         <b-row>
           <b-col sm="7">
-            <b-form-group id="amount" label="Amount:" label-for="amount" :description="'You have ' + user.account.balance + ' and ' + user.account.sbd_balance + '.'">
-              <b-form-input id="amount" type="number" v-model="amount" required placeholder="0.001"></b-form-input>
+            <b-form-group id="amount" :label="$t('transfermodal.labels.amount')" label-for="amount" :description="$t('transfermodal.descriptions.amount', {steem: user.account.balance, sbd: user.account.sbd_balance})">
+              <b-form-input id="amount" type="number" v-model="amount" required :placeholder="$t('transfermodal.placeholders.amount')"></b-form-input>
             </b-form-group>
           </b-col>
           <b-col sm="5">
-            <b-form-group id="currency" label="Currency:" label-for="currency">
+            <b-form-group id="currency" :label="$t('transfermodal.labels.currency')" label-for="currency">
               <b-form-radio-group id="currency" buttons button-variant="outline-primary" size="md" v-model="currency" :options="options" name="currency"/>
             </b-form-group>
           </b-col>
         </b-row>
 
-        <b-form-group id="memo" label="Memo:" label-for="memo">
-          <b-form-textarea v-model="memo" placeholder="memo" rows="3"></b-form-textarea>
+        <b-form-group id="memo" :label="$t('transfermodal.labels.memo')" label-for="memo">
+          <b-form-textarea v-model="memo" rows="2"></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-container>
     <div class="text-center">
       <a class="btn btn-primary" :href="transferUrl" @click="$refs.transferModalRef.hide()" target="_blank">
-        Proceed to SteemConnect!
+        {{ $t('transfermodal.submit') }}
       </a>
     </div>
   </b-modal>
@@ -46,7 +46,7 @@
         receiver: '',
         amount: 0.001,
         currency: 'SBD',
-        memo: 'Sent via the-magic-frog.com!',
+        memo: this.$t('transfermodal.placeholders.memo'),
         options: [
           { text: 'STEEM', value: 'STEEM' },
           { text: 'SBD', value: 'SBD' }

@@ -76,6 +76,24 @@
     "storytellers": "Storytellers",
     "contributions": "Contributions"
   },
+  "wallet": {
+    "title": "Wallet",
+    "balance": {
+      "youhave": "You have",
+      "estimatedvalue": "Estimated Value in USD",
+      "transferbutton": "Transfer"
+    },
+    "history": {
+      "title": "Transfer History",
+      "loading": "Loading...",
+      "showmore": "Show more",
+      "transfer": {
+        "from": "from",
+        "to": "to",
+        "memo": "Memo"
+      }
+    }
+  },
   "auth": {
     "openthedoor": "Trying to enter...",
     "nokey": "No magic key!"
@@ -99,13 +117,28 @@
     "redirect": "You will be redirected to the sign-up process of steemit.com.",
     "button": "Create a Steem account"
   },
-  "walletmodal": {
-    "title": "Your Wallet",
-    "text": "Here you will soon be able to access and manage all your STEEM funds. In the meantime, you can access your wallet here:",
-    "yourbalance": "Your Account Balance"
-  },
   "langmodal": {
     "title": "Magic Stories from all over the World",
     "text": "More languages coming soon!"
+  },
+  "transfermodal": {
+    "title": "Transfer",
+    "info": "Keep in mind that transactions, including all details, such as amount and memo, will be publicly stored on the Steem blockchain!",
+    "labels": {
+      "recipient": "Recipient:",
+      "amount": "Amount:",
+      "currency": "Currency:",
+      "memo": "Memo:"
+    },
+    "descriptions": {
+      "recipient": "Enter a username to which you want to transfer funds.",
+      "amount": "You have {steem} and {sbd}."
+    },
+    "placeholders": {
+      "recipient": "Username",
+      "amount": "0.001",
+      "memo": "Sent via the-magic-frog.com!"
+    },
+    "submit": "Proceed with SteemConnect"
   }
 }

@@ -1,11 +1,11 @@
 <template>
   <b-container class="text-center">
-    <p class="mb-0">You have:</p>
+    <p class="mb-0">{{ $t('wallet.balance.youhave') }}:</p>
     <h2>{{ user.account.balance }}</h2>
     <h2>{{ user.account.sbd_balance }}</h2>
-    <p class="mt-4 mb-0">Estimated Value in USD:</p>
+    <p class="mt-4 mb-0">{{ $t('wallet.balance.estimatedvalue') }}:</p>
     <h3 class="mt-0">$ {{ estimatedValue }}</h3>
-    <b-btn v-b-modal.transferModal variant="primary" class="mt-3">Transfer</b-btn>
+    <b-btn v-b-modal.transferModal variant="primary" class="mt-3">{{ $t('wallet.balance.transferbutton') }}</b-btn>
   </b-container>
 </template>
 <script>

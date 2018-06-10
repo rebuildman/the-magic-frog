@@ -8,8 +8,8 @@
         <svg class="spinner" viewBox="0 0 24 24" v-if="loading">
           <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
         </svg>
-        <span v-if="loading">Loading...</span>
-        <span v-else>Show more!</span>
+        <span v-if="loading">{{ $t('wallet.history.loading') }}</span>
+        <span v-else>{{ $t('wallet.history.showmore') }}</span>
       </b-button>
     </b-container>
   </div>

@@ -2,12 +2,12 @@
   <b-card class="transfer my-3">
     <h5 :style="{ color: color }">{{ operation.amount }}</h5>
     <div class="text-center">
-      from
-      <a :href="'https://steemit.com/@' + operation.from" target="_blank">{{ username(operation.from) }}</a>
-       to
-      <a :href="'https://steemit.com/@' + operation.to" target="_blank">{{ username(operation.to) }}</a>
+      {{ $t('wallet.history.transfer.from') }}
+      <a :href="'https://steemit.com/@' + operation.from" target="_blank">{{ operation.from }}</a>
+      {{ $t('wallet.history.transfer.to') }}
+      <a :href="'https://steemit.com/@' + operation.to" target="_blank">{{ operation.to }}</a>
     </div>
-    <small class="text-muted text-center d-block mt-3" v-if="operation.memo">Memo:</small>
+    <small class="text-muted text-center d-block mt-3" v-if="operation.memo">{{ $t('wallet.history.transfer.memo') }}:</small>
     <p class="m-0 text-center" v-if="operation.memo">
       {{ operation.memo }}
     </p>
@@ -27,11 +27,6 @@
       },
       date() {
         return this.transfer[1].timestamp.replace('T', ' ');
-      }
-    },
-    methods: {
-      username(username) {
-        return username === this.user.name ? 'you' : '@' + username;
       }
     }
   }
