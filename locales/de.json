@@ -67,8 +67,8 @@
   },
   "archive": {
     "title": "Geschichten Archiv",
-    "themagicstory": "The Magic Story",
-    "audiowillbe": "The audio version will be available once the story is completed!"
+    "themagicstory": "Die Magische Geschichte",
+    "audiowillbe": "Die Audioversion wird verfügbar sein, wenn die Geschichte beendet wurde!"
   },
   "halloffame": {
     "title": "Ruhmeshalle",
@@ -143,8 +143,8 @@
     "submit": "Fortfahren mit SteemConnect"
   },
   "cookie": {
-    "message": "The frog gave you a magic cookie to make you feel good! (And to keep you logged in...)",
-    "dismiss": "Cool! Thanks!",
-    "link": "A magic cookie?"
+    "message": "Der Frosch hat dir einen magischen Cookie gegeben, damit du dich besser fühlst! (Und damit du angemeldet bleibst...)",
+    "dismiss": "Cool! Danke!",
+    "link": "Ein magischer Cookie?"
   }
 }
