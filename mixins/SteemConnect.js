@@ -13,13 +13,6 @@ const SteemConnect = {
       const accessToken = Cookies.get('frog_token');
       if (accessToken) {
         api.setAccessToken(accessToken);
-        api.me((err, user) => {
-          if (err) {
-            console.log(err);
-          } else {
-            this.user = user;
-          }
-        });
       }
       return api;
     },
@@ -37,6 +30,15 @@ const SteemConnect = {
     },
   },
   methods: {
+    login() {
+      this.sc2.me((err, user) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.user = user;
+        }
+      });
+    },
     logout() {
       this.user = null;
       Cookies.remove('frog_token');

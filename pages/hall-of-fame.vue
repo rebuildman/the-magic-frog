@@ -14,12 +14,11 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :user="user" :loginUrl="loginUrl" />
+    <Modals :loginUrl="loginUrl" :user="user" />
   </section>
 </template>
 
 <script>
-  import steem from 'steem'
   import axios from 'axios'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -72,6 +71,9 @@
       let contributors = await getContributors();
 
       return { delegators, contributors };
+    },
+    mounted() {
+      this.login();
     }
   }
 </script>

@@ -77,6 +77,24 @@
     "storytellers": "Geschichtenerzähler",
     "contributions": "Beiträge"
   },
+  "wallet": {
+    "title": "Geldbeutel",
+    "balance": {
+      "youhave": "Du hast",
+      "estimatedvalue": "Geschätzer Wert in USD",
+      "transferbutton": "Geld schicken"
+    },
+    "history": {
+      "title": "Transfer Historie",
+      "loading": "Lädt...",
+      "showmore": "Mehr anzeigen",
+      "transfer": {
+        "from": "von",
+        "to": "an",
+        "memo": "Memo"
+      }
+    }
+  },
   "auth": {
     "openthedoor": "Versuche einzutreten...",
     "nokey": "Du hast leider keinen magischen Schlüssel!"
@@ -100,14 +118,29 @@
     "redirect": "Du wirst nun zum Registrierungsprozess von Steemit.com weitergeleitet.",
     "button": "Erstelle deinen Steem Account"
   },
-  "walletmodal": {
-    "title": "Deine Geldbeutel",
-    "text": "Hier wirst du bald die Möglichkeit haben, auf dein STEEM Guthaben zuzugreifen. In der Zwischenzeit kannst du das aber auch hier tun:",
-    "yourbalance": "Dein Kontostand"
-  },
   "langmodal": {
     "title": "Magische Geschichten aus aller Welt",
     "text": "Mehr Sprachen kommen bald!"
+  },
+  "transfermodal": {
+    "title": "Geld schicken",
+    "info": "Bitte denke daran, dass alle Transaktionen, mit allen Details, wie Betrag und Memo, dauerhaft und öffentlich auf der Steem Blockchain gespeichert werden!",
+    "labels": {
+      "recipient": "Empfänger:",
+      "amount": "Betrag:",
+      "currency": "Währung:",
+      "memo": "Memo:"
+    },
+    "descriptions": {
+      "recipient": "Gib den Benutzernamen an, dem du etwas schicken möchtest.",
+      "amount": "Du hast {steem} und {sbd}."
+    },
+    "placeholders": {
+      "recipient": "Benutzername",
+      "amount": "0.001",
+      "memo": "Gesendet über the-magic-frog.com!"
+    },
+    "submit": "Fortfahren mit SteemConnect"
   },
   "cookie": {
     "message": "The frog gave you a magic cookie to make you feel good! (And to keep you logged in...)",

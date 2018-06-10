@@ -16,9 +16,19 @@ a
   &:hover
     color: #2B4000
 
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle,
+.btn-outline-primary:hover,
 .btn-primary:not(:disabled):not(.disabled)
   background: #557F00
   border-color: #2B4000
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled).focus,
+.show > .btn-outline-primary.dropdown-toggle:focus
+  box-shadow: 0 0 0 0.2rem rgba(128, 191, 0, .5)
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
@@ -28,6 +38,10 @@ a
   background: #2B4000
   border-color: #2B4000
   box-shadow: 0 0 0 0.2rem rgba(128, 191, 0, .5)
+
+.btn-outline-primary
+  color: #557F00
+  border-color: #557F00
 
 .navbar
   .nav-link

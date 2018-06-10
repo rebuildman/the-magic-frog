@@ -9,13 +9,12 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :user="user" :loginUrl="loginUrl" />
+    <Modals :loginUrl="loginUrl" :user="user" />
   </section>
 </template>
 
 <script>
   import marked from 'marked'
-  import steem from 'steem'
   import axios from 'axios'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -55,5 +54,8 @@
 
       return { stories };
     },
+    mounted() {
+      this.login();
+    }
   }
 </script>
