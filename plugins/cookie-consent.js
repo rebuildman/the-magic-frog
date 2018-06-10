@@ -14,9 +14,9 @@ export default () => {
       },
       "theme": "classic",
       "content": {
-        "message": "The frog gave you a magic cookie to make you feel good! (And to keep you logged in...)",
-        "dismiss": "Cool! Thanks!",
-        "link": "A magic cookie?"
+        "message": $t("cookie.message"),
+        "dismiss": $t("cookie.dismiss"),
+        "link": $t("cookie.link")
       }
     })
   });
