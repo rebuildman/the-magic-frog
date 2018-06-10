@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
+    <NavbarLoggedIn v-if="user" :user="user" @logout="logoutAndGoHome" />
     <NavbarLoggedOut v-else/>
     <b-container>
       <h1 class="my-5">Wallet</h1>
@@ -82,6 +82,12 @@
 
       return {transfers: allTransfers};
 
+    },
+    methods: {
+      logoutAndGoHome() {
+        this.$router.push({ name: 'index' });
+        this.logout();
+      }
     },
     mounted() {
       this.login();
