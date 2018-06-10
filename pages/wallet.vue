@@ -3,41 +3,31 @@
     <NavbarLoggedIn v-if="user" :user="user" @logout="logoutAndGoHome" />
     <NavbarLoggedOut v-else/>
     <b-container>
-      <h1 class="my-5">Wallet</h1>
-      <AccountBalance :user="user"/>
-      <div>
-        <h1 class="my-5">Transfer History</h1>
+      <h1 class="mt-5 mb-4">Wallet</h1>
+      <AccountBalance :user="user" v-if="user"/>
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
       </div>
-      <div class="container">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>from</th>
-            <th>to</th>
-            <th>amount</th>
-            <th>memo</th>
-          </tr>
-          </thead>
-          <tbody>
-          <Transfer v-for="(transfer,index) in transfers" :key="index" :transfer="transfer" :index="index"/>
-          </tbody>
-        </table>
+      <h2 class="mt-5 mb-4">Transfer History</h2>
+      <TransferHistory :user="user" v-if="user" />
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
       </div>
     </b-container>
     <Footer />
-    <Modals :loginUrl="loginUrl"/>
+    <Modals :loginUrl="loginUrl" />
   </section>
 </template>
 
 <script>
-  import steem from 'steem'
-  import sc2 from 'sc2-sdk'
-
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
   import NavbarLoggedOut from '~/components/NavbarLoggedOut'
   import Modals from '~/components/Modals'
   import AccountBalance from '~/components/AccountBalance'
-  import Transfer from '~/components/Transfer'
+  import TransferHistory from '~/components/TransferHistory'
+  import Footer from '~/components/Footer'
 
   import SteemConnect from '~/mixins/SteemConnect'
 
@@ -47,41 +37,14 @@
       NavbarLoggedOut,
       Modals,
       AccountBalance,
-      Transfer
+      TransferHistory,
+      Footer
     },
     mixins: [SteemConnect],
     data() {
       return {
-        user: null,
-        transfer: {}
+        user: null
       }
-    },
-    async asyncData() {
-      const getTransfers = function (account) {
-        return new Promise((resolve, reject) => {
-          steem.api.getAccountHistory(account, -1, 1000, (err, res) => {
-            if (!err) {
-              res = res.filter(tx => tx[1].op[0] === "transfer");
-              res = res.reverse();
-              resolve(res);
-            } else {
-              reject(err);
-            }
-          });
-        });
-      };
-
-      let allTransfers = [];
-      let transfers;
-
-      transfers = await getTransfers("aneilpatel");
-
-      for (let i = 0; i < transfers.length; i++) {
-        allTransfers.push(transfers[i]);
-      }
-
-      return {transfers: allTransfers};
-
     },
     methods: {
       logoutAndGoHome() {

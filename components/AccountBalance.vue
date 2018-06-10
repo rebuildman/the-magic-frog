@@ -1,5 +1,5 @@
 <template>
-  <b-container v-if="user" class="text-center">
+  <b-container class="text-center">
     <p class="mb-0">You have:</p>
     <h2>{{ user.account.balance }}</h2>
     <h2>{{ user.account.sbd_balance }}</h2>
@@ -7,10 +7,6 @@
     <h3 class="mt-0">$ {{ estimatedValue }}</h3>
     <b-btn v-b-modal.transferModal variant="success" class="mt-3">Transfer</b-btn>
   </b-container>
-  <div class="upload-spinner" v-else>
-    <div class="dot1"></div>
-    <div class="dot2"></div>
-  </div>
 </template>
 <script>
   import axios from 'axios'
@@ -33,12 +29,11 @@
     },
     mounted() {
       // getting steem price (cmc id 1230)
-      axios.get('https://api.coinmarketcap.com/v2/ticker/1230/').then(result => {
-        this.steemPrice = result.data.data.quotes.USD.price;
-
+      axios.get('https://api.coinmarketcap.com/v2/ticker/1230/').then(steemPrice => {
         // getting sbd price (cmc id 1312)
-        axios.get('https://api.coinmarketcap.com/v2/ticker/1312/').then(result => {
-          this.sbdPrice = result.data.data.quotes.USD.price;
+        axios.get('https://api.coinmarketcap.com/v2/ticker/1312/').then(sbdPrice => {
+          this.steemPrice = steemPrice.data.data.quotes.USD.price;
+          this.sbdPrice = sbdPrice.data.data.quotes.USD.price;
         }).catch((err) => {
           console.log(err);
         });
