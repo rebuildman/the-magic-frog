@@ -19,7 +19,6 @@
     props: ['user'],
     data() {
       return {
-        estimatingValue: true,
         steemPrice: 0,
         sbdPrice: 0
       }
@@ -40,7 +39,6 @@
         // getting sbd price (cmc id 1312)
         axios.get('https://api.coinmarketcap.com/v2/ticker/1312/').then(result => {
           this.sbdPrice = result.data.data.quotes.USD.price;
-          this.estimatingValue = false;
         }).catch((err) => {
           console.log(err);
         });
