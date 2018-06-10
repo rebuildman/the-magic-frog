@@ -14,7 +14,7 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :loginUrl="loginUrl" />
+    <Modals :loginUrl="loginUrl" :user="user" />
   </section>
 </template>
 
