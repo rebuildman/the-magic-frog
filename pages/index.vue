@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" />
+    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
     <NavbarLoggedOut v-else />
     <b-container>
       <div class="text-center py-5">
@@ -147,9 +147,7 @@
 <script>
 import axios from 'axios'
 import steem from 'steem'
-import sc2 from 'sc2-sdk'
 import marked from 'marked'
-import Cookies from 'js-cookie'
 
 import NavbarLoggedIn from '~/components/NavbarLoggedIn'
 import NavbarLoggedOut from '~/components/NavbarLoggedOut'
@@ -158,6 +156,8 @@ import Command from '~/components/Command'
 import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
 import Modals from '~/components/Modals'
+
+import SteemConnect from '~/mixins/SteemConnect'
 
 // TODO: wallet integration
 // TODO: voting weight slider
@@ -174,6 +174,7 @@ export default {
     Footer,
     Modals
   },
+  mixins: [SteemConnect],
   data() {
     return {
       user: null,
@@ -216,38 +217,6 @@ export default {
     return { allStoryPosts, currentCommands }
   },
   computed: {
-    sc2() {
-      const api = sc2.Initialize({
-        app: 'themagicfrog.app',
-        callbackURL: this.redirectUrl,
-        scope: ['vote', 'comment']
-      });
-
-      const accessToken = Cookies.get('frog_token');
-      if (accessToken) {
-        api.setAccessToken(accessToken);
-        api.me((err, user) => {
-          if (err) {
-            console.log(err);
-          } else {
-            this.user = user;
-          }
-        });
-      }
-      return api;
-    },
-    redirectUrl() {
-      if (process.env.NODE_ENV === 'development') {
-        return process.env.scheme + '://' + process.env.host + (process.env.port ? ':' + process.env.port : '') + '/auth';
-      } else if (this.$i18n.fallbackLocale === this.$i18n.locale) {
-        return 'https://the-magic-frog.com/auth'
-      }
-
-      return 'https://' + this.$i18n.locale + '.the-magic-frog.com/auth'
-    },
-    loginUrl() {
-      return this.sc2.getLoginURL();
-    },
     potValue() {
       let pot = 0;
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
@@ -287,43 +256,29 @@ export default {
   },
   methods: {
     async updateData() {
-      console.log('updated data');
-      const getPosts = (accountName, limit = 100) => {
+      // get all delegators for frog account
+      const getCurrentCommands = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(posts);
-            }
+          axios.get('https://api.the-magic-frog.com/submissions?account=' + this.$account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
+      this.currentCommands = await getCurrentCommands();
 
-      const getComments = (accountName, permlink) => {
+      // get all delegators for frog account
+      const getAllStoryPosts = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getContentReplies(accountName, permlink, function(err, comments) {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(comments);
-            }
+          axios.get('https://api.the-magic-frog.com/storyposts?account=' + this.$account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
-
-      let posts = await getPosts(this.$account);
-      let comments = [];
-      for (let i = 0; i < posts.length; i++) {
-        let meta = JSON.parse(posts[i].json_metadata);
-        if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-          comments = await getComments(this.$account, posts[i].permlink);
-          break;
-        }
-      }
-
-      this.posts = posts;
-      this.comments = comments;
+      this.allStoryPosts = await getAllStoryPosts();
     },
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
@@ -334,11 +289,6 @@ export default {
       }
 
       return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
-    },
-    logout() {
-      this.user = null;
-      Cookies.remove('frog_token');
-      return null;
     },
     submitComment() {
       let meta = {
@@ -449,10 +399,8 @@ export default {
       this.$refs.image.value = null;
     }
   },
-  events: {
-    onVoteCasted: function () {
-      this.updateData();
-    },
+  mounted() {
+    this.login();
   }
 }
 </script>
