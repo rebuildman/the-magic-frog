@@ -20,7 +20,7 @@
           </b-col>
           <b-col sm="5">
             <b-form-group id="currency" label="Currency:" label-for="currency">
-              <b-form-radio-group id="currency" buttons button-variant="outline-success" size="md" v-model="currency" :options="options" name="currency"/>
+              <b-form-radio-group id="currency" buttons button-variant="outline-primary" size="md" v-model="currency" :options="options" name="currency"/>
             </b-form-group>
           </b-col>
         </b-row>

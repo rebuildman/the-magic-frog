@@ -5,7 +5,7 @@
     <h2>{{ user.account.sbd_balance }}</h2>
     <p class="mt-4 mb-0">Estimated Value in USD:</p>
     <h3 class="mt-0">$ {{ estimatedValue }}</h3>
-    <b-btn v-b-modal.transferModal variant="success" class="mt-3">Transfer</b-btn>
+    <b-btn v-b-modal.transferModal variant="primary" class="mt-3">Transfer</b-btn>
   </b-container>
 </template>
 <script>
