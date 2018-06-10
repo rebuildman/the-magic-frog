@@ -78,20 +78,20 @@
     "contributions": "Contributions"
   },
   "wallet": {
-    "title": "Wallet",
+    "title": "Portefeuille",
     "balance": {
-      "youhave": "You have",
-      "estimatedvalue": "Estimated Value in USD",
-      "transferbutton": "Transfer"
+      "youhave": "Vous avez",
+      "estimatedvalue": "Valeur estimée en USD",
+      "transferbutton": "Transfert"
     },
     "history": {
-      "title": "Transfer History",
-      "loading": "Loading...",
-      "showmore": "Show more",
+      "title": "Historique de transfert",
+      "loading": "Chargement...",
+      "showmore": "Montre plus",
       "transfer": {
-        "from": "from",
-        "to": "to",
-        "memo": "Memo"
+        "from": "de",
+        "to": "à",
+        "memo": "Mémo"
       }
     }
   },
@@ -123,24 +123,24 @@
     "text": "Plusieurs autres langues à venir bientôt!"
   },
   "transfermodal": {
-    "title": "Transfer",
-    "info": "Keep in mind that transactions, including all details, such as amount and memo, will be publicly stored on the Steem blockchain!",
+    "title": "Transfert",
+    "info": "Gardez à l'esprit que les transactions, y compris tous les détails, tels que le montant et le mémo, seront stockés publiquement sur la blockchain Steem!",
     "labels": {
-      "recipient": "Recipient:",
-      "amount": "Amount:",
-      "currency": "Currency:",
-      "memo": "Memo:"
+      "recipient": "Destinataire:",
+      "amount": "Montant:",
+      "currency": "Monnaie:",
+      "memo": "Mémo:"
     },
     "descriptions": {
-      "recipient": "Enter a username to which you want to transfer funds.",
-      "amount": "You have {steem} and {sbd}."
+      "recipient": "Entrez un nom d'utilisateur auquel vous souhaitez transférer des fonds.",
+      "amount": "Vous avez {steem} et {sbd}."
     },
     "placeholders": {
-      "recipient": "Username",
+      "recipient": "nom d'utilisateur",
       "amount": "0.001",
-      "memo": "Sent via the-magic-frog.com!"
+      "memo": "Envoyé via fr.the-magic-frog.com!"
     },
-    "submit": "Proceed with SteemConnect"
+    "submit": "Continuez avec SteemConnect"
   },
   "cookie": {
     "message": "La grenouille vous a donné un biscuit magique pour vous faire sentir bien! (Et pour vous garder connecté ...)",
