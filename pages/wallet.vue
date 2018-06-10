@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user"/>
+    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
     <NavbarLoggedOut v-else/>
     <b-container>
       <h1 class="my-5">Wallet</h1>
@@ -24,9 +24,11 @@
         </table>
       </div>
     </b-container>
-    <Modals :user="user" :loginUrl="loginUrl"/>
+    <Footer />
+    <Modals :loginUrl="loginUrl"/>
   </section>
 </template>
+
 <script>
   import steem from 'steem'
   import sc2 from 'sc2-sdk'

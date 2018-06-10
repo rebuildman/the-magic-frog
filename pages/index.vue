@@ -135,11 +135,8 @@
         <h3 v-html="$t('index.startingsoon.text', {account: $account})"></h3>
       </div>
     </b-container>
-
     <Footer />
-
-    <Modals :user="user" :loginUrl="loginUrl" />
-
+    <Modals :loginUrl="loginUrl" />
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
   </section>
 </template>

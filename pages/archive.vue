@@ -9,7 +9,7 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :user="user" :loginUrl="loginUrl" />
+    <Modals :loginUrl="loginUrl" />
   </section>
 </template>
 
