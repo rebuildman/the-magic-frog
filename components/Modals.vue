@@ -4,7 +4,7 @@
     <AboutModal />
     <SignupModal />
     <LoginModal :loginUrl="loginUrl" />
-    <TransferModal :user="user" />
+    <TransferModal :user="user" v-if="user" />
   </div>
 </template>
 
