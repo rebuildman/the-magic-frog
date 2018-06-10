@@ -3,7 +3,7 @@
     <div class="archivedStory">
       <h3>
         <a href="#" v-b-modal="'archivedStoryModal' + meta.storyNumber">
-          The Magic Story #{{ meta.storyNumber }}
+          {{ $t('archive.themagicstory') }} #{{ meta.storyNumber }}
         </a>
       </h3>
       <a href="#" v-b-modal="'archivedStoryModal' + meta.storyNumber" class="cover" :style="'background-image: url(' + image + ')'"></a>
@@ -19,7 +19,7 @@
           </svg>
           looking for audio...
         </div>
-        <div v-else>The audio version will be available once the story is completed!</div>
+        <div v-else>{{ $t('archive.audiowillbe') }}</div>
       </div>
     </div>
 
