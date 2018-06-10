@@ -256,43 +256,29 @@ export default {
   },
   methods: {
     async updateData() {
-      console.log('updated data');
-      const getPosts = (accountName, limit = 100) => {
+      // get all delegators for frog account
+      const getCurrentCommands = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getDiscussionsByBlog({tag: accountName, limit: limit}, (err, posts) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(posts);
-            }
+          axios.get('https://api.the-magic-frog.com/submissions?account=' + this.$account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
+      this.currentCommands = await getCurrentCommands();
 
-      const getComments = (accountName, permlink) => {
+      // get all delegators for frog account
+      const getAllStoryPosts = () => {
         return new Promise((resolve, reject) => {
-          steem.api.getContentReplies(accountName, permlink, function(err, comments) {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(comments);
-            }
+          axios.get('https://api.the-magic-frog.com/storyposts?account=' + this.$account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
           });
         });
       };
-
-      let posts = await getPosts(this.$account);
-      let comments = [];
-      for (let i = 0; i < posts.length; i++) {
-        let meta = JSON.parse(posts[i].json_metadata);
-        if (meta.hasOwnProperty('day') && meta.hasOwnProperty('storyNumber')) {
-          comments = await getComments(this.$account, posts[i].permlink);
-          break;
-        }
-      }
-
-      this.posts = posts;
-      this.comments = comments;
+      this.allStoryPosts = await getAllStoryPosts();
     },
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
