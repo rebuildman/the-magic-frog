@@ -23,49 +23,39 @@
       </div>
     </b-modal>
 
-    <b-modal id="userModal" :title="$t('walletmodal.title')" v-if="user" hide-footer>
-      <div class="alert alert-info text-center">
-        {{ $t('walletmodal.text') }}
-        <h4><a :href="'https://steemit.com/@' + user.name + '/transfers'" target="_blank">steemit.com</a></h4>
-      </div>
-      <h4>{{ $t('walletmodal.yourbalance') }}</h4>
-      <div class="text-center">
-        {{ user.account.balance }}<br>
-        {{ user.account.sbd_balance }}
-      </div>
-    </b-modal>
-
     <b-modal id="transferModal" title="Transfer" ref="transferModalRef" hide-footer>
-      <b-form >
+      <b-form>
         <b-row>
-          <b-col sm="3"><label for="SBD">To :</label><br></b-col>
-          <b-col sm="9"><b-form-input v-model="reciever" placeholder="reciever e.g. aneilpatel"></b-form-input></b-col>
+          <b-col sm="3"><label for="SBD">To:</label><br></b-col>
+          <b-col sm="9">
+            <b-form-input v-model="reciever" placeholder="reciever e.g. aneilpatel"></b-form-input>
+          </b-col>
         </b-row>
         <b-row>
-          <b-col sm="3"><label for="SBD">Amount :</label><br></b-col>
-          <b-col sm="9"><b-form-input v-model="amount" placeholder="X.XXX"></b-form-input></b-col>
+          <b-col sm="3"><label for="SBD">Amount:</label><br></b-col>
+          <b-col sm="9">
+            <b-form-input v-model="amount" placeholder="0.001"></b-form-input>
+          </b-col>
         </b-row>
         <b-row>
-          <b-col sm="3"><label for="SBD">Currency :</label><br></b-col>
-          <b-col sm="9"><b-form-radio-group id="cureency"
-                          buttons
-                          button-variant="outline-primary"
-                          size="md"
-                          v-model="currency"
-                          :options="options"
-                          name="currency" />
+          <b-col sm="3"><label for="SBD">Currency:</label><br></b-col>
+          <b-col sm="9">
+            <b-form-radio-group id="cureency" buttons button-variant="outline-primary" size="md" v-model="currency" :options="options" name="currency"/>
           </b-col>
         </b-row>
         <b-row>
           <b-col sm="3"><label for="SBD">Memo :</label><br></b-col>
-          <b-col sm="9"><b-form-textarea v-model="memo" placeholder="memo" rows="3"></b-form-textarea></b-col>
+          <b-col sm="9">
+            <b-form-textarea v-model="memo" placeholder="memo" rows="3"></b-form-textarea>
+          </b-col>
         </b-row>
         <br>
         <div class="b-row text-center" @click="hideModal">
-        <a class="btn btn-primary " :href="transferUrl" target="_blank"  > Send </a>
+          <a class="btn btn-primary " :href="transferUrl" target="_blank"> Send </a>
         </div>
       </b-form>
-  </b-modal>
+    </b-modal>
+
     <b-modal id="langModal" :title="$t('langmodal.title')" hide-footer size="sm">
       <b-row>
         <b-col sm="3" v-for="(lang, index) in langs" :lang="lang" :key="index" class="text-center mb-3">
@@ -91,20 +81,19 @@
     props: ['user', 'loginUrl'],
     data: function(){
       return {
-        reciever:"",
-        amount:0.001,
-        currency:"SBD",
-        memo:"  -sent via the-magic-frog! ",
+        reciever: '',
+        amount: 0.001,
+        currency: 'SBD',
+        memo: 'Sent via the-magic-frog.com!',
         options: [
-        { text: 'STEEM', value: 'STEEM' },
-        { text: 'SBD', value: 'SBD' }
-      ]
-              }
+          { text: 'STEEM', value: 'STEEM' },
+          { text: 'SBD', value: 'SBD' }
+        ]
+      }
     },
     computed:{
       transferUrl:function(){
-      return "https://v2.steemconnect.com/sign/transfer?to="+this.reciever+"&amount="+this.amount+"%20"+this.currency+"&memo="+this.memo;
-
+        return 'https://v2.steemconnect.com/sign/transfer?to=' + this.reciever + '&amount=' + this.amount + '%20' + this.currency + '&memo=' + this.memo;
       },
       langs() {
         return Object.keys(this.$i18n.messages).filter(lang => lang !== this.$i18n.locale && this.disabledLangs.indexOf(lang) === -1);
