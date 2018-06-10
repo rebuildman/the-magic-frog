@@ -398,6 +398,9 @@ export default {
       this.showImageUpload = false;
       this.$refs.image.value = null;
     }
+  },
+  mounted() {
+    this.login();
   }
 }
 </script>

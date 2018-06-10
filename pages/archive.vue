@@ -15,7 +15,6 @@
 
 <script>
   import marked from 'marked'
-  import steem from 'steem'
   import axios from 'axios'
 
   import NavbarLoggedIn from '~/components/NavbarLoggedIn'
@@ -55,5 +54,8 @@
 
       return { stories };
     },
+    mounted() {
+      this.login();
+    }
   }
 </script>
