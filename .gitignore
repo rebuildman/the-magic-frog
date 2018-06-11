@@ -16,3 +16,6 @@ dist
 # Yarn files
 yarn.lock
 yarn-error.log
+
+# Development environment variables
+.env

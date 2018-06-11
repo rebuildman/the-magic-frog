@@ -172,6 +172,14 @@ export default {
     Modals
   },
   mixins: [SteemConnect],
+  head() {
+    return { 
+      title: this.$t('index.themagicfrog'),
+      meta: [
+        { hid: 'description', name: 'description', content: this.$t('index.description') }
+      ] 
+    }
+  },
   data() {
     return {
       user: null,

@@ -15,6 +15,14 @@
   import Cookies from 'js-cookie'
 
   export default {
+    head() {
+      return { 
+        title: this.$t('index.themagicfrog'),
+        meta: [
+          { hid: 'description', name: 'description', content: this.$t('index.description') }
+        ] 
+      }
+    },
     data() {
       return {
         message: this.$t('auth.openthedoor'),
