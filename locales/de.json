@@ -21,6 +21,7 @@
     }
   },
   "index": {
+    "description": "Help the magic frog to remember all his interesting and fun stories and win the pot full of gold!",
     "themagicfrog": "Der Zauberfrosch",
     "storymachine": "Und Die Magische Geschichtenmaschine",
     "helpremember": "Hilf dem Frosch sich an all seine spannenden und lustigen Geschichten zu erinnern, indem du seine magische Geschichtenmaschine mit deinen Vorschlägen fütterst! Die Maschine berechnet dann die wahrscheinlichste (oder lustigste) Variante und erzeugt einige Goldmünzen, die dann am Ende einer jeden Geschichte verlost werden. Du wirst sogar alleine durch deine Teilnahme ein paar Goldmünzen erhalten.",

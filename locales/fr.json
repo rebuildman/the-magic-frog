@@ -21,6 +21,7 @@
     }
   },
   "index": {
+    "description": "Aide la grenouille magique à se souvenir de toutes ses histoires intéressantes et amusantes et gagne le pot plein d'or!",
     "themagicfrog": "La Grenouille Magique",
     "storymachine": "et la mystérieuse machine à histoire",
     "helpremember": "Aidez la grenouille magique à se souvenir de toutes ses histoires amusantes et intéressantes en alimentant la machine à histoire magique avec vos idées sur la façon dont l'histoire pourrait continuer! La machine calcule alors la réponse la plus probable (ou la plus drôle) et génère des pièces d'or pour que vous puissiez gagner à chaque fois qu'une histoire est complétée. Vous pourriez même trouver des pièces en participant.",
