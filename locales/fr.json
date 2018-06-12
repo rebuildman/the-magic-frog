@@ -147,5 +147,13 @@
     "message": "La grenouille vous a donné un biscuit magique pour vous faire sentir bien! (Et pour vous garder connecté ...)",
     "dismiss": "Fantastique! Merci!",
     "link": "Un biscuit magique?"
+  },
+  "footer": {
+    "madewith": "Conçu avec",
+    "by": "par",
+    "maintainers": "Mainteneurs:",
+    "vote": "Voter pour Témoin!",
+    "french": "Français:",
+    "german": "Allemand:"
   }
 }
