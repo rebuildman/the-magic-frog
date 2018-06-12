@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default () => {
   if (process.env.NODE_ENV !== 'production') return
 
@@ -14,9 +16,9 @@ export default () => {
       },
       "theme": "classic",
       "content": {
-        "message": $t("cookie.message"),
-        "dismiss": $t("cookie.dismiss"),
-        "link": $t("cookie.link")
+        "message": Vue.prototype.$t("cookie.message"),
+        "dismiss": Vue.prototype.$t("cookie.dismiss"),
+        "link": Vue.prototype.$t("cookie.link")
       }
     })
   });
