@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export default () => {
+export default ({ app }) => {
   if (process.env.NODE_ENV !== 'production') return
 
   window.addEventListener("load", function() {
@@ -16,9 +16,9 @@ export default () => {
       },
       "theme": "classic",
       "content": {
-        "message": Vue.prototype.$t("cookie.message"),
-        "dismiss": Vue.prototype.$t("cookie.dismiss"),
-        "link": Vue.prototype.$t("cookie.link")
+        "message": app.i18n.t("cookie.message"),
+        "dismiss": app.i18n.t("cookie.dismiss"),
+        "link": app.i18n.t("cookie.link")
       }
     })
   });
