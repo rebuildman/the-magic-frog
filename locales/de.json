@@ -147,5 +147,13 @@
     "message": "Der Frosch hat dir einen magischen Cookie gegeben, damit du dich besser fühlst! (Und damit du angemeldet bleibst...)",
     "dismiss": "Cool! Danke!",
     "link": "Ein magischer Cookie?"
+  },
+  "footer": {
+    "madewith": "Made with",
+    "by": "by",
+    "maintainers": "Maintainers:",
+    "vote": "Vote for Witness!",
+    "french": "French:",
+    "german": "German:"
   }
 }
