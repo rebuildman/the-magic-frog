@@ -149,11 +149,11 @@
     "link": "Ein magischer Cookie?"
   },
   "footer": {
-    "madewith": "Made with",
-    "by": "by",
-    "maintainers": "Maintainers:",
-    "vote": "Vote for Witness!",
-    "french": "French:",
-    "german": "German:"
+    "madewith": "Gemacht mit",
+    "by": "von",
+    "maintainers": "Ansprechpartner:",
+    "vote": "Für Witness stimmen!",
+    "french": "Fanzösisch:",
+    "german": "Deutsch:"
   }
 }
