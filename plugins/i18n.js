@@ -27,7 +27,8 @@ export default ({ app, store }, inject) => {
   }
 
   let accounts = {
-    en: 'the-magic-frog',
+    en: 'analyzer',
+    // en: 'the-magic-frog',
     de: 'der-zauberfrosch',
     fr: 'grenouille',
   }

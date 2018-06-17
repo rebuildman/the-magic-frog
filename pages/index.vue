@@ -56,7 +56,25 @@
         <h2 class="pt-5">{{ $t('index.nowitsyourturn') }}</h2>
         <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
-        <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" v-if="user" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" @submit.prevent="submitComment">
+          <div v-if="!user" class="alert alert-info mx-auto" style="max-width: 500px;">
+            {{ $t('index.form.guestnote') }}
+          </div>
+
+          <div v-if="!user" class="text-center mb-3">
+            <b-button variant="primary" v-b-modal.scRedirectModal>
+              <svg viewBox="0 0 24 24">
+                <path d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z" />
+              </svg>
+              {{ $t('nav.login') }}
+            </b-button>
+            <b-button variant="primary" class="ml-2" v-b-modal.steemSignupModal>
+              <svg viewBox="0 0 24 24">
+                <path d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z" />
+              </svg>
+              {{ $t('nav.signup') }}
+            </b-button>
+          </div>
           <div v-if="!endStory">
             <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
@@ -82,17 +100,19 @@
                 <div class="dot2"></div>
               </div>
             </div>
-            <div v-if="currentStoryPosts.length > 10">
-              <hr>
-              <p class="text-center my-4">
-                {{ $t('index.form.stopit') }}<br>
-                <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">{{ $t('index.form.theend') }}</b-button>
-              </p>
-            </div>
-            <div v-else>
-              <p class="text-center my-4">
-                <small class="text-muted"><i>{{ $t('index.form.after10days') }}</i></small>
-              </p>
+            <div v-if="user">
+              <div v-if="currentStoryPosts.length > 10">
+                <hr>
+                <p class="text-center my-4">
+                  {{ $t('index.form.stopit') }}<br>
+                  <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">{{ $t('index.form.theend') }}</b-button>
+                </p>
+              </div>
+              <div v-else>
+                <p class="text-center my-4">
+                  <small class="text-muted"><i>{{ $t('index.form.after10days') }}</i></small>
+                </p>
+              </div>
             </div>
           </div>
           <div v-if="endStory" class="text-center mb-4">
@@ -121,14 +141,6 @@
             </button>
           </div>
         </form>
-        <div v-if="!user" class="text-center">
-          <b-button variant="primary" class="login-button mx-auto" v-b-modal.scRedirectModal>
-            <svg viewBox="0 0 24 24">
-              <path d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z" />
-            </svg>
-            {{ $t('index.form.logintowrite') }}
-          </b-button>
-        </div>
       </div>
       <div class="mb-4 text-center" v-if="!latestStoryPost">
         <h1>{{ $t('index.startingsoon.title') }}</h1>
@@ -296,18 +308,74 @@ export default {
       return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
     },
     submitComment() {
+      if (this.user) {
+        let meta = {
+          type: 'append',
+          appendText: this.commandInput.trim(),
+          comment: this.commentInput.trim(),
+          image: this.image || '', // don't set to null, would be removed if edited via steemit.com
+          author: this.user.name
+        };
+
+        if (this.endStory) {
+          meta.type = 'end';
+          meta.appendText = '# The End!';
+        }
+
+        if (meta.appendText || meta.image) {
+          let body = '';
+          if (meta.appendText) {
+            body += '> ' + meta.appendText + '\n\n';
+          }
+
+          if (meta.image) {
+            body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+          }
+
+          if (meta.comment) {
+            body += meta.comment;
+          }
+
+          let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+
+          this.submitLoading = true;
+          this.sc2.comment(
+            this.$account,
+            this.latestStoryPost.permlink,
+            this.user.name,
+            permlink,
+            '',
+            body,
+            meta,
+            (err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                this.commandInput = '';
+                this.commentInput = '';
+                this.submitLoading = false;
+                this.showSuccessMessage = true;
+                this.showImageUpload = false;
+                this.image = null;
+                this.$refs.image.value = null;
+
+                this.updateData();
+              }
+            }
+          );
+        }
+      } else {
+        this.submitGuestComment();
+      }
+    },
+    submitGuestComment() {
       let meta = {
         type: 'append',
         appendText: this.commandInput.trim(),
         comment: this.commentInput.trim(),
         image: this.image || '', // don't set to null, would be removed if edited via steemit.com
-        author: this.user.name
+        author: 'the-fly-swarm'
       };
-
-      if (this.endStory) {
-        meta.type = 'end';
-        meta.appendText = '# The End!';
-      }
 
       if (meta.appendText || meta.image) {
         let body = '';
@@ -326,36 +394,20 @@ export default {
         let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
 
         this.submitLoading = true;
-        this.sc2.comment(
-          this.$account,
-          this.latestStoryPost.permlink,
-          this.user.name,
-          permlink,
-          '',
-          body,
-          meta,
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              this.commandInput = '';
-              this.commentInput = '';
-              this.submitLoading = false;
-              this.showSuccessMessage = true;
-              this.showImageUpload = false;
-              this.image = null;
-              this.$refs.image.value = null;
-
-              steem.api.getContentReplies(this.$account, this.latestStoryPost.permlink, (err, comments) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  this.comments = comments;
-                }
-              });
-            }
+        steem.broadcast.comment(process.env.guestAccountKey, this.$account, this.latestStoryPost.permlink, 'the-fly-swarm', permlink, '', body, meta, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            this.commandInput = '';
+            this.commentInput = '';
+            this.submitLoading = false;
+            this.showSuccessMessage = true;
+            this.showImageUpload = false;
+            this.image = null;
+            this.$refs.image.value = null;
+            this.updateData();
           }
-        );
+        });
       }
     },
     onImageChange() {

@@ -7,6 +7,7 @@ module.exports = {
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || '',
     delegatorsApiKey: process.env.DELEGATORS_API_KEY || '',
+    guestAccountKey: process.env.GUEST_ACCOUNT_KEY || '',
   },
 
   /*
