@@ -34,12 +34,14 @@
       }
     },
     methods: {
+      // method for initial and lazy loading of transfers
       loadTransfers() {
         this.loading = true;
         steem.api.getAccountHistory(this.user.name, this.start, this.limit, (err, result) => {
           if (err) {
             console.log(err);
           } else {
+            // show only transfers (no votes, comments, etc.)
             result = result.filter(tx => tx[1].op[0] === 'transfer');
             result.reverse();
             this.transfers.push(...result);
@@ -53,6 +55,7 @@
       }
     },
     mounted() {
+      // load initial transfers list
       this.loadTransfers();
     }
   }

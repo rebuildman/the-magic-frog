@@ -51,6 +51,7 @@
         return JSON.parse(this.story.json_metadata);
       },
       image() {
+        // look for first image in the story (will act as the cover)
         let image = null;
         this.meta.commands.forEach(command => {
           if (!image && command.hasOwnProperty('image') && command.image) {
@@ -65,6 +66,7 @@
       }
     },
     mounted() {
+      // check if audio file for story exists
       axios.get('/audio/the-magic-story-' + this.meta.storyNumber + '-' + this.$i18n.locale + '.mp3').then(res => {
         this.hasAudio = res.status === 200;
         this.audioIsLoading = false;

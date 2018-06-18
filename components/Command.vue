@@ -1,5 +1,6 @@
 <template>
   <div class="comment text-center">
+    <!-- User/Submission/Comment -->
     <div class="comment-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + command.author + '/avatar/small)' }"></div>
     <div class="comment-username"><a :href="'https://steemit.com/@' + command.author" target="_blank">{{ command.author }}</a> {{ $t('command.wrote') }}</div>
     <div class="comment-command" v-html="appendHtml" v-if="meta.appendText"></div>
@@ -10,6 +11,8 @@
       <sub>{{ $t('command.comment') }}</sub><br>
       <div class="comment-comment" v-html="commentHtml"></div>
     </div>
+
+    <!-- Buttons -->
     <div>
       <LikeButton @voteCasted="$parent.updateData" size="sm" :user="user" :author="command.author" :permlink="command.permlink" :showLikes="true" v-if="user" />
       <b-button size="sm" variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
@@ -25,6 +28,8 @@
         {{ $t('command.edit') }}
       </b-button>
     </div>
+
+    <!-- Edit Modal -->
     <b-modal :id="'editModal-' + command.permlink" :title="$t('command.editmodal.title')" hide-footer>
       <form class="mx-auto command-form" style="border: none;" @submit.prevent="editComment">
         <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
@@ -101,6 +106,7 @@
       }
     },
     methods: {
+      // TODO: avoid all this duplicated code somehow (from pages/index.vue)
       limitCommandCharacters() {
         this.commandInput = this.commandInput.substr(0, 250);
       },

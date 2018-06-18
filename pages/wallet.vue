@@ -40,6 +40,7 @@
     },
     mixins: [SteemConnect],
     head() {
+      // localizing meta description
       return { 
         title: this.$t('index.themagicfrog'),
         meta: [
@@ -49,16 +50,18 @@
     },
     data() {
       return {
-        user: null
+        user: null // logged in user
       }
     },
     methods: {
       logoutAndGoHome() {
+        // redirect user to homepage after logout
         this.$router.push({ name: 'index' });
         this.logout();
       }
     },
     mounted() {
+      // login via steemconnect (see: mixins/SteemConnect)
       this.login();
     }
   }

@@ -3,6 +3,7 @@
     <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
     <NavbarLoggedOut v-else />
     <b-container>
+      <!-- Header -->
       <div class="text-center py-5">
         <img src="/avatar.png" alt=""/>
         <h1 class="pt-4">{{ $t('index.themagicfrog') }}</h1>
@@ -10,6 +11,7 @@
         <p class="lead pt-5">{{ $t('index.helpremember') }}</p>
       </div>
 
+      <!-- Pot -->
       <div class="text-center pb-5">
         <h2 class="pt-5 pb-3">{{ $t('index.fullofgold') }}</h2>
         <img src="/pot.png" alt=""/>
@@ -26,11 +28,13 @@
           </b-button>
         </div>
 
+        <!-- Explaination -->
         <p class="mt-5" v-html="$t('index.itsfree')"></p>
         <p v-html="$t('index.thiswebsite')"></p>
         <p v-html="$t('index.theinfluence')"></p>
       </div>
 
+      <!-- Current Story -->
       <div class="py-5" v-if="latestStoryPost">
         <div class="text-center">
           <h2>{{ $t('index.read') }}</h2>
@@ -44,10 +48,12 @@
         </div>
       </div>
 
+      <!-- Continue -->
       <div class="mx-auto mb-4" style="max-width: 800px;" v-if="latestStoryPost">
         <h2 class="pt-5">{{ $t('index.howwillthestorygoon') }}</h2>
         <p class="text-center mt-4">{{ $t('index.firstread') }}</p>
 
+        <!-- Current Submissions -->
         <div id="comments">
           <Command v-for="command in currentCommands" :key="command.id" :command="command" :user="user" />
           <p class="text-center" v-if="!currentCommands.length">{{ $t('index.thereareno') }}</p>
@@ -56,11 +62,14 @@
         <h2 class="pt-5">{{ $t('index.nowitsyourturn') }}</h2>
         <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
+        <!-- Submission Form -->
         <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" @submit.prevent="submitComment">
+          <!-- Guest Note -->
           <div v-if="!user" class="alert alert-info mx-auto" style="max-width: 500px;">
             {{ $t('index.form.guestnote') }}
           </div>
 
+          <!-- Login/Signup if not logged in -->
           <div v-if="!user" class="text-center mb-3">
             <b-button variant="primary" v-b-modal.scRedirectModal>
               <svg viewBox="0 0 24 24">
@@ -75,9 +84,13 @@
               {{ $t('nav.signup') }}
             </b-button>
           </div>
+
           <div v-if="!endStory">
+            <!-- Append Text Input -->
             <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
             <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
+
+            <!-- Image Upload -->
             <div v-if="!showImageUpload" class="text-center my-4">
               <p v-html="$t('index.form.youcaneven')"></p>
               <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
@@ -100,6 +113,8 @@
                 <div class="dot2"></div>
               </div>
             </div>
+
+            <!-- End Story -->
             <div v-if="user">
               <div v-if="currentStoryPosts.length > 10">
                 <hr>
@@ -115,6 +130,8 @@
               </div>
             </div>
           </div>
+
+          <!-- The End (Submit "The End" or Upvote other's "The End" submission if exists) -->
           <div v-if="endStory" class="text-center mb-4">
             <h3><i>{{ $t('index.form.theend') }}</i></h3>
             <div v-if="endCommand">
@@ -126,6 +143,8 @@
             </div>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">{{ $t('index.form.justkidding') }}</b-button>
           </div>
+
+          <!-- Personal Note and Submit Button -->
           <div v-if="!(endStory && endCommand)">
             <hr>
             <p class="text-center mt-4 mb-1">{{ $t('index.form.addpersonalnote') }}</p>
@@ -142,11 +161,14 @@
           </div>
         </form>
       </div>
+
+      <!-- Starting Soon notification for new instances where no post is published yet -->
       <div class="mb-4 text-center" v-if="!latestStoryPost">
         <h1>{{ $t('index.startingsoon.title') }}</h1>
         <h3 v-html="$t('index.startingsoon.text', {account: $account})"></h3>
       </div>
     </b-container>
+
     <Footer />
     <Modals :loginUrl="loginUrl" :user="user" />
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
@@ -168,7 +190,6 @@ import Modals from '~/components/Modals'
 
 import SteemConnect from '~/mixins/SteemConnect'
 
-// TODO: wallet integration
 // TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
 // TODO: implement revenue mechanism for delegetors
@@ -185,6 +206,7 @@ export default {
   },
   mixins: [SteemConnect],
   head() {
+    // localizing meta description
     return { 
       title: this.$t('index.themagicfrog'),
       meta: [
@@ -194,14 +216,14 @@ export default {
   },
   data() {
     return {
-      user: null,
-      endStory: false,
-      commandInput: '',
-      commentInput: '',
-      submitLoading: false,
+      user: null, // logged in user
+      endStory: false, // true when user clicks "The End" to suggest the end of the story
+      commandInput: '', // input for the text to append to the story
+      commentInput: '', // additional comment input
+      submitLoading: false, // loading indicator for form submit
       showSuccessMessage: false,
-      image: null,
-      imageIsUploading: false,
+      image: null, // image url from imgur upload
+      imageIsUploading: false, // loading indicator for image upload
       showImageUpload: false,
       showImageUploadInfo: true
     }
@@ -301,6 +323,8 @@ export default {
       this.commandInput = this.commandInput.substr(0, 250);
     },
     getPostPot(post) {
+      // pot is half of the author rewards from all story posts
+      // (that's basically the liquid SBD reward since the posts are set to 50/50)
       if (post.last_payout === '1970-01-01T00:00:00') {
         return parseFloat(post.pending_payout_value.replace(' SBD', '')) * 0.75 / 2;
       }
@@ -308,7 +332,9 @@ export default {
       return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
     },
     submitComment() {
+      // if there's no user, use submitGuestComment instead
       if (this.user) {
+        // comment's json_metadata
         let meta = {
           type: 'append',
           appendText: this.commandInput.trim(),
@@ -323,21 +349,22 @@ export default {
         }
 
         if (meta.appendText || meta.image) {
+          // build comment body
           let body = '';
           if (meta.appendText) {
             body += '> ' + meta.appendText + '\n\n';
           }
-
           if (meta.image) {
             body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
           }
-
           if (meta.comment) {
             body += meta.comment;
           }
 
+          // unique permlink
           let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
 
+          // broadcast
           this.submitLoading = true;
           this.sc2.comment(
             this.$account,
@@ -351,6 +378,7 @@ export default {
               if (err) {
                 console.log(err);
               } else {
+                // reset form
                 this.commandInput = '';
                 this.commentInput = '';
                 this.submitLoading = false;
@@ -359,16 +387,19 @@ export default {
                 this.image = null;
                 this.$refs.image.value = null;
 
+                // update data from blockchain (posts/comments)
                 this.updateData();
               }
             }
           );
         }
       } else {
+        // if not logged in, submit as guest
         this.submitGuestComment();
       }
     },
     submitGuestComment() {
+      // comment's json_metadata
       let meta = {
         type: 'append',
         appendText: this.commandInput.trim(),
@@ -378,26 +409,28 @@ export default {
       };
 
       if (meta.appendText || meta.image) {
+        // build comment body
         let body = '';
         if (meta.appendText) {
           body += '> ' + meta.appendText + '\n\n';
         }
-
         if (meta.image) {
           body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
         }
-
         if (meta.comment) {
           body += meta.comment;
         }
 
+        // unique permlink
         let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
 
+        // broadcast
         this.submitLoading = true;
         steem.broadcast.comment(process.env.guestAccountKey, this.$account, this.latestStoryPost.permlink, 'the-fly-swarm', permlink, '', body, meta, (err) => {
           if (err) {
             console.log(err);
           } else {
+            // reset form
             this.commandInput = '';
             this.commentInput = '';
             this.submitLoading = false;
@@ -405,6 +438,8 @@ export default {
             this.showImageUpload = false;
             this.image = null;
             this.$refs.image.value = null;
+
+            // update data from blockchain (posts/comments)
             this.updateData();
           }
         });
@@ -412,6 +447,8 @@ export default {
     },
     onImageChange() {
       // TODO: add validation of filesize and type
+
+      // check browser support
       if (!window || !window.File || !window.FileReader || !window.FileList || !window.Blob) {
         alert('The File APIs are not fully supported in this browser.');
       } else if (!this.$refs.image.files) {
@@ -419,8 +456,10 @@ export default {
       } else if (!this.$refs.image.files[0]) {
         alert("No file selected.");
       } else {
+        // get file from input
         let file = this.$refs.image.files[0];
 
+        // read actual file and upload to imgur
         let fr = new FileReader();
         fr.onload = () => {
           this.imageIsUploading = true;
@@ -431,6 +470,7 @@ export default {
             .replace('data:image/jpeg;base64,', '')
             .replace('data:image/gif;base64,', '');
 
+          // popst image to imgur
           axios({
             method: 'post',
             url: 'https://api.imgur.com/3/image',
@@ -443,6 +483,7 @@ export default {
               'content-type': 'application/json'
             },
           }).then(result => {
+            // and story the result
             this.imageIsUploading = false;
             this.image = result.data.data.link;
           });
@@ -457,6 +498,7 @@ export default {
     }
   },
   mounted() {
+    // login via steemconnect (see: mixins/SteemConnect)
     this.login();
   }
 }

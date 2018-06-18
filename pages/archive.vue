@@ -35,7 +35,8 @@
     },
     mixins: [SteemConnect],
     head() {
-      return { 
+      // localizing meta description
+      return {
         title: this.$t('index.themagicfrog'),
         meta: [
           { hid: 'description', name: 'description', content: this.$t('index.description') }
@@ -44,7 +45,7 @@
     },
     data() {
       return {
-        user: null
+        user: null // logged in user
       }
     },
     async asyncData(context) {
@@ -63,6 +64,7 @@
       return { stories };
     },
     mounted() {
+      // login via steemconnect (see: mixins/SteemConnect)
       this.login();
     }
   }
