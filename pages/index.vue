@@ -345,7 +345,7 @@ export default {
 
         if (this.endStory) {
           meta.type = 'end';
-          meta.appendText = '# The End!';
+          meta.appendText = '# '+ $t('index.form.theend') +'!';
         }
 
         if (meta.appendText || meta.image) {
