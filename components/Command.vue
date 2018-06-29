@@ -7,6 +7,7 @@
     <div v-if="meta.image" class="text-center my-3">
       <img :src="meta.image" alt="" class="img-fluid" />
     </div>
+    <h3 v-if="meta.type === 'end'">{{ $t('index.form.theend') }}</h3>
     <div v-if="meta.comment">
       <sub>{{ $t('command.comment') }}</sub><br>
       <div class="comment-comment" v-html="commentHtml"></div>
