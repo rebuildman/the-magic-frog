@@ -139,7 +139,7 @@
               <Command :command="endCommand" :user="user" />
             </div>
             <div v-else>
-              <p v-html="$t('index.form.ifthecommunity')"></p>
+              <p v-html="$t('index.form.ifthecommunity', {potValue: potValue})"></p>
             </div>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">{{ $t('index.form.justkidding') }}</b-button>
           </div>
