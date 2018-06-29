@@ -59,7 +59,7 @@
       "thanksforparticipating": "Merci d'avoir participé! Si vous avez plus d'idées, n'hésitez pas à les soumettre aussi.",
       "submit": "Soumettre!",
       "commentplaceholder": "Quelle histoire incroyable!",
-      "guestnote": "You are not logged in! You can still participate as a guest but you will not earn any rewards and you can not edit your submissions."
+      "guestnote": "Vous n'êtes pas connecté! Vous pouvez toujours participer en tant qu'invité, mais vous ne recevrez aucune récompense et vous ne pourrez pas modifier vos soumissions."
     },
     "startingsoon": {
       "title": "La première histoire va commencer bientôt!",
@@ -152,7 +152,7 @@
     "madewith": "Conçu avec",
     "by": "par",
     "maintainers": "Mainteneurs:",
-    "vote": "Voter pour Témoin!",
+    "vote": "Votez pour Témoin!",
     "french": "Français:",
     "german": "Allemand:"
   }
