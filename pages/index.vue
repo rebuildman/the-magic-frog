@@ -152,6 +152,7 @@
             <div v-if="showSuccessMessage" class="text-center alert alert-success">
               {{ $t('index.form.thanksforparticipating') }}
             </div>
+            <b-button v-if="showSuccessMessage" class="btn btn-sm btn-block btn-outline-success mt-3" @click="showSuccessMessage= false">{{ $t('index.form.participateagain') }}</b-button>
             <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
               <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
                 <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
