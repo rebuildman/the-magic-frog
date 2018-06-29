@@ -22,7 +22,7 @@
         </svg>
         {{ $t('command.logintovote') }}
       </b-button>
-      <b-button size="sm" variant="secondary" class="ml-3" v-b-modal="'editModal-' + command.permlink" v-if="user && user.name === command.author && meta.type === 'append'">
+      <b-button size="sm" variant="secondary" class="ml-3" v-b-modal="'editModal-' + command.permlink" v-if="user && user.name === command.author">
         <svg viewBox="0 0 24 24">
           <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
         </svg>
@@ -33,30 +33,41 @@
     <!-- Edit Modal -->
     <b-modal :id="'editModal-' + command.permlink" :title="$t('command.editmodal.title')" hide-footer>
       <form class="mx-auto command-form" style="border: none;" @submit.prevent="editComment">
-        <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
-        <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
-        <div v-if="!showImageUpload" class="text-center my-4">
-          <p v-html="$t('index.form.youcaneven')"></p>
-          <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
-        </div>
-        <div v-if="showImageUpload">
-          <p class="text-center my-4">
-            <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
-            <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
-            <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">{{ $t('index.form.changedmymind') }}</b-button>
-          </p>
-          <div class="upload-spinner" v-if="imageIsUploading">
-            <div class="dot1"></div>
-            <div class="dot2"></div>
+        <div v-if="showForm">
+          <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
+          <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
+          <div v-if="!showImageUpload" class="text-center my-4">
+            <p v-html="$t('index.form.youcaneven')"></p>
+            <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
           </div>
+          <div v-if="showImageUpload">
+            <p class="text-center my-4">
+              <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
+              <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
+              <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">{{ $t('index.form.changedmymind') }}</b-button>
+            </p>
+            <div class="upload-spinner" v-if="imageIsUploading">
+              <div class="dot1"></div>
+              <div class="dot2"></div>
+            </div>
+          </div>
+          <div v-if="endStoryInit">
+            <hr>
+            <h3 class="text-center" v-if="endStory">{{ $t('index.form.theend') }}</h3>
+            <div class="text-center">
+              <b-button class="btn btn-outline-danger the-end-button" @click="endStory = true" v-if="!endStory">{{ $t('index.form.theend') }}</b-button>
+              <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = false" v-else>{{ $t('index.form.dontstopit') }}</b-button>
+            </div>
+          </div>
+          <hr>
+          <p class="text-center mt-4 mb-1">{{ $t('index.form.addpersonalnote') }}</p>
+          <textarea class="w-100" :placeholder="$t('index.form.commentplaceholder')" v-model="commentInput"></textarea>
         </div>
-        <hr>
-        <p class="text-center mt-4 mb-1">{{ $t('index.form.addpersonalnote') }}</p>
-        <textarea class="w-100" :placeholder="$t('index.form.commentplaceholder')" v-model="commentInput"></textarea>
-        <div v-if="showSuccessMessage" class="text-center alert alert-success">
+
+        <div class="text-center alert alert-success" v-if="showSuccessMessage">
           {{ $t('index.form.thanksforparticipating') }}
         </div>
-        <button class="btn btn-primary d-block w-100 mt-3" v-if="!showSuccessMessage">
+        <button class="btn btn-primary d-block w-100 mt-3" v-else>
           <svg class="spinner" viewBox="0 0 24 24" v-if="submitLoading">
             <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
           </svg>
@@ -82,11 +93,14 @@
     props: ['user', 'command'],
     data() {
       return {
+        showForm: true,
         commandInput: '',
         commentInput: '',
         submitLoading: false,
         showSuccessMessage: false,
         image: null,
+        endStory: null,
+        endStoryInit: null,
         imageIsUploading: false,
         showImageUpload: false,
         showImageUploadInfo: true
@@ -113,23 +127,25 @@
       },
       editComment() {
         let meta = {
-          type: 'append',
+          type: this.endStory ? 'end' : 'append',
           appendText: this.commandInput.trim(),
           comment: this.commentInput.trim(),
           image: this.image || '', // don't set to null, would be removed if edited via steemit.com
           author: this.user.name
         };
 
-        if (meta.appendText || meta.image) {
+        if (meta.appendText || meta.image || this.endStory) {
+          // build comment body
           let body = '';
           if (meta.appendText) {
             body += '> ' + meta.appendText + '\n\n';
           }
-
           if (meta.image) {
             body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
           }
-
+          if (this.endStory) {
+            body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
+          }
           if (meta.comment) {
             body += meta.comment;
           }
@@ -147,13 +163,9 @@
               if (err) {
                 console.log(err);
               } else {
-                this.commandInput = '';
-                this.commentInput = '';
+                this.showForm = false;
                 this.submitLoading = false;
                 this.showSuccessMessage = true;
-                this.showImageUpload = false;
-                this.image = null;
-                this.$refs.image.value = null;
 
                 this.$parent.updateData();
               }
@@ -211,6 +223,8 @@
       this.commandInput = this.meta.appendText;
       this.commentInput = this.meta.comment;
       this.image = this.meta.image;
+      this.endStoryInit = this.meta.type === 'end';
+      this.endStory = this.endStoryInit;
       if (this.image) {
         this.showImageUpload = true;
       }

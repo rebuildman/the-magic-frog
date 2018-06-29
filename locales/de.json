@@ -50,6 +50,8 @@
       "licensenote": "Ok, super! Aber bitte bedenke, dass nur Bilder in die finale Geschichte mit aufgenommen werden können, die unter der <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\">CC0 Lizens</a> stehen. Bevorzugterweise lädst du einfach deine eigene kreative Arbeit hoch und stellst sie somit uneingeschränkt der <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\">Public Domain</a> zur Verfügung.",
       "changedmymind": "Hab meine Meinung geändert. Kein Bild bitte!",
       "stopit": "Nein, ich denke die Geschichte sollte nun enden!",
+      "stopit2": "Jetzt kann die Geschichte zuende gehen!",
+      "dontstopit": "Ich möchte die Geschichte doch nicht beenden!",
       "theend": "Ende!",
       "after10days": "(Nach 10 Tagen kannst du vorschlagen, die Geschichte zu beenden und den Topf voll Gold zu verteilen.)",
       "endalreadysuggested": "Es hat schon jemand vorgeschlagen, die Geschichte zu beenden. Stimme für ihn/sie ab, damit es auch passiert. Der Topf voll Gold ($ {potValue}) wird dann an alle, die zur Geschichte beigetragen haben, verteilt und am nächsten Tag startet eine neue Geschichte!",

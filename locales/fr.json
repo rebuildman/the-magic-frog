@@ -50,6 +50,8 @@
       "licensenote": "S'il vous plaît noter que seules les images sous la <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\"> Licence CC0 </a>peut être inclus dans l'histoire finale. De préférence, ne téléchargez que votre propre travail et, ce faisant, vous acceptez de le fournir au <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\"> domaine public </a>.",
       "changedmymind": "Changé d'avis. Aucune image s'il vous plaît!",
       "stopit": "Non, je pense que cette histoire devrait se terminer maintenant!",
+      "stopit2": "Now the story can end!",
+      "dontstopit": "No, I don't want to end the story!",
       "theend": "La fin!",
       "after10days": "(Après 10 jours, vous pouvez suggérer de terminer l'histoire et de distribuer le pot.)",
       "endalreadysuggested": "Il y a déjà quelqu'un qui suggère de mettre fin à l'histoire. Votez pour lui/elle pour y arriver! Le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire et un nouveau commencera le jour suivant!",

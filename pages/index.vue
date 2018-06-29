@@ -85,41 +85,44 @@
             </b-button>
           </div>
 
+          <!-- Append Text Input -->
+          <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
+          <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
+
+          <!-- Image Upload -->
+          <div v-if="!showImageUpload" class="text-center my-4">
+            <p v-html="$t('index.form.youcaneven')"></p>
+            <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
+          </div>
+          <div v-if="showImageUpload">
+            <p class="text-center my-4">
+              <b-alert variant="info"
+                       dismissible
+                       :show="showImageUploadInfo"
+                       @dismissed="showImageUploadInfo=false"
+                       class="text-left"
+                       v-html="$t('index.form.licensenote')">
+              </b-alert>
+              <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
+              <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
+              <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">{{ $t('index.form.changedmymind') }}</b-button>
+            </p>
+            <div class="upload-spinner" v-if="imageIsUploading">
+              <div class="dot1"></div>
+              <div class="dot2"></div>
+            </div>
+          </div>
+
+          <hr>
+
           <div v-if="!endStory">
-            <!-- Append Text Input -->
-            <input class="w-100" id="command" :placeholder="$t('index.form.appendplaceholder')" v-model="commandInput" @keyup="limitCommandCharacters" @keydown="limitCommandCharacters" />
-            <sup class="d-block text-center text-muted pt-3"><span id="command-char-count">{{ commandCharactersLeft }}</span> {{ $t('index.form.charactersleft') }}</sup>
-
-            <!-- Image Upload -->
-            <div v-if="!showImageUpload" class="text-center my-4">
-              <p v-html="$t('index.form.youcaneven')"></p>
-              <b-button  @click="showImageUpload = true" class="btn btn-outline-success">{{ $t('index.form.yesupload') }}</b-button>
-            </div>
-            <div v-if="showImageUpload">
-              <p class="text-center my-4">
-                <b-alert variant="info"
-                         dismissible
-                         :show="showImageUploadInfo"
-                         @dismissed="showImageUploadInfo=false"
-                         class="text-left"
-                         v-html="$t('index.form.licensenote')">
-                </b-alert>
-                <input type="file" v-on:change="onImageChange" class="w-100 d-block" ref="image" />
-                <img :src="image" v-if="image" alt="uploaded image" class="img-fluid w-100 uploaded-image" />
-                <b-button size="sm" class="btn btn-outline-danger mt-3" @click="resetImage">{{ $t('index.form.changedmymind') }}</b-button>
-              </p>
-              <div class="upload-spinner" v-if="imageIsUploading">
-                <div class="dot1"></div>
-                <div class="dot2"></div>
-              </div>
-            </div>
-
             <!-- End Story -->
             <div v-if="user">
               <div v-if="currentStoryPosts.length > 10">
-                <hr>
                 <p class="text-center my-4">
-                  {{ $t('index.form.stopit') }}<br>
+                  <span v-if="!commandInput">{{ $t('index.form.stopit') }}</span>
+                  <span v-else>{{ $t('index.form.stopit2') }}</span>
+                  <br>
                   <b-button class="btn btn-outline-danger mt-3 the-end-button" @click="endStory = true">{{ $t('index.form.theend') }}</b-button>
                 </p>
               </div>
@@ -337,19 +340,14 @@ export default {
       if (this.user) {
         // comment's json_metadata
         let meta = {
-          type: 'append',
+          type: this.endStory ? 'end' : 'append',
           appendText: this.commandInput.trim(),
           comment: this.commentInput.trim(),
           image: this.image || '', // don't set to null, would be removed if edited via steemit.com
           author: this.user.name
         };
 
-        if (this.endStory) {
-          meta.type = 'end';
-          meta.appendText = '# '+ $t('index.form.theend') +'!';
-        }
-
-        if (meta.appendText || meta.image) {
+        if (meta.appendText || meta.image || this.endStory) {
           // build comment body
           let body = '';
           if (meta.appendText) {
@@ -357,6 +355,9 @@ export default {
           }
           if (meta.image) {
             body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+          }
+          if (this.endStory) {
+            body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
           }
           if (meta.comment) {
             body += meta.comment;
@@ -386,6 +387,7 @@ export default {
                 this.showSuccessMessage = true;
                 this.showImageUpload = false;
                 this.image = null;
+                this.endStory = false;
                 this.$refs.image.value = null;
 
                 // update data from blockchain (posts/comments)
