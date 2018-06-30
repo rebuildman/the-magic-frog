@@ -1,7 +1,7 @@
 {
   "nav": {
     "whatisthis": "Qu'est-ce que c'est?",
-    "archive": "Archive des histoires",
+    "archive": "Bibliothèque des histoires",
     "halloffame": "Temple de la renommée",
     "signup": "Inscription",
     "login": "Connexion",
@@ -50,8 +50,8 @@
       "licensenote": "S'il vous plaît noter que seules les images sous la <a href=\"https://wiki.creativecommons.org/wiki/CC0\" target=\"_blank\"> Licence CC0 </a>peut être inclus dans l'histoire finale. De préférence, ne téléchargez que votre propre travail et, ce faisant, vous acceptez de le fournir au <a href=\"https://wiki.creativecommons.org/wiki/Public_domain\" target=\"_blank\"> domaine public </a>.",
       "changedmymind": "Changé d'avis. Aucune image s'il vous plaît!",
       "stopit": "Non, je pense que cette histoire devrait se terminer maintenant!",
-      "stopit2": "Now the story can end!",
-      "dontstopit": "No, I don't want to end the story!",
+      "stopit2": "Maintenant, l'histoire peut se terminer!",
+      "dontstopit": "Non, je ne veux pas finir l'histoire!",
       "theend": "La fin!",
       "after10days": "(Après 10 jours, vous pouvez suggérer de terminer l'histoire et de distribuer le pot.)",
       "endalreadysuggested": "Il y a déjà quelqu'un qui suggère de mettre fin à l'histoire. Votez pour lui/elle pour y arriver! Le pot ($ {potValue}) sera distribué à tous les participants qui ont contribué à l'histoire et un nouveau commencera le jour suivant!",
@@ -60,7 +60,7 @@
       "addpersonalnote": "Ici vous pouvez ajouter une note personnelle si vous le souhaitez:",
       "thanksforparticipating": "Merci d'avoir participé! Si vous avez plus d'idées, n'hésitez pas à les soumettre aussi.",
       "submit": "Soumettre!",
-      "participateagain": "I have another idea!",
+      "participateagain": "J'ai une autre idée!",
       "commentplaceholder": "Quelle histoire incroyable!",
       "guestnote": "Vous n'êtes pas connecté! Vous pouvez toujours participer en tant qu'invité, mais vous ne recevrez aucune récompense et vous ne pourrez pas modifier vos soumissions."
     },
@@ -70,7 +70,7 @@
     }
   },
   "archive": {
-    "title": "Archive des histoires",
+    "title": "Bibliothèque des histoires",
     "themagicstory": "Histoire Magique",
     "audiowillbe": "La version audio sera disponible une fois l'histoire terminée!"
   },
