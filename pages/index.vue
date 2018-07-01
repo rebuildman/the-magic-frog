@@ -196,7 +196,7 @@ import SteemConnect from '~/mixins/SteemConnect'
 
 // TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
-// TODO: implement revenue mechanism for delegetors
+// TODO: add comment preview
 
 export default {
   components: {
