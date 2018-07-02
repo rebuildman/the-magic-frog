@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <b-modal class="storyModal" :id="'archivedStoryModal' + meta.storyNumber" :title="'The Magic Story #' + meta.storyNumber" size="lg" hide-footer>
+    <b-modal class="storyModal" :id="'archivedStoryModal' + meta.storyNumber" :title="$t('archive.themagicstory') + ' #' + meta.storyNumber" size="lg" hide-footer>
       <h1 class="mb-5">{{ meta.startPhrase }}</h1>
       <StoryPart v-for="(part, index) in meta.commands" :key="index" :part="part" />
       <h2 class="text-center" v-if="!hasEnded">{{ meta.toBeContinued }}</h2>
