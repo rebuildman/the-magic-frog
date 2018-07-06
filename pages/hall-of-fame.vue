@@ -79,7 +79,19 @@
       };
       let contributors = await getContributors();
 
-      return { delegators, contributors };
+      // get curators
+      const getCurators = () => {
+        return new Promise((resolve, reject) => {
+          axios.get('https://api.the-magic-frog.com/curators?account=' + context.app.account).then((result) => {
+            resolve(result.data);
+          }).catch((err) => {
+            reject(err);
+          });
+        });
+      };
+      let curators = await getCurators();
+
+      return { delegators, contributors, curators };
     },
     mounted() {
       // login via steemconnect (see: mixins/SteemConnect)
