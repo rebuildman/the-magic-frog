@@ -4,19 +4,25 @@
       <h2>#{{ index + 1 }}</h2>
       <div class="curator-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + curator.voter + '/avatar/large)', width: imageSize + 'px', height: imageSize + 'px' }"></div>
       <h3><a :href="'https://steemit.com/@' + curator.voter" target="_blank">@{{ curator.voter }}</a></h3>
-      <h5>{{ $t('halloffame.curated') }}: {{ curator.rshares }} SBD</h5>
+      <h5>{{ $t('halloffame.curated') }}: {{ gestimatedSBD }} SBD</h5>
     </div>
   </b-col>
 </template>
 
 <script>
+  import Steem from '~/mixins/Steem'
+
   export default {
+    mixins: [Steem],
     props: ['curator', 'index'],
     computed: {
       imageSize() {
         // image size based on position:
         // 1st: 150px, 2nd: 100px, 3rd and following: 50px
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
+      },
+      gestimatedSBD() {
+        return (curator.rshares * Steem.getRewardBalance() / Steem.getRecentClaims() * Steem.getSBDPriceFactor).toFixed(3);
       }
     }
   }
