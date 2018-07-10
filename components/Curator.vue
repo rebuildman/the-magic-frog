@@ -2,9 +2,9 @@
   <b-col sm="12" md="4" class="mb-4 d-flex align-items-center justify-content-end flex-column">
     <div class="flex-column">
       <h2>#{{ index + 1 }}</h2>
-      <div class="curator-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + curator.curator + '/avatar/large)', width: imageSize + 'px', height: imageSize + 'px' }"></div>
-      <h3><a :href="'https://steemit.com/@' + curator.curator" target="_blank">@{{ curator.curator }}</a></h3>
-      <h5>{{ $t('halloffame.curated') }}: {{ curator.sbd.toFixed(0) }} SBD</h5>
+      <div class="curator-profile-image" :style="{ backgroundImage: 'url(https://steemitimages.com/u/' + curator.voter + '/avatar/large)', width: imageSize + 'px', height: imageSize + 'px' }"></div>
+      <h3><a :href="'https://steemit.com/@' + curator.voter" target="_blank">@{{ curator.voter }}</a></h3>
+      <h5>{{ $t('halloffame.curated') }}: {{ curator.rshares }} SBD</h5>
     </div>
   </b-col>
 </template>

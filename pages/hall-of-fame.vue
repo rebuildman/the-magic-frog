@@ -8,7 +8,11 @@
       <b-row v-if="delegators.length">
         <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
       </b-row>
-      <h2 v-if="delegators.length">{{ $t('halloffame.storytellers') }}</h2>
+      <h2 v-if="curators.length">{{ $t('halloffame.curators') }}</h2>
+      <b-row v-if="curators.length">
+        <Curator v-for="(curator, index) in curators" :key="index" :index="index" :curator="curator" />
+      </b-row>
+      <h2 v-if="contributors.length">{{ $t('halloffame.storytellers') }}</h2>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>
@@ -27,6 +31,7 @@
   import Modals from '~/components/Modals'
   import Contributor from '~/components/Contributor'
   import Delegator from '~/components/Delegator'
+  import Curator from '~/components/Curator'
 
   import SteemConnect from '~/mixins/SteemConnect'
 
@@ -37,7 +42,8 @@
       Footer,
       Modals,
       Contributor,
-      Delegator
+      Delegator,
+      Curator
     },
     mixins: [SteemConnect],
     head() {
@@ -82,7 +88,7 @@
       // get curators
       const getCurators = () => {
         return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/curators?account=' + context.app.account).then((result) => {
+          axios.get('https://api.the-magic-frog.com/curators?top=12&account=' + context.app.account).then((result) => {
             resolve(result.data);
           }).catch((err) => {
             reject(err);
@@ -91,7 +97,7 @@
       };
       let curators = await getCurators();
 
-      return { delegators, contributors, curators };
+      return { delegators, contributors, curators }; 
     },
     mounted() {
       // login via steemconnect (see: mixins/SteemConnect)
