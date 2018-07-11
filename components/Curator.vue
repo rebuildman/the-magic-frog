@@ -10,20 +10,43 @@
 </template>
 
 <script>
-  import Steem from '~/mixins/Steem'
 
   export default {
-    mixins: [Steem],
-    props: ['curator', 'index'],
+    props: ['curator', 'index', 'rsharesToSBDFactor'],
     computed: {
       imageSize() {
         // image size based on position:
         // 1st: 150px, 2nd: 100px, 3rd and following: 50px
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
       },
-      gestimatedSBD() {
-        return (this.curator.rshares * this.getRewardBalance / this.getRecentClaims * this.getSBDPriceFactor).toFixed(3);
+      gestimatedSBD() {        
+        return (this.curator.rshares * this.getRsharesToSBDFactor).toFixed(3);
       }
+    },
+  methods: {
+    getRsharesToSBDFactor() {
+      return new Promise((resolve, reject) => {
+        // get reward fund for posts
+        steem.api.getRewardFund('post', (err, fund) => {
+          if (err) reject(err);
+          else {
+            const rewardBalance = parseFloat(fund.reward_balance.replace(' STEEM', ''));
+            const recentClaims = parseInt(fund.recent_claims);
+
+            // get SBD price factor
+            steem.api.getCurrentMedianHistoryPrice((err, price) => {
+              if (err) reject(err);
+              else {
+                const SBDPrice = parseFloat(price.base.replace(' SBD', ''));
+
+                // calculate SBD value for each vote
+                resolve(rewardBalance / recentClaims * SBDPrice);
+                }
+              });
+            }
+          });
+        });
+      },
     }
   }
 </script>
