@@ -24,29 +24,6 @@
       }
     },
   methods: {
-    getRsharesToSBDFactor() {
-      return new Promise((resolve, reject) => {
-        // get reward fund for posts
-        steem.api.getRewardFund('post', (err, fund) => {
-          if (err) reject(err);
-          else {
-            const rewardBalance = parseFloat(fund.reward_balance.replace(' STEEM', ''));
-            const recentClaims = parseInt(fund.recent_claims);
-
-            // get SBD price factor
-            steem.api.getCurrentMedianHistoryPrice((err, price) => {
-              if (err) reject(err);
-              else {
-                const SBDPrice = parseFloat(price.base.replace(' SBD', ''));
-
-                // calculate SBD value for each vote
-                resolve(rewardBalance / recentClaims * SBDPrice);
-                }
-              });
-            }
-          });
-        });
-      },
     }
   }
 </script>
