@@ -10,7 +10,7 @@
       </b-row>
       <h2 v-if="curators.length">{{ $t('halloffame.curators') }}</h2>
       <b-row v-if="curators.length">
-        <Curator v-for="(curator, index, rsharesToSBDFactor) in curators" :key="index" :index="index" :curator="curator" />
+        <Curator v-for="(curator, index) in curators" :key="index" :index="index" :curator="curator" :rsharesToSBDFactor="rsharesToSBDFactor" />
       </b-row>
       <h2 v-if="contributors.length">{{ $t('halloffame.storytellers') }}</h2>
       <b-row>
