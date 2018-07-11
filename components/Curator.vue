@@ -22,7 +22,7 @@
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
       },
       gestimatedSBD() {
-        return (this.curator.rshares * this.getRewardBalance() / this.getRecentClaims() * this.getSBDPriceFactor()).toFixed(3);
+        return (this.curator.rshares * this.getRewardBalance / this.getRecentClaims * this.getSBDPriceFactor).toFixed(3);
       }
     }
   }

@@ -10,39 +10,35 @@ const Steem = {
       }, (err, res) => {
         if (err) console.log(err);
         else {
-          let post = res[0];
+          return res[0];
         }
       });
-      return post;
     },
     getRewardBalance() {
       // get reward fund for posts
-      steem.api.getRewardFund(this.getPost(), (err, fund) => {
+      steem.api.getRewardFund(this.getPost, (err, fund) => {
         if (err) console.log(err);
         else {
-          const rewardBalance = parseFloat(fund.reward_balance.replace(' STEEM', ''));
+          return parseFloat(fund.reward_balance.replace(' STEEM', ''));
         }
       });
-      return rewardBalance;
     },
     getRecentClaims() {
-      steem.api.getRewardFund(this.getPost(), (err, fund) => {
+      steem.api.getRewardFund(this.getPost, (err, fund) => {
         if (err) console.log(err);
         else {
-          const recentClaims = parseInt(fund.recent_claims);
+          return parseInt(fund.recent_claims);
         }
       });
-      return recentClaims;
     },
     getSBDPriceFactor() {
       // get SBD price factor
       steem.api.getFeedHistory((err, feed) => {
         if (err) console.log(err);
         else {
-          const SBDPriceFactor = parseFloat(feed.current_median_history.base.replace(' SBD', ''));
+          return parseFloat(feed.current_median_history.base.replace(' SBD', ''));
         }
       });
-      return SBDPriceFactor;
     },
   },
   methods: {
