@@ -19,8 +19,10 @@
         // 1st: 150px, 2nd: 100px, 3rd and following: 50px
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
       },
-      gestimatedSBD() {        
-        return (this.curator.rshares * this.getRsharesToSBDFactor).toFixed(3);
+      gestimatedSBD() { 
+        console.log("this.curator.rshares:"+this.curator.rshares);   
+        console.log("this.rsharesToSBDFactor:"+this.rsharesToSBDFactor);    
+        return (this.curator.rshares * this.rsharesToSBDFactor).toFixed(3);
       }
     },
   methods: {
