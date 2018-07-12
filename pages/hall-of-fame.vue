@@ -89,6 +89,7 @@
       // get curators
       const getCurators = () => {
         return new Promise((resolve, reject) => {
+          // Getting the top 12 curators of the frog account
           axios.get('https://api.the-magic-frog.com/curators?top=12&account=' + context.app.account).then((result) => {
             resolve(result.data);
           }).catch((err) => {

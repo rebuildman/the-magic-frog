@@ -20,6 +20,8 @@
         return this.index === 0 ? 150 : (this.index === 1 ? 100 : 50);
       },
       gestimatedSBD() {  
+        // The guess estimation of the SBD value is subject to price fluctuations.
+        // Each added up vote for all post of a curator is multiplied by the pool and price factors.
         return (this.curator.rshares * this.rsharesToSBDFactor).toFixed(2);
       }
     },
