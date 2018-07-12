@@ -1,4 +1,6 @@
 const pkg = require('./package')
+// Allow self signed certs for dev
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 module.exports = {
   mode: 'universal',
