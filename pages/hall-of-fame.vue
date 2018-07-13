@@ -8,11 +8,11 @@
       <b-row v-if="delegators.length">
         <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
       </b-row>
-      <h2 v-if="curators.length">{{ $t('halloffame.curators') }}</h2>
+      <h2 class="mt-5 pt-5" v-if="curators.length">{{ $t('halloffame.curators') }}</h2>
       <b-row v-if="curators.length">
         <Curator v-for="(curator, index) in curators" :key="index" :index="index" :curator="curator" :rsharesToSBDFactor="rsharesToSBDFactor" />
       </b-row>
-      <h2 v-if="contributors.length">{{ $t('halloffame.storytellers') }}</h2>
+      <h2 class="mt-5 pt-5" v-if="contributors.length">{{ $t('halloffame.storytellers') }}</h2>
       <b-row>
         <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
       </b-row>
