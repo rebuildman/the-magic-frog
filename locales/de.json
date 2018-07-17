@@ -42,6 +42,21 @@
     "thereareno": "Heute gibt es noch keine Vorschläge. Schreibe den ersten!",
     "nowitsyourturn": "Jetzt bist du dran!",
     "continuewriting": "Schreibe die Geschichte da weiter, wo sie aufgehört hat, so dass sie witzig oder spannend bleibt und eventuell sogar Sinn ergibt. Sei kreativ!",
+    "rewards": {
+      "whogetswhat": "Wer bekommt was?",
+      "luckystoryteller": "Glücklicher Geschichtenerzähler",
+      "otherstorytellers": "Alle anderen Geschichtenerzähler",
+      "otherstorytellersinfo": "Pro Einreichung",
+      "curators": "Kuratoren",
+      "curatorsinfo": "Verteilt je nach Einfluss",
+      "delegators": "Sponsoren",
+      "delegatorsinfo": "Verteilt je nach Delegation",
+      "youare": "Du bist",
+      "estimatedreward": "Geschätze Belohnung",
+      "storyteller": "Geschichtenerzähler",
+      "curator": "Kurator",
+      "delegator": "Delegierer"
+    },
     "form": {
       "appendplaceholder": "Und sie lebten glücklich bis ans Ende ihrer Tage!",
       "charactersleft": "Zeichen übrig.",

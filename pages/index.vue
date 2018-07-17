@@ -26,6 +26,32 @@
             </svg>
             {{ $t('index.logintogeneratemore') }}
           </b-button>
+
+          <!-- Pot distribution -->
+          <div class="border-box mx-auto mt-3" style="max-width: 400px;">
+            <h4 class="pt-2">{{ $t('index.rewards.whogetswhat') }}</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item ">
+                {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b>
+              </li>
+              <li class="list-group-item ">
+                {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b><br>
+                <small>({{ (potValue * 0.5 / latestStoryPostMeta.commands.length).toFixed(2) + ' SBD ' + $t('index.rewards.otherstorytellersinfo') }})</small>
+              </li>
+              <li class="list-group-item ">
+                {{ $t('index.rewards.curators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                <small>({{ $t('index.rewards.curatorsinfo') }})</small>
+              </li>
+              <li class="list-group-item ">
+                {{ $t('index.rewards.delegators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                <small>({{ $t('index.rewards.delegatorsinfo') }})</small>
+              </li>
+              <li class="list-group-item bg-transparent" v-if="user">
+                {{ $t('index.rewards.youare') }}: <b>{{ youAre }}</b><br>
+                {{ $t('index.rewards.estimatedreward') }}: <b>{{ estimatedUserReward }} SBD</b>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <!-- Explaination -->
@@ -63,7 +89,7 @@
         <p class="text-center mt-4">{{ $t('index.continuewriting') }}</p>
 
         <!-- Submission Form -->
-        <form class="mt-4 p-4 mx-auto command-form" style="max-width: 500px;" @submit.prevent="submitComment">
+        <form class="mt-4 p-4 mx-auto command-form border-box" style="max-width: 500px;" @submit.prevent="submitComment">
           <!-- Guest Note -->
           <div v-if="!user" class="alert alert-info mx-auto" style="max-width: 500px;">
             {{ $t('index.form.guestnote') }}
@@ -257,7 +283,31 @@ export default {
     };
     let allStoryPosts = await getAllStoryPosts();
 
-    return { allStoryPosts, currentCommands }
+    const getDelegators = () => {
+      return new Promise((resolve, reject) => {
+        axios.get('https://api.the-magic-frog.com/delegators?account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
+        });
+      });
+    };
+    let delegators = await getDelegators();
+
+    // get curators
+    const getCurators = () => {
+      return new Promise((resolve, reject) => {
+        // Getting the top 12 curators of the frog account
+        axios.get('https://api.the-magic-frog.com/curators?top=12&account=' + context.app.account).then((result) => {
+          resolve(result.data);
+        }).catch((err) => {
+          reject(err);
+        });
+      });
+    };
+    let curators = await getCurators();
+
+    return { allStoryPosts, currentCommands, delegators, curators }
   },
   computed: {
     potValue() {
@@ -267,6 +317,77 @@ export default {
       }
       pot *= 0.95; // 5 % goes to beneficiaries
       return pot.toFixed(2);
+    },
+    isDelegator () {
+      return this.delegators.findIndex(delegator => {
+        return delegator.delegator === this.user.account.name
+      }) !== -1;
+    },
+    isCurator () {
+      return this.curators.findIndex(curator => {
+        return curator.voter === this.user.account.name
+      }) !== -1;
+    },
+    isStoryteller () {
+      return this.latestStoryPostMeta.commands.findIndex(command => {
+        return command.user === this.user.account.name
+      }) !== -1;
+    },
+    youAre () {
+      let roles = [];
+      if (this.isStoryteller) roles.push(this.$t('index.rewards.storyteller'));
+      if (this.isCurator) roles.push(this.$t('index.rewards.curator'));
+      if (this.isDelegator) roles.push(this.$t('index.rewards.delegator'));
+
+      return roles.join(', ')
+    },
+    estimatedUserReward () {
+      let reward = 0;
+      let contributions = 0;
+
+      // storyteller rewards
+      if (this.isStoryteller) {
+        this.latestStoryPostMeta.commands.forEach(command => {
+          if (command.user === this.user.account.name) contributions++;
+        });
+        if (contributions) {
+          reward += (this.potValue * 0.5 / this.latestStoryPostMeta.commands.length * contributions);
+        }
+      }
+
+      if (this.isCurator) {
+        let curator = this.curators.find(curator => curator.voter === this.user.account.name)
+        if (curator) {
+          let percentage = curator.rshares / this.totalCuration * 100;
+          reward += (this.potValue * 0.25) * percentage / 100;
+        }
+      }
+
+      if (this.isDelegator) {
+        let delegator = this.delegators.find(delegator => delegator.delegator === this.user.account.name)
+        if (delegator) {
+          let percentage = delegator.sp / this.totalDelegation * 100;
+          reward += (this.potValue * 0.25) * percentage / 100;
+        }
+      }
+
+      return reward.toFixed(2);
+    },
+    totalCuration () {
+      let totalCuration = 0;
+      this.curators.forEach(curator => {
+        totalCuration += curator.rshares;
+      });
+
+      return totalCuration;
+    },
+    totalDelegation () {
+      let totalDelegation = 0;
+      this.delegators.forEach(delegator => {
+        totalDelegation += delegator.sp;
+      });
+
+      return totalDelegation;
     },
     currentStoryPosts() {
       return this.allStoryPosts.filter(post => {

@@ -42,6 +42,21 @@
     "thereareno": "Il n'y a pas de commentaires pour le moment Soyez le premier!",
     "nowitsyourturn": "Maintenant c'est ton tour!",
     "continuewriting": "Continuez à écrire l'histoire là où elle s'est arrêtée, de sorte que c'est drôle ou excitant à lire et peut-être même un peu logique. Sois créatif!",
+    "rewards": {
+      "whogetswhat": "Who gets what?",
+      "luckystoryteller": "Lucky Storyteller",
+      "otherstorytellers": "Other Storytellers",
+      "otherstorytellersinfo": "per contribution",
+      "curators": "Curators",
+      "curatorsinfo": "distributed according to curation strength",
+      "delegators": "Delegators",
+      "delegatorsinfo": "distributed according to delegation",
+      "youare": "You are",
+      "estimatedreward": "Estimated reward",
+      "storyteller": "Storyteller",
+      "curator": "Curator",
+      "delegator": "Delegator"
+    },
     "form": {
       "appendplaceholder": "Et il vécurent heureux pour l'éternité!",
       "charactersleft": "caractères restants.",
