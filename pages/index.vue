@@ -27,30 +27,36 @@
             {{ $t('index.logintogeneratemore') }}
           </b-button>
 
+
           <!-- Pot distribution -->
-          <div class="border-box mx-auto mt-3" style="max-width: 400px;">
-            <h4 class="pt-2">{{ $t('index.rewards.whogetswhat') }}</h4>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b>
-              </li>
-              <li class="list-group-item">
-                {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b><br>
-                <small>({{ (potValue * 0.5 / latestStoryPostMeta.commands.length).toFixed(2) + ' SBD ' + $t('index.rewards.otherstorytellersinfo') }})</small>
-              </li>
-              <li class="list-group-item">
-                {{ $t('index.rewards.curators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
-                <small>({{ $t('index.rewards.curatorsinfo') }})</small>
-              </li>
-              <li class="list-group-item">
-                {{ $t('index.rewards.delegators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
-                <small>({{ $t('index.rewards.delegatorsinfo') }})</small>
-              </li>
-              <li class="list-group-item bg-transparent" v-if="user">
-                {{ $t('index.rewards.youare') }}: <b>{{ youAre }}</b><br>
-                {{ $t('index.rewards.estimatedreward') }}: <b>{{ estimatedUserReward }} SBD</b>
-              </li>
-            </ul>
+          <div class="mt-3">
+            <button v-b-toggle="'rewardsInfo'" class="btn btn-sm btn-outline-secondary">
+              {{ $t('index.rewards.whogetswhat') }}
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <b-collapse id="rewardsInfo" class="border-box mx-auto mt-3" style="max-width: 400px;">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent" style="font-size: 1.2rem">
+                  {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b>
+                </li>
+                <li class="list-group-item">
+                  {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b><br>
+                  <small class="text-muted">({{ (potValue * 0.5 / latestStoryPostMeta.commands.length).toFixed(2) + ' SBD ' + $t('index.rewards.otherstorytellersinfo') }})</small>
+                </li>
+                <li class="list-group-item">
+                  {{ $t('index.rewards.curators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                  <small class="text-muted">({{ $t('index.rewards.curatorsinfo') }})</small>
+                </li>
+                <li class="list-group-item">
+                  {{ $t('index.rewards.delegators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                  <small class="text-muted">({{ $t('index.rewards.delegatorsinfo') }})</small>
+                </li>
+                <li class="list-group-item bg-transparent" v-if="user">
+                  {{ $t('index.rewards.youare') }}: <b>{{ youAre }}</b><br>
+                  {{ $t('index.rewards.estimatedreward') }}: <b>{{ estimatedUserReward }} SBD</b>
+                </li>
+              </ul>
+            </b-collapse>
           </div>
         </div>
 
