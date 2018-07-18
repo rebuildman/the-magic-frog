@@ -37,11 +37,11 @@
             <b-collapse id="rewardsInfo" class="border-box mx-auto mt-3" style="max-width: 400px;">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-transparent" style="font-size: 1.2rem">
-                  {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b>
+                  {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b>
                 </li>
                 <li class="list-group-item">
-                  {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.5).toFixed(2) }} SBD</b><br>
-                  <small class="text-muted">({{ (potValue * 0.5 / latestStoryPostMeta.commands.length).toFixed(2) + ' SBD ' + $t('index.rewards.otherstorytellersinfo') }})</small>
+                  {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.25 / latestStoryPostMeta.commands.length).toFixed(2) }} SBD</b><br>
+                  <small class="text-muted">({{ $t('index.rewards.otherstorytellersinfo') }})</small>
                 </li>
                 <li class="list-group-item">
                   {{ $t('index.rewards.curators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
@@ -304,7 +304,7 @@ export default {
     const getCurators = () => {
       return new Promise((resolve, reject) => {
         // Getting the top 12 curators of the frog account
-        axios.get('https://api.the-magic-frog.com/curators?top=12&account=' + context.app.account).then((result) => {
+        axios.get('https://api.the-magic-frog.com/curators?top=100&account=' + context.app.account).then((result) => {
           resolve(result.data);
         }).catch((err) => {
           reject(err);
