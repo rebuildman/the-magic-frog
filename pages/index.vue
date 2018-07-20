@@ -73,7 +73,8 @@
           <img src="/divider.png" alt="" class="img-fluid"/>
           <div id="currentStory" class="text-center">
             <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
-            <StoryPart v-for="(part, index) in latestStoryPostMeta.commands" :key="index" :part="part" />
+            <StoryPart v-for="i in range(0, showFullStory ? latestStoryPostMeta.commands.length - 1 : 9)" :key="'part-' + i" :part="latestStoryPostMeta.commands[i]" />
+            <b-btn class="btn-outline-secondary" v-if="!showFullStory" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
             <h3 class="mt-4">{{ $t('index.tobe') }}</h3>
           </div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
@@ -261,7 +262,8 @@ export default {
       image: null, // image url from imgur upload
       imageIsUploading: false, // loading indicator for image upload
       showImageUpload: false,
-      showImageUploadInfo: true
+      showImageUploadInfo: true,
+      showFullStory: false
     }
   },
   async asyncData(context) {
@@ -625,6 +627,13 @@ export default {
       this.image = null;
       this.showImageUpload = false;
       this.$refs.image.value = null;
+    },
+    range (start, end) {
+      let range = [];
+      for (let i = start; i <= end; i++) {
+        range.push(i);
+      }
+      return range;
     }
   },
   mounted() {
