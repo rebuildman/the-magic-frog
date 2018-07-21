@@ -80,7 +80,6 @@
           this.loading = false;
           if (err) {
             console.log(err);
-            // TODO: Make more use of those notifications
             this.$notify({
               group: 'errors',
               title: 'Oh no! An error occurred! :(',
@@ -88,6 +87,19 @@
             });
           } else {
             this.hasVoted = weight > 0;
+            if (this.hasVoted) {
+              this.$notify({
+                group: 'success',
+                title: 'Vote casted!',
+                text: 'Thank you for casting a vote!'
+              });
+            } else {
+              this.$notify({
+                group: 'success',
+                title: 'Vote removed!',
+                text: 'Your vote has been successfully removed!'
+              });
+            }
             this.$emit('voteCasted'); // emit event to update data
             // update votes
             steem.api.getActiveVotes(this.author, this.permlink, (err, votes) => {

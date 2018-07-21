@@ -209,6 +209,7 @@
     <Footer />
     <Modals :loginUrl="loginUrl" :user="user" />
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
+    <notifications group="success" classes="vue-notification success" position="top center" :duration="8000" />
   </section>
 </template>
 
@@ -508,6 +509,11 @@ export default {
             (err) => {
               if (err) {
                 console.log(err);
+                this.$notify({
+                  group: 'errors',
+                  title: 'Oh no! An error occurred! :(!',
+                  text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+                });
               } else {
                 // reset form
                 this.commandInput = '';
@@ -521,6 +527,12 @@ export default {
 
                 // update data from blockchain (posts/comments)
                 this.updateData();
+
+                this.$notify({
+                  group: 'success',
+                  title: 'Submission successful!',
+                  text: 'Thank you for helping to tell a magic story!'
+                });
               }
             }
           );
@@ -561,6 +573,11 @@ export default {
         steem.broadcast.comment(process.env.guestAccountKey, this.$account, this.latestStoryPost.permlink, 'the-fly-swarm', permlink, '', body, meta, (err) => {
           if (err) {
             console.log(err);
+            this.$notify({
+              group: 'errors',
+              title: 'Oh no! An error occurred! :(!',
+              text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+            });
           } else {
             // reset form
             this.commandInput = '';
@@ -573,6 +590,12 @@ export default {
 
             // update data from blockchain (posts/comments)
             this.updateData();
+
+            this.$notify({
+              group: 'success',
+              title: 'Submission successful!',
+              text: 'Thank you for helping to tell a magic story!'
+            });
           }
         });
       }

@@ -162,12 +162,23 @@
             (err) => {
               if (err) {
                 console.log(err);
+                this.$notify({
+                  group: 'errors',
+                  title: 'Oh no! An error occurred! :(!',
+                  text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+                });
               } else {
                 this.showForm = false;
                 this.submitLoading = false;
                 this.showSuccessMessage = true;
 
                 this.$parent.updateData();
+
+                this.$notify({
+                  group: 'success',
+                  title: 'Submission successfully edited!',
+                  text: 'Your submission was successfully updated. Thank you for helping to tell a magic story!'
+                });
               }
             }
           );
