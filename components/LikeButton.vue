@@ -3,7 +3,7 @@
 
     <!-- Buttons without Likes Counter -->
     <!-- Like -->
-    <b-button :size="size" variant="primary" class="like-button" @click="vote(10000)" v-if="!hasVoted && !showLikes">
+    <b-button :size="size" variant="primary" class="like-button" v-if="!hasVoted && !showLikes" @click="$refs['voteControlModal-' + permlink].show()">
       <svg viewBox="0 0 24 24" v-if="!loading">
         <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
       </svg>
@@ -29,7 +29,7 @@
     <!-- Like -->
     <b-button-group :size="size" v-if="!hasVoted && showLikes" class="like-button-group">
       <b-button disabled variant="outline-secondary">{{ votes.length }}</b-button>
-      <b-button variant="primary" class="like-button" @click="vote(10000)">
+      <b-button variant="primary" class="like-button" @click="$refs['voteControlModal-' + permlink].show()">
         <svg viewBox="0 0 24 24" v-if="!loading">
           <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
         </svg>
@@ -53,6 +53,25 @@
         {{ unlikeLabel || $t('likebutton.unlike') }}
       </b-button>
     </b-button-group>
+
+    <b-modal :ref="'voteControlModal-' + permlink" :id="'voteControlModal-' + permlink" hide-footer :title="$t('votemodal.title')">
+      <div class="text-center"><small class="text-muted">{{ $t('votemodal.adjuststrength') }}</small></div>
+      <ul class=" vote-control pagination justify-content-center mt-2">
+        <li :class="{'page-item': true, disabled: voteWeight === 0}"><a href="#" class="page-link vote-controls" @click.prevent="setVoteWeight(voteWeight - 10)">-10</a></li>
+        <li :class="{'page-item': true, disabled: voteWeight === 0}"><a href="#" class="page-link vote-controls" @click.prevent="setVoteWeight(voteWeight - 1)">-1</a></li>
+        <li class="page-item vote-weight">
+          <input type="number" class="form-control" v-model="voteWeight" min="0" max="100" />
+        </li>
+        <li :class="{'page-item': true, disabled: voteWeight === 100}"><a href="#" class="page-link vote-controls" @click.prevent="setVoteWeight(voteWeight + 1)">+1</a></li>
+        <li :class="{'page-item': true, disabled: voteWeight === 100}"><a href="#" class="page-link vote-controls" @click.prevent="setVoteWeight(voteWeight + 10)">+10</a></li>
+      </ul>
+
+      <div class="text-center">
+        <button type="submit" :class="'btn btn-' + (voteWeight > 0 ? 'primary' : 'danger' )" @click="vote(voteWeight)">
+          <i :class="'fas fa-' + (voteWeight > 0 ? 'thumbs-up' : 'ban' )"></i> {{ voteWeight > 0 ? $t('likebutton.like') : $t('likebutton.unlike') }}
+        </button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -70,13 +89,21 @@
       return {
         loading: false,
         votes: [],
-        hasVoted: false
+        hasVoted: false,
+        voteWeight: 100
       }
     },
     methods: {
+      setVoteWeight (weight) {
+        this.voteWeight = weight
+        // ensure min/max value
+        this.voteWeight = this.voteWeight > 100 ? 100 : this.voteWeight
+        this.voteWeight = this.voteWeight < 0 ? 0 : this.voteWeight
+      },
       vote(weight) {
+        this.$refs['voteControlModal-' + this.permlink].hide()
         this.loading = true;
-        this.sc2.vote(this.user.name, this.author, this.permlink, weight, (err) => {
+        this.sc2.vote(this.user.name, this.author, this.permlink, weight * 100, (err) => {
           this.loading = false;
           if (err) {
             console.log(err);
@@ -137,4 +164,10 @@
       color: #333
       &:hover
         background-color: #fff
+  .vote-control
+    .vote-weight
+      margin-top: -5px
+      .form-control
+        font-size: 1.5rem
+        text-align: center
 </style>

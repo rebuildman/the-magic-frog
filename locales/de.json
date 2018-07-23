@@ -128,6 +128,10 @@
     "text3": "<b>Es gibt keine bestimmten Regeln aber bitte bleibt immer konstruktiv, positiv und respektvoll! Die Geschichten können ernsthaft sein, witzig oder total bescheuerter Blödsinn. Das liegt an euch! ;)</b>",
     "havefun": "Viel Spaß!"
   },
+  "votemodal": {
+    "title": "Stärke anpassen",
+    "adjuststrength": "Passe die Stärke deines Votes an."
+  },
   "loginmodal": {
     "title": "Einloggen mit SteemConnect",
     "text": "Um teilzunehmen brauchst du einen STEEM Account. Um dich damit einzuloggen wirst du zu <b>SteemConnect</b> weitergeleitet. SteemConnect ist die sicherste Methode sich mit der STEEM Blockchain zu verbinden und wird von Steemit, Inc. and Busy.org entwickelt und betrieben.",
