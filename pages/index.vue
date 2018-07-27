@@ -228,7 +228,6 @@ import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
 import Modals from '~/components/Modals'
 
-// TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
 // TODO: add comment preview
 
