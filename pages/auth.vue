@@ -12,15 +12,13 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie'
-
   export default {
     head() {
-      return { 
+      return {
         title: this.$t('index.themagicfrog'),
         meta: [
           { hid: 'description', name: 'description', content: this.$t('index.description') }
-        ] 
+        ]
       }
     },
     data() {
@@ -29,16 +27,12 @@
         loading: true
       }
     },
-    mounted() {
-      let accessToken = this.$route.query.access_token || null;
-      let expires = parseInt(this.$route.query.expires_in) || 604800;
-
+    async mounted () {
+      let accessToken = this.$route.query['access_token']
       if (accessToken) {
-        Cookies.set('frog_token', accessToken, {expires});
-        window.location.href = '/';
-      } else {
-        this.loading = false;
-        this.message = this.$t('auth.nokey')
+        localStorage.setItem('access_token', accessToken)
+        await this.$store.dispatch('login', accessToken)
+        this.$router.push('/')
       }
     }
   }

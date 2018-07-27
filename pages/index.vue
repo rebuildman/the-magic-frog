@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
+    <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
       <!-- Header -->
@@ -207,7 +207,7 @@
     </b-container>
 
     <Footer />
-    <Modals :loginUrl="loginUrl" :user="user" />
+    <Modals :user="user" />
     <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
     <notifications group="success" classes="vue-notification success" position="top center" :duration="8000" />
   </section>
@@ -218,6 +218,8 @@ import axios from 'axios'
 import steem from 'steem'
 import marked from 'marked'
 
+import { mapGetters } from 'vuex'
+
 import NavbarLoggedIn from '~/components/NavbarLoggedIn'
 import NavbarLoggedOut from '~/components/NavbarLoggedOut'
 import LikeButton from '~/components/LikeButton'
@@ -225,8 +227,6 @@ import Command from '~/components/Command'
 import StoryPart from '~/components/StoryPart'
 import Footer from '~/components/Footer'
 import Modals from '~/components/Modals'
-
-import SteemConnect from '~/mixins/SteemConnect'
 
 // TODO: voting weight slider
 // TODO: account creation proxy account... brilliant!
@@ -242,7 +242,6 @@ export default {
     Footer,
     Modals
   },
-  mixins: [SteemConnect],
   head() {
     // localizing meta description
     return { 
@@ -254,7 +253,6 @@ export default {
   },
   data() {
     return {
-      user: null, // logged in user
       endStory: false, // true when user clicks "The End" to suggest the end of the story
       commandInput: '', // input for the text to append to the story
       commentInput: '', // additional comment input
@@ -319,6 +317,7 @@ export default {
     return { allStoryPosts, currentCommands, delegators, curators }
   },
   computed: {
+    ...mapGetters(['user']),
     potValue() {
       let pot = 0;
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
@@ -659,9 +658,17 @@ export default {
       return range;
     }
   },
-  mounted() {
-    // login via steemconnect (see: mixins/SteemConnect)
-    this.login();
+  async mounted () {
+    // state.user will be set, when coming from auth page
+    // but not if accessed this page directly
+    if (!this.$store.state.user) {
+      // in that case we look for an access token in localStorage
+      const accessToken = localStorage.getItem('access_token')
+      if (accessToken) {
+        // and try to login with it (await is important, for the next if to be reliable )
+        await this.$store.dispatch('login', accessToken)
+      }
+    }
   }
 }
 </script>

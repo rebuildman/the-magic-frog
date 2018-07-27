@@ -3,7 +3,7 @@
     <LangModal />
     <AboutModal />
     <SignupModal />
-    <LoginModal :loginUrl="loginUrl" />
+    <LoginModal />
     <TransferModal :user="user" v-if="user" />
   </div>
 </template>
@@ -16,7 +16,7 @@
   import TransferModal from '~/components/modals/TransferModal'
 
   export default {
-    props: ['loginUrl', 'user'],
+    props: ['user'],
     components: {
       LangModal,
       AboutModal,
