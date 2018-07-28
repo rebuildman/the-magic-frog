@@ -264,59 +264,8 @@ export default {
       showFullStory: false
     }
   },
-  async asyncData(context) {
-    // get all delegators for frog account
-    const getCurrentCommands = () => {
-      return new Promise((resolve, reject) => {
-        axios.get('https://api.the-magic-frog.com/submissions?account=' + context.app.account).then((result) => {
-          resolve(result.data);
-        }).catch((err) => {
-          reject(err);
-        });
-      });
-    };
-    let currentCommands = await getCurrentCommands();
-
-    // get all delegators for frog account
-    const getAllStoryPosts = () => {
-      return new Promise((resolve, reject) => {
-        axios.get('https://api.the-magic-frog.com/storyposts?account=' + context.app.account).then((result) => {
-          resolve(result.data);
-        }).catch((err) => {
-          reject(err);
-        });
-      });
-    };
-    let allStoryPosts = await getAllStoryPosts();
-
-    const getDelegators = () => {
-      return new Promise((resolve, reject) => {
-        axios.get('https://api.the-magic-frog.com/delegators?account=' + context.app.account).then((result) => {
-          resolve(result.data);
-        }).catch((err) => {
-          reject(err);
-        });
-      });
-    };
-    let delegators = await getDelegators();
-
-    // get curators
-    const getCurators = () => {
-      return new Promise((resolve, reject) => {
-        // Getting the top 12 curators of the frog account
-        axios.get('https://api.the-magic-frog.com/curators?top=100&account=' + context.app.account).then((result) => {
-          resolve(result.data);
-        }).catch((err) => {
-          reject(err);
-        });
-      });
-    };
-    let curators = await getCurators();
-
-    return { allStoryPosts, currentCommands, delegators, curators }
-  },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(['user', 'currentCommands', 'allStoryPosts', 'delegators', 'curators']),
     potValue() {
       let pot = 0;
       for (let i = 0; i < this.currentStoryPosts.length; i++) {
@@ -668,6 +617,12 @@ export default {
         await this.$store.dispatch('login', accessToken)
       }
     }
+
+    // fetch data
+    this.$store.dispatch('fetchCurrentCommands')
+    this.$store.dispatch('fetchAllStoryPosts')
+    this.$store.dispatch('fetchDelegators')
+    this.$store.dispatch('fetchCurators')
   }
 }
 </script>
