@@ -29,7 +29,13 @@ export default {
     localStorage.removeItem('access_token')
     commit('logout')
   },
-  fetchCurrentCommands ({ commit, app }) {
+  updateData ({ dispatch }) {
+    dispatch('fetchCurrentCommands')
+    dispatch('fetchAllStoryPosts')
+    dispatch('fetchDelegators')
+    dispatch('fetchCurators')
+  },
+  fetchCurrentCommands ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.get('https://api.the-magic-frog.com/submissions?account=' + Vue.prototype.$account).then((result) => {
         commit('setCurrentCommands', result.data)
@@ -39,7 +45,7 @@ export default {
       });
     });
   },
-  fetchAllStoryPosts ({ commit, app }) {
+  fetchAllStoryPosts ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.get('https://api.the-magic-frog.com/storyposts?account=' + Vue.prototype.$account).then((result) => {
         commit('setAllStoryPosts', result.data)
@@ -49,7 +55,7 @@ export default {
       });
     });
   },
-  fetchDelegators ({ commit, app }) {
+  fetchDelegators ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.get('https://api.the-magic-frog.com/delegators?account=' + Vue.prototype.$account).then((result) => {
         commit('setDelegators', result.data)
@@ -59,7 +65,7 @@ export default {
       });
     });
   },
-  fetchCurators ({ commit, app }) {
+  fetchCurators ({ commit }) {
     return new Promise((resolve, reject) => {
       // Getting the top 12 curators of the frog account
       axios.get('https://api.the-magic-frog.com/curators?top=100&account=' + Vue.prototype.$account).then((result) => {

@@ -19,7 +19,7 @@
         <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
 
         <div class="my-4" v-if="latestStoryPost">
-          <LikeButton @voteCasted="updateData" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
+          <LikeButton @voteCasted="$store.dispatch('updateData')" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
           <b-button variant="primary" class="login-button" v-b-modal.scRedirectModal v-if="!user">
             <svg viewBox="0 0 24 24">
               <path d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
@@ -375,31 +375,6 @@ export default {
     }
   },
   methods: {
-    async updateData() {
-      // get all delegators for frog account
-      const getCurrentCommands = () => {
-        return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/submissions?account=' + this.$account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      this.currentCommands = await getCurrentCommands();
-
-      // get all delegators for frog account
-      const getAllStoryPosts = () => {
-        return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/storyposts?account=' + this.$account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      this.allStoryPosts = await getAllStoryPosts();
-    },
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
     },
@@ -473,7 +448,7 @@ export default {
                 this.$refs.image.value = null;
 
                 // update data from blockchain (posts/comments)
-                this.updateData();
+                this.$store.dispatch('updateData')
 
                 this.$notify({
                   group: 'success',
@@ -536,7 +511,7 @@ export default {
             this.$refs.image.value = null;
 
             // update data from blockchain (posts/comments)
-            this.updateData();
+            this.$store.dispatch('updateData')
 
             this.$notify({
               group: 'success',
