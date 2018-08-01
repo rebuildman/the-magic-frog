@@ -4,18 +4,40 @@
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
-      <h2 v-if="delegators.length">{{ $t('halloffame.sponsors') }}</h2>
-      <b-row v-if="delegators.length">
-        <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
-      </b-row>
-      <h2 class="mt-5 pt-5" v-if="curators.length">{{ $t('halloffame.curators') }}</h2>
-      <b-row v-if="curators.length">
-        <Curator v-for="(curator, index) in curators" :key="index" :index="index" :curator="curator" :rsharesToSBDFactor="rsharesToSBDFactor" />
-      </b-row>
-      <h2 class="mt-5 pt-5" v-if="contributors.length">{{ $t('halloffame.storytellers') }}</h2>
-      <b-row>
-        <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
-      </b-row>
+
+      <h2>{{ $t('halloffame.sponsors') }}</h2>
+      <div v-if="delegators.length">
+        <b-row v-if="delegators.length">
+          <Delegator v-for="(delegator, index) in delegators" :key="index" :index="index" :delegator="delegator" />
+        </b-row>
+      </div>
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
+
+      <h2 class="mt-5 pt-5">{{ $t('halloffame.curators') }}</h2>
+      <div v-if="curators.length">
+        <b-row v-if="curators.length">
+          <Curator v-for="(curator, index) in curators" :key="index" :index="index" :curator="curator" :rsharesToSBDFactor="rsharesToSBDFactor" />
+        </b-row>
+      </div>
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
+
+      <h2 class="mt-5 pt-5">{{ $t('halloffame.storytellers') }}</h2>
+      <div v-if="contributors.length">
+        <b-row>
+          <Contributor v-for="(contributor, index) in contributors" :key="index" :index="index" :contributor="contributor" />
+        </b-row>
+      </div>
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
+
     </b-container>
     <Footer />
     <Modals :user="user" />

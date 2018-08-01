@@ -4,9 +4,13 @@
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('archive.title') }}</h1>
-      <b-row>
+      <b-row v-if="stories.length">
         <ArchivedStory v-for="(story, index) in stories" :key="index" :story="story" />
       </b-row>
+      <div class="upload-spinner" v-else>
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
     </b-container>
     <Footer />
     <Modals :user="user" />
