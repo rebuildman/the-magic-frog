@@ -467,61 +467,63 @@ export default {
       }
     },
     submitGuestComment() {
-      // comment's json_metadata
-      let meta = {
-        type: 'append',
-        appendText: this.commandInput.trim(),
-        comment: this.commentInput.trim(),
-        image: this.image || '', // don't set to null, would be removed if edited via steemit.com
-        author: 'the-fly-swarm'
-      };
+      if (this.commandInput.length < 251) {
+        // comment's json_metadata
+        let meta = {
+          type: 'append',
+          appendText: this.commandInput.trim(),
+          comment: this.commentInput.trim(),
+          image: this.image || '', // don't set to null, would be removed if edited via steemit.com
+          author: 'the-fly-swarm'
+        };
 
-      if (meta.appendText || meta.image) {
-        // build comment body
-        let body = '';
-        if (meta.appendText) {
-          body += '> ' + meta.appendText + '\n\n';
-        }
-        if (meta.image) {
-          body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
-        }
-        if (meta.comment) {
-          body += meta.comment;
-        }
-
-        // unique permlink
-        let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
-
-        // broadcast
-        this.submitLoading = true;
-        steem.broadcast.comment(process.env.guestAccountKey, this.$account, this.latestStoryPost.permlink, 'the-fly-swarm', permlink, '', body, meta, (err) => {
-          if (err) {
-            console.log(err);
-            this.$notify({
-              group: 'errors',
-              title: 'Oh no! An error occurred! :(!',
-              text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
-            });
-          } else {
-            // reset form
-            this.commandInput = '';
-            this.commentInput = '';
-            this.submitLoading = false;
-            this.showSuccessMessage = true;
-            this.showImageUpload = false;
-            this.image = null;
-            this.$refs.image.value = null;
-
-            // update data from blockchain (posts/comments)
-            this.$store.dispatch('updateData')
-
-            this.$notify({
-              group: 'success',
-              title: 'Submission successful!',
-              text: 'Thank you for helping to tell a magic story!'
-            });
+        if (meta.appendText || meta.image) {
+          // build comment body
+          let body = '';
+          if (meta.appendText) {
+            body += '> ' + meta.appendText + '\n\n';
           }
-        });
+          if (meta.image) {
+            body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+          }
+          if (meta.comment) {
+            body += meta.comment;
+          }
+
+          // unique permlink
+          let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+
+          // broadcast
+          this.submitLoading = true;
+          steem.broadcast.comment(process.env.guestAccountKey, this.$account, this.latestStoryPost.permlink, 'the-fly-swarm', permlink, '', body, meta, (err) => {
+            if (err) {
+              console.log(err);
+              this.$notify({
+                group: 'errors',
+                title: 'Oh no! An error occurred! :(!',
+                text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+              });
+            } else {
+              // reset form
+              this.commandInput = '';
+              this.commentInput = '';
+              this.submitLoading = false;
+              this.showSuccessMessage = true;
+              this.showImageUpload = false;
+              this.image = null;
+              this.$refs.image.value = null;
+
+              // update data from blockchain (posts/comments)
+              this.$store.dispatch('updateData')
+
+              this.$notify({
+                group: 'success',
+                title: 'Submission successful!',
+                text: 'Thank you for helping to tell a magic story!'
+              });
+            }
+          });
+        }
       }
     },
     onImageChange() {

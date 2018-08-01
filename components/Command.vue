@@ -123,62 +123,64 @@
         this.commandInput = this.commandInput.substr(0, 250);
       },
       editComment() {
-        let meta = {
-          type: this.endStory ? 'end' : 'append',
-          appendText: this.commandInput.trim(),
-          comment: this.commentInput.trim(),
-          image: this.image || '', // don't set to null, would be removed if edited via steemit.com
-          author: this.user.name
-        };
+        if (this.commandInput.length < 251) {
+          let meta = {
+            type: this.endStory ? 'end' : 'append',
+            appendText: this.commandInput.trim(),
+            comment: this.commentInput.trim(),
+            image: this.image || '', // don't set to null, would be removed if edited via steemit.com
+            author: this.user.name
+          };
 
-        if (meta.appendText || meta.image || this.endStory) {
-          // build comment body
-          let body = '';
-          if (meta.appendText) {
-            body += '> ' + meta.appendText + '\n\n';
-          }
-          if (meta.image) {
-            body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
-          }
-          if (this.endStory) {
-            body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
-          }
-          if (meta.comment) {
-            body += meta.comment;
-          }
-
-          this.submitLoading = true;
-          this.$steemconnect.comment(
-            this.$account,
-            this.command.parent_permlink,
-            this.user.name,
-            this.command.permlink,
-            '',
-            body,
-            meta,
-            (err) => {
-              if (err) {
-                console.log(err);
-                this.$notify({
-                  group: 'errors',
-                  title: 'Oh no! An error occurred! :(!',
-                  text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
-                });
-              } else {
-                this.showForm = false;
-                this.submitLoading = false;
-                this.showSuccessMessage = true;
-
-                this.$store.dispatch('updateData')
-
-                this.$notify({
-                  group: 'success',
-                  title: 'Submission successfully edited!',
-                  text: 'Your submission was successfully updated. Thank you for helping to tell a magic story!'
-                });
-              }
+          if (meta.appendText || meta.image || this.endStory) {
+            // build comment body
+            let body = '';
+            if (meta.appendText) {
+              body += '> ' + meta.appendText + '\n\n';
             }
-          );
+            if (meta.image) {
+              body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+            }
+            if (this.endStory) {
+              body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
+            }
+            if (meta.comment) {
+              body += meta.comment;
+            }
+
+            this.submitLoading = true;
+            this.$steemconnect.comment(
+              this.$account,
+              this.command.parent_permlink,
+              this.user.name,
+              this.command.permlink,
+              '',
+              body,
+              meta,
+              (err) => {
+                if (err) {
+                  console.log(err);
+                  this.$notify({
+                    group: 'errors',
+                    title: 'Oh no! An error occurred! :(!',
+                    text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+                  });
+                } else {
+                  this.showForm = false;
+                  this.submitLoading = false;
+                  this.showSuccessMessage = true;
+
+                  this.$store.dispatch('updateData')
+
+                  this.$notify({
+                    group: 'success',
+                    title: 'Submission successfully edited!',
+                    text: 'Your submission was successfully updated. Thank you for helping to tell a magic story!'
+                  });
+                }
+              }
+            );
+          }
         }
       },
       onImageChange() {
