@@ -73,7 +73,7 @@
           <img src="/divider.png" alt="" class="img-fluid"/>
           <div id="currentStory" class="text-center">
             <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
-            <StoryPart v-for="i in range(0, showFullStory ? latestStoryPostMeta.commands.length - 1 : 9)" :key="'part-' + i" :part="latestStoryPostMeta.commands[i]" v-if="latestStoryPostMeta.commands.length" />
+            <StoryPart v-for="(part, index) in displayedStoryParts" :key="index" :part="part" />
             <b-btn class="btn-outline-secondary" v-if="!showFullStory" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
             <h3 class="mt-4">{{ $t('index.tobe') }}</h3>
           </div>
@@ -359,6 +359,13 @@ export default {
     },
     latestStoryPostMeta() {
       return this.latestStoryPost ? JSON.parse(this.latestStoryPost.json_metadata) : {};
+    },
+    displayedStoryParts() {
+      if (this.showFullStory || this.latestStoryPostMeta.commands.length < 11) {
+        return this.latestStoryPostMeta.commands
+      }
+
+      return this.latestStoryPostMeta.commands.slice(0, 10)
     },
     endCommand() {
       let endCommand = null;
