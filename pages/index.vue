@@ -388,80 +388,82 @@ export default {
       return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
     },
     submitComment() {
-      // if there's no user, use submitGuestComment instead
-      if (this.user) {
-        // comment's json_metadata
-        let meta = {
-          type: this.endStory ? 'end' : 'append',
-          appendText: this.commandInput.trim(),
-          comment: this.commentInput.trim(),
-          image: this.image || '', // don't set to null, would be removed if edited via steemit.com
-          author: this.user.name
-        };
+      if (this.commandInput.length < 251) {
+        // if there's no user, use submitGuestComment instead
+        if (this.user) {
+          // comment's json_metadata
+          let meta = {
+            type: this.endStory ? 'end' : 'append',
+            appendText: this.commandInput.trim(),
+            comment: this.commentInput.trim(),
+            image: this.image || '', // don't set to null, would be removed if edited via steemit.com
+            author: this.user.name
+          };
 
-        if (meta.appendText || meta.image || this.endStory) {
-          // build comment body
-          let body = '';
-          if (meta.appendText) {
-            body += '> ' + meta.appendText + '\n\n';
-          }
-          if (meta.image) {
-            body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
-          }
-          if (this.endStory) {
-            body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
-          }
-          if (meta.comment) {
-            body += meta.comment;
-          }
-
-          // unique permlink
-          let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
-
-          // broadcast
-          this.submitLoading = true;
-          this.sc2.comment(
-            this.$account,
-            this.latestStoryPost.permlink,
-            this.user.name,
-            permlink,
-            '',
-            body,
-            meta,
-            (err) => {
-              if (err) {
-                console.log(err);
-                this.$notify({
-                  group: 'errors',
-                  title: 'Oh no! An error occurred! :(!',
-                  text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
-                });
-              } else {
-                // reset form
-                this.commandInput = '';
-                this.commentInput = '';
-                this.submitLoading = false;
-                this.showSuccessMessage = true;
-                this.showImageUpload = false;
-                this.image = null;
-                this.endStory = false;
-                this.$refs.image.value = null;
-
-                // update data from blockchain (posts/comments)
-                this.$store.dispatch('updateData')
-
-                this.$notify({
-                  group: 'success',
-                  title: 'Submission successful!',
-                  text: 'Thank you for helping to tell a magic story!'
-                });
-              }
+          if (meta.appendText || meta.image || this.endStory) {
+            // build comment body
+            let body = '';
+            if (meta.appendText) {
+              body += '> ' + meta.appendText + '\n\n';
             }
-          );
+            if (meta.image) {
+              body += '> ![image-' + (new Date()).getTime() + '](' + meta.image + ')\n\n';
+            }
+            if (this.endStory) {
+              body += '> ### '+ this.$t('index.form.theend') +'!\n\n'
+            }
+            if (meta.comment) {
+              body += meta.comment;
+            }
+
+            // unique permlink
+            let permlink = 're-' + this.latestStoryPost.permlink + '-command-' + (new Date()).getTime();
+
+            // broadcast
+            this.submitLoading = true;
+            this.$steemconnect.comment(
+              this.$account,
+              this.latestStoryPost.permlink,
+              this.user.name,
+              permlink,
+              '',
+              body,
+              meta,
+              (err) => {
+                if (err) {
+                  console.log(err);
+                  this.$notify({
+                    group: 'errors',
+                    title: 'Oh no! An error occurred! :(!',
+                    text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+                  });
+                } else {
+                  // reset form
+                  this.commandInput = '';
+                  this.commentInput = '';
+                  this.submitLoading = false;
+                  this.showSuccessMessage = true;
+                  this.showImageUpload = false;
+                  this.image = null;
+                  this.endStory = false;
+                  this.$refs.image.value = null;
+
+                  // update data from blockchain (posts/comments)
+                  this.$store.dispatch('updateData')
+
+                  this.$notify({
+                    group: 'success',
+                    title: 'Submission successful!',
+                    text: 'Thank you for helping to tell a magic story!'
+                  });
+                }
+              }
+            );
+          }
+        } else {
+          // if not logged in, submit as guest
+          this.submitGuestComment();
         }
-      } else {
-        // if not logged in, submit as guest
-        this.submitGuestComment();
       }
     },
     submitGuestComment() {
@@ -582,16 +584,8 @@ export default {
     }
   },
   async mounted () {
-    // state.user will be set, when coming from auth page
-    // but not if accessed this page directly
-    if (!this.$store.state.user) {
-      // in that case we look for an access token in localStorage
-      const accessToken = localStorage.getItem('access_token')
-      if (accessToken) {
-        // and try to login with it (await is important, for the next if to be reliable )
-        await this.$store.dispatch('login', accessToken)
-      }
-    }
+    // login
+    this.$store.dispatch('login')
 
     // fetch data
     this.$store.dispatch('fetchCurrentCommands')

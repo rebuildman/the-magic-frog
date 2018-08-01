@@ -5,8 +5,14 @@ export default {
   currentCommands (state) {
     return state.currentCommands
   },
+  stories (state) {
+    return state.stories
+  },
   allStoryPosts (state) {
     return state.allStoryPosts
+  },
+  contributors (state) {
+    return state.contributors
   },
   delegators (state) {
     return state.delegators
@@ -14,4 +20,7 @@ export default {
   curators (state) {
     return state.curators
   },
+  rsharesToSBDFactor (state) {
+    return state.rsharesToSBDFactor
+  }
 }

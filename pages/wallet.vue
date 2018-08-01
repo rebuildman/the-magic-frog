@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" @logout="logoutAndGoHome" />
+    <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else/>
     <b-container>
       <h1 class="mt-5 mb-4">{{ $t('wallet.title') }}</h1>
@@ -15,7 +15,7 @@
       </div>
     </b-container>
     <Footer />
-    <Modals :loginUrl="loginUrl" :user="user" />
+    <Modals :user="user" />
   </section>
 </template>
 
@@ -27,7 +27,7 @@
   import TransferHistory from '~/components/TransferHistory'
   import Footer from '~/components/Footer'
 
-  import SteemConnect from '~/mixins/SteemConnect'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -38,7 +38,6 @@
       TransferHistory,
       Footer
     },
-    mixins: [SteemConnect],
     head() {
       // localizing meta description
       return { 
@@ -48,21 +47,19 @@
         ] 
       }
     },
-    data() {
-      return {
-        user: null // logged in user
-      }
+    computed: {
+      ...mapGetters(['user'])
     },
     methods: {
       logoutAndGoHome() {
         // redirect user to homepage after logout
+        this.$store.dispatch('logout')
         this.$router.push({ name: 'index' });
-        this.logout();
       }
     },
-    mounted() {
-      // login via steemconnect (see: mixins/SteemConnect)
-      this.login();
+    async mounted () {
+      // login
+      this.$store.dispatch('login')
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
+    <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('halloffame.title') }}</h1>
@@ -18,7 +18,7 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :loginUrl="loginUrl" :user="user" />
+    <Modals :user="user" />
   </section>
 </template>
 
@@ -34,7 +34,7 @@
   import Delegator from '~/components/Delegator'
   import Curator from '~/components/Curator'
  
-  import SteemConnect from '~/mixins/SteemConnect'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -46,7 +46,6 @@
       Delegator,
       Curator
     },
-    mixins: [SteemConnect],
     head() {
       // localizing meta description
       return { 
@@ -56,79 +55,18 @@
         ] 
       }
     },
-    data() {
-      return {
-        user: null // logged in user
-      }
+    computed: {
+      ...mapGetters(['user', 'contributors', 'delegators', 'curators', 'rsharesToSBDFactor'])
     },
-    async asyncData(context) {
-      // get all delegators for frog account
-      const getDelegators = () => {
-        return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/delegators?account=' + context.app.account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      let delegators = await getDelegators();
+    async mounted () {
+      // login
+      this.$store.dispatch('login')
 
-      // get contributors
-      const getContributors = () => {
-        return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/contributors?account=' + context.app.account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      let contributors = await getContributors();
-
-      // get curators
-      const getCurators = () => {
-        return new Promise((resolve, reject) => {
-          // Getting the top 12 curators of the frog account
-          axios.get('https://api.the-magic-frog.com/curators?top=12&account=' + context.app.account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      let curators = await getCurators();
-
-      const getRsharesToSBDFactor = () => {
-        return new Promise((resolve, reject) => {
-          // get reward fund for posts
-          steem.api.getRewardFund('post', (err, fund) => {
-            if (err) reject(err);
-            else {
-              const rewardBalance = parseFloat(fund.reward_balance.replace(' STEEM', ''));
-              const recentClaims = parseInt(fund.recent_claims);
-
-              // get SBD price factor
-              steem.api.getCurrentMedianHistoryPrice((err, price) => {
-                if (err) reject(err);
-                else {
-                  const SBDPrice = parseFloat(price.base.replace(' SBD', ''));
-
-                  // calculate SBD value for each vote
-                  resolve(rewardBalance / recentClaims * SBDPrice);
-                  }
-                });
-              }
-            });
-          });
-        };
-      let rsharesToSBDFactor = await getRsharesToSBDFactor();
-
-      return { delegators, contributors, curators, rsharesToSBDFactor }; 
+      // fetch data
+      this.$store.dispatch('fetchContributors')
+      this.$store.dispatch('fetchDelegators')
+      this.$store.dispatch('fetchCurators')
+      this.$store.dispatch('fetchRsharesToSBDFactor')
     },
-    mounted() {
-      // login via steemconnect (see: mixins/SteemConnect)
-      this.login();
-    }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavbarLoggedIn v-if="user" :user="user" @logout="logout" />
+    <NavbarLoggedIn v-if="user" :user="user" />
     <NavbarLoggedOut v-else />
     <b-container>
       <h1 class="my-5">{{ $t('archive.title') }}</h1>
@@ -9,7 +9,7 @@
       </b-row>
     </b-container>
     <Footer />
-    <Modals :loginUrl="loginUrl" :user="user" />
+    <Modals :user="user" />
   </section>
 </template>
 
@@ -23,7 +23,7 @@
   import Modals from '~/components/Modals'
   import ArchivedStory from '~/components/ArchivedStory'
 
-  import SteemConnect from '~/mixins/SteemConnect'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -33,7 +33,6 @@
       Modals,
       ArchivedStory
     },
-    mixins: [SteemConnect],
     head() {
       // localizing meta description
       return {
@@ -43,29 +42,15 @@
         ] 
       }
     },
-    data() {
-      return {
-        user: null // logged in user
-      }
+    computed: {
+      ...mapGetters(['user', 'stories'])
     },
-    async asyncData(context) {
-      // get all stories for frog account (last post from each story)
-      const getStories = () => {
-        return new Promise((resolve, reject) => {
-          axios.get('https://api.the-magic-frog.com/stories?account=' + context.app.account).then((result) => {
-            resolve(result.data);
-          }).catch((err) => {
-            reject(err);
-          });
-        });
-      };
-      let stories = await getStories();
+    async mounted () {
+      // login
+      this.$store.dispatch('login')
 
-      return { stories };
-    },
-    mounted() {
-      // login via steemconnect (see: mixins/SteemConnect)
-      this.login();
+      // fetch data
+      this.$store.dispatch('fetchStories')
     }
   }
 </script>

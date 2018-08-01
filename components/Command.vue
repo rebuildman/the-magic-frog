@@ -83,13 +83,10 @@
   import axios from 'axios'
   import LikeButton from '~/components/LikeButton'
 
-  import SteemConnect from '~/mixins/SteemConnect'
-
   export default {
     components: {
       LikeButton
     },
-    mixins: [SteemConnect],
     props: ['user', 'command'],
     data() {
       return {
@@ -151,7 +148,7 @@
           }
 
           this.submitLoading = true;
-          this.sc2.comment(
+          this.$steemconnect.comment(
             this.$account,
             this.command.parent_permlink,
             this.user.name,
