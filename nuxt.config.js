@@ -5,11 +5,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 module.exports = {
   mode: 'universal',
   env: {
-    scheme: process.env.SCHEME || 'https',
-    host: process.env.HOST || 'localhost',
-    port: process.env.PORT || '',
-    delegatorsApiKey: process.env.DELEGATORS_API_KEY || '',
     guestAccountKey: process.env.GUEST_ACCOUNT_KEY || '',
+    scRedirectUrl: process.env.SC_REDIRECT_URL || 'http://localhost:3000/auth',
+    locale: process.env.LOCALE || 'en'
   },
 
   /*

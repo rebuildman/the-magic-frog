@@ -3,5 +3,5 @@ import VueSteemConnect from 'vue-steemconnect'
 
 Vue.use(VueSteemConnect, {
   app: 'themagicfrog.app',
-  callbackURL: 'http://localhost:3000/auth'
+  callbackURL: process.env.scRedirectUrl
 })
