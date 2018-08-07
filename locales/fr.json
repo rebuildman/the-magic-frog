@@ -37,26 +37,26 @@
     "theinfluence": "L'influence de <b>La grenouille magique</b> et de toute la communauté STEEM est utilisée pour récompenser les personnes qui participent à ce projet de narration collaborative. Le contenu de l'histoire est cependant basé uniquement sur le nombre de votes et non sur l'influence de l'individu.",
     "read": "Lisez l'histoire actuelle",
     "tobe": "À suivre...",
-    "readmore": "Read more...",
+    "readmore": "Lire la suite...",
     "howwillthestorygoon": "Comment l'histoire va continuer?",
     "firstread": "D'abord, lisez comment les autres voient l'histoire évoluer et votez pour eux si vous l'aimez.",
     "thereareno": "Il n'y a pas de commentaires pour le moment Soyez le premier!",
     "nowitsyourturn": "Maintenant c'est ton tour!",
     "continuewriting": "Continuez à écrire l'histoire là où elle s'est arrêtée, de sorte que c'est drôle ou excitant à lire et peut-être même un peu logique. Sois créatif!",
     "rewards": {
-      "whogetswhat": "Who gets what?",
-      "luckystoryteller": "Lucky Storyteller",
-      "otherstorytellers": "Other Storytellers",
-      "otherstorytellersinfo": "per contribution",
-      "curators": "Curators",
-      "curatorsinfo": "distributed according to curation strength",
-      "delegators": "Delegators",
-      "delegatorsinfo": "distributed according to delegation",
-      "youare": "You are",
-      "estimatedreward": "Estimated reward",
-      "storyteller": "Storyteller",
-      "curator": "Curator",
-      "delegator": "Delegator"
+      "whogetswhat": "Qui obtient quoi?",
+      "luckystoryteller": "Conteur chanceux",
+      "otherstorytellers": "Autres conteurs",
+      "otherstorytellersinfo": "par contribution",
+      "curators": "Curateurs",
+      "curatorsinfo": "distribué selon la force de curation",
+      "delegators": "Déléguateurs",
+      "delegatorsinfo": "distribué selon la délégation",
+      "youare": "Tu es",
+      "estimatedreward": "Récompense estimée",
+      "storyteller": "Conteur",
+      "curator": "Curateur",
+      "delegator": "Déléguateur"
     },
     "form": {
       "appendplaceholder": "Et il vécurent heureux pour l'éternité!",
@@ -129,8 +129,8 @@
     "havefun": "Amusez-vous!"
   },
   "votemodal": {
-    "title": "Adjust Strength",
-    "adjuststrength": "Adjust the strength of your like."
+    "title": "Ajuster la force",
+    "adjuststrength": "Ajustez la force de votre vote."
   },
   "loginmodal": {
     "title": "Connexion avec SteemConnect",
