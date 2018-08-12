@@ -7,6 +7,7 @@
     <b>{{ $t('footer.maintainers') }}</b><br>
     {{ $t('footer.french') }} <a href="https://steemit.com/@helo" target="_blank">@helo</a> (<a href="https://v2.steemconnect.com/sign/account-witness-vote?witness=helo&approve=1" target="_blank">{{ $t('footer.vote') }}</a>)<br>
     {{ $t('footer.german') }} <a href="https://steemit.com/@mkt" target="_blank">@mkt</a>
+     {{ $t('footer.portuguese') }} <a href="https://steemit.com/@juniorfrederico" target="_blank">@juniorfrederico</a>
   </div>
 </template>
 
