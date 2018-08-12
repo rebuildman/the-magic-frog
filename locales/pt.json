@@ -164,7 +164,7 @@
     "placeholders": {
       "recipient": "Nome de usuário",
       "amount": "0.001",
-      "memo": "Sent via the-magic-frog.com!"
+      "memo": "Enviado via the-magic-frog.com!"
     },
     "submit": "Continue com SteemConnect"
   },
@@ -179,6 +179,7 @@
     "maintainers": "Mantedores:",
     "vote": "Vote para Testemunha!",
     "french": "Francês:",
-    "german": "Alemão:"
+    "german": "Alemão:",
+    "portuguese": "Português:"
   }
 }
