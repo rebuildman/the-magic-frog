@@ -1,29 +1,29 @@
 export default {
-  login (state, user) {
-    state.user = user
+  login(state, user) {
+    state.user = user;
   },
-  logout (state) {
-    state.user = null
+  logout(state) {
+    state.user = null;
   },
-  setCurrentCommands (state, currentCommands) {
-    state.currentCommands = currentCommands
+  setCurrentCommands(state, currentCommands) {
+    state.currentCommands = currentCommands;
   },
-  setStories (state, stories) {
-    state.stories = stories
+  setStories(state, stories) {
+    state.stories = stories;
   },
-  setAllStoryPosts (state, allStoryPosts) {
-    state.allStoryPosts = allStoryPosts
+  setAllStoryPosts(state, allStoryPosts) {
+    state.allStoryPosts = allStoryPosts;
   },
-  setContributors (state, contributors) {
-    state.contributors = contributors
+  setContributors(state, contributors) {
+    state.contributors = contributors;
   },
-  setDelegators (state, delegators) {
-    state.delegators = delegators
+  setDelegators(state, delegators) {
+    state.delegators = delegators;
   },
-  setCurators (state, curators) {
-    state.curators = curators
+  setCurators(state, curators) {
+    state.curators = curators;
   },
-  setRsharesToSBDFactor (state, rsharesToSBDFactor) {
-    state.rsharesToSBDFactor = rsharesToSBDFactor
-  }
-}
+  setRsharesToSBDFactor(state, rsharesToSBDFactor) {
+    state.rsharesToSBDFactor = rsharesToSBDFactor;
+  },
+};
