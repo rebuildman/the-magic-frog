@@ -5,7 +5,7 @@ Vue.use(VueI18n)
 
 export default ({ app, store }, inject) => {
   let locale = process.env.locale;
-  if (['de', 'fr'].indexOf(locale) === -1) {
+  if (['de', 'fr', 'pt'].indexOf(locale) === -1) {
     locale = 'en';
   }
   app.i18n = new VueI18n({
@@ -15,6 +15,7 @@ export default ({ app, store }, inject) => {
       'en': require('~/locales/en.json'),
       'de': require('~/locales/de.json'),
       'fr': require('~/locales/fr.json'),
+      'pt': require('~/locales/pt.json'),
     }
   })
 
@@ -30,6 +31,7 @@ export default ({ app, store }, inject) => {
     en: 'the-magic-frog',
     de: 'der-zauberfrosch',
     fr: 'grenouille',
+    pt: 'sapo-magico',
   }
 
   app.account = accounts[app.i18n.locale]
