@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
 
 import getters from './getters';
@@ -6,7 +7,6 @@ import actions from './actions';
 
 const createStore = () => new Vuex.Store({
   state: {
-    user: null, // logged in user, via steemconnect
     currentCommands: [], // submissions of the current day
     stories: [], // every story's last post
     allStoryPosts: [], // all posts from all stories
@@ -18,6 +18,9 @@ const createStore = () => new Vuex.Store({
   getters,
   mutations,
   actions,
+  modules: {
+    steemconnect: Vue.SteemConnectStore,
+  },
 });
 
 export default createStore;
