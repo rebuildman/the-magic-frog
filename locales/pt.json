@@ -83,6 +83,10 @@
     "startingsoon": {
       "title": "A primeira história começará em breve!",
       "text": "Siga o <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> para se manter atualizado!"
+    },
+    "newstory": {
+      "title": "How will the next story begin?",
+      "text": "Every ending is also a new beginning! A new story will start 24 hours after the last one ended. It will start with just <i>Once upon a time...</i>, and you can decide how our new adventure begins. To not miss this chance follow <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a>!"
     }
   },
   "archive": {
