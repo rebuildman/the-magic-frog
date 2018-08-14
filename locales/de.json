@@ -83,6 +83,10 @@
     "startingsoon": {
       "title": "Die erste Geschichte startet bald!",
       "text": "Folge dem <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> um auf dem Laufenden zu bleiben!"
+    },
+    "newstory": {
+      "title": "Wie wird die nächste Geschichte beginnen?",
+      "text": "Jedes Ende ist immer auch ein neuer Anfang! 24 Stunden nach dem Ende der letzten Geschichte, beginnt eine neue. Es wird einfach losgehen mit den Worten <i>Es war einmal...</i>, und du kannst mitbestimmen, wie unser neues Abenteuer beginnt. Um diese Chance nicht zu verpassen, folge <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a>!"
     }
   },
   "archive": {
@@ -179,6 +183,7 @@
     "maintainers": "Ansprechpartner:",
     "vote": "Für Witness stimmen!",
     "french": "Fanzösisch:",
-    "german": "Deutsch:"
+    "german": "Deutsch:",
+    "portuguese": "Portugiesisch:"
   }
 }

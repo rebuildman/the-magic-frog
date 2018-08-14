@@ -83,6 +83,10 @@
     "startingsoon": {
       "title": "The first story will start soon!",
       "text": "Follow the <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> to stay up to date!"
+    },
+    "newstory": {
+      "title": "How will the next story begin?",
+      "text": "Every ending is also a new beginning! A new story will start 24 hours after the last one ended. It will start with just <i>Once upon a time...</i>, and you can decide how our new adventure begins. To not miss this chance follow <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a>!"
     }
   },
   "archive": {
@@ -179,6 +183,7 @@
     "maintainers": "Maintainers:",
     "vote": "Vote for Witness!",
     "french": "French:",
-    "german": "German:"
+    "german": "German:",
+    "portuguese": "Portuguese:"
   }
 }

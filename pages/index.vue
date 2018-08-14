@@ -74,15 +74,15 @@
           <div id="currentStory" class="text-center">
             <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
             <StoryPart v-for="(part, index) in displayedStoryParts" :key="index" :part="part" />
-            <b-btn class="btn-outline-secondary" v-if="!showFullStory" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
-            <h3 class="mt-4">{{ $t('index.tobe') }}</h3>
+            <b-btn class="btn-outline-secondary" v-if="!showFullStory && latestStoryPostMeta.commands.length > 10" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
+            <h3 class="mt-4" v-if="!storyHasEnded">{{ $t('index.tobe') }}</h3>
           </div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
         </div>
       </div>
 
       <!-- Continue -->
-      <div class="mx-auto mb-4" style="max-width: 800px;" v-if="latestStoryPost">
+      <div class="mx-auto mb-4" style="max-width: 800px;" v-if="latestStoryPost && !storyHasEnded">
         <h2 class="pt-5">{{ $t('index.howwillthestorygoon') }}</h2>
         <p class="text-center mt-4">{{ $t('index.firstread') }}</p>
 
@@ -199,8 +199,13 @@
         </form>
       </div>
 
+      <div class="mb-4 text-center" v-if="latestStoryPost && storyHasEnded">
+        <h1>{{ $t('index.newstory.title') }}</h1>
+        <p v-html="$t('index.newstory.text', {account: $account})"></p>
+      </div>
+
       <!-- Starting Soon notification for new instances where no post is published yet -->
-      <div class="mb-4 text-center" v-if="!latestStoryPost">
+      <div class="mb-4 text-center" v-if="!latestStoryPost && !storyHasEnded">
         <h1>{{ $t('index.startingsoon.title') }}</h1>
         <h3 v-html="$t('index.startingsoon.text', {account: $account})"></h3>
       </div>
@@ -366,6 +371,11 @@ export default {
       }
 
       return this.latestStoryPostMeta.commands.slice(0, 10)
+    },
+    storyHasEnded() {
+      return this.latestStoryPostMeta.commands
+        && this.latestStoryPostMeta.commands.length
+        && this.latestStoryPostMeta.commands[this.latestStoryPostMeta.commands.length - 1].type === 'end'
     },
     endCommand() {
       let endCommand = null;

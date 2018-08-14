@@ -83,6 +83,10 @@
     "startingsoon": {
       "title": "La première histoire va commencer bientôt!",
       "text": "Suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique pour rester à jour avec ces aventures!"
+    },
+    "newstory": {
+      "title": "Comment la prochaine histoire va-t-elle commencer?",
+      "text": "Pour chaque fin, il y a toujours un nouveau départ! Une nouvelle histoire commencera 24 heures après la fin de la dernière. Cela commencera par <i>Il était une fois…</ i>, et vous pourez décider comment notre nouvelle aventure commencera. Pour ne pas rater cette chance, suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique!"
     }
   },
   "archive": {
@@ -179,6 +183,7 @@
     "maintainers": "Mainteneurs:",
     "vote": "Votez pour Témoin!",
     "french": "Français:",
-    "german": "Allemand:"
+    "german": "Allemand:",
+    "portuguese": "Portugais:"
   }
 }
