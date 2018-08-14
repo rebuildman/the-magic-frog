@@ -85,8 +85,8 @@
       "text": "Suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique pour rester à jour avec ces aventures!"
     },
     "newstory": {
-      "title": "How will the next story begin?",
-      "text": "Every ending is also a new beginning! A new story will start 24 hours after the last one ended. It will start with just <i>Once upon a time...</i>, and you can decide how our new adventure begins. To not miss this chance follow <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a>!"
+      "title": "Comment la prochaine histoire va-t-elle commencer?",
+      "text": "Pour chaque fin, il y a toujours un nouveau départ! Une nouvelle histoire commencera 24 heures après la fin de la dernière. Cela commencera par <i>Il était une fois…</ i>, et vous pourez décider comment notre nouvelle aventure commencera. Pour ne pas rater cette chance, suivez la <a href=\"https://steemit.com/@{account}\" target=\"blank\">@{account}</a> magique!"
     }
   },
   "archive": {
