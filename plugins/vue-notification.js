@@ -1,4 +1,4 @@
-import Vue from 'vue'
-import Notification from 'vue-notification/dist/ssr.js'
+import Vue from 'vue';
+import Notification from 'vue-notification/dist/ssr.js';
 
-Vue.use(Notification)
+Vue.use(Notification);
