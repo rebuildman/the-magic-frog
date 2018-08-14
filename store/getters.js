@@ -1,7 +1,4 @@
 export default {
-  user (state) {
-    return state.user
-  },
   currentCommands (state) {
     return state.currentCommands
   },
