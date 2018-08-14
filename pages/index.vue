@@ -74,7 +74,7 @@
           <div id="currentStory" class="text-center">
             <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
             <StoryPart v-for="(part, index) in displayedStoryParts" :key="index" :part="part" />
-            <b-btn class="btn-outline-secondary" v-if="!showFullStory" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
+            <b-btn class="btn-outline-secondary" v-if="!showFullStory && latestStoryPostMeta.commands.length > 10" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
             <h3 class="mt-4">{{ $t('index.tobe') }}</h3>
           </div>
           <img src="/divider.png" alt="" class="rotate-180 img-fluid"/>
