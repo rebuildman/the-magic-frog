@@ -463,7 +463,9 @@ export default {
                   this.showImageUpload = false;
                   this.image = null;
                   this.endStory = false;
-                  this.$refs.image.value = null;
+                  if (this.$refs.image) {
+                    this.$refs.image.value = null;
+                  }
 
                   // update data from blockchain (posts/comments)
                   this.$store.dispatch('updateData')
@@ -528,7 +530,9 @@ export default {
               this.showSuccessMessage = true;
               this.showImageUpload = false;
               this.image = null;
-              this.$refs.image.value = null;
+              if (this.$refs.image) {
+                this.$refs.image.value = null;
+              }
 
               // update data from blockchain (posts/comments)
               this.$store.dispatch('updateData')
