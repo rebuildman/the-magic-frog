@@ -16,7 +16,7 @@
         <h2 class="pt-5 pb-3">{{ $t('index.fullofgold') }}</h2>
         <img src="/pot.png" alt=""/>
         <h5 class="mt-3">{{ $t('index.currentvalue') }}</h5>
-        <h1 class="pot-value">{{ $t('index.endollar') }} {{ potValue }} {{ $t('index.frdollar') }}</h1>
+        <h1 class="pot-value">{{ $t('index.endollar') }} {{ pot.total.toFixed(2) }} {{ $t('index.frdollar') }}</h1>
 
         <div class="my-4" v-if="latestStoryPost">
           <LikeButton @voteCasted="$store.dispatch('updateData')" :user="user" :likeLabel="$t('index.generatemore')" :unlikeLabel="$t('index.undogenerate')" :author="latestStoryPost.author" :permlink="latestStoryPost.permlink" v-if="latestStoryPost && user" />
@@ -37,18 +37,18 @@
             <b-collapse id="rewardsInfo" class="border-box mx-auto mt-3" style="max-width: 400px;">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-transparent" style="font-size: 1.2rem">
-                  {{ $t('index.rewards.luckystoryteller') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b>
+                  {{ $t('index.rewards.luckystoryteller') }}: <b>{{ pot.winner.toFixed(2) }} SBD</b>
                 </li>
                 <li class="list-group-item">
-                  {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (potValue * 0.25 / latestStoryPostMeta.commands.length).toFixed(2) }} SBD</b><br>
+                  {{ $t('index.rewards.otherstorytellers') }}: <b>{{ (pot.others / latestStoryPostMeta.commands.length).toFixed(2) }} SBD</b><br>
                   <small class="text-muted">({{ $t('index.rewards.otherstorytellersinfo') }})</small>
                 </li>
                 <li class="list-group-item">
-                  {{ $t('index.rewards.curators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                  {{ $t('index.rewards.curators') }}: <b>{{ (pot.curators).toFixed(2) }} SBD</b><br>
                   <small class="text-muted">({{ $t('index.rewards.curatorsinfo') }})</small>
                 </li>
                 <li class="list-group-item">
-                  {{ $t('index.rewards.delegators') }}: <b>{{ (potValue * 0.25).toFixed(2) }} SBD</b><br>
+                  {{ $t('index.rewards.delegators') }}: <b>{{ (pot.delegators).toFixed(2) }} SBD</b><br>
                   <small class="text-muted">({{ $t('index.rewards.delegatorsinfo') }})</small>
                 </li>
                 <li class="list-group-item bg-transparent" v-if="user">
@@ -171,11 +171,11 @@
           <div v-if="endStory" class="text-center mb-4">
             <h3><i>{{ $t('index.form.theend') }}</i></h3>
             <div v-if="endCommand">
-              <p v-html="$t('index.form.endalreadysuggested', {potValue})"></p>
+              <p v-html="$t('index.form.endalreadysuggested', {potValue: pot.total.toFixed(2)})"></p>
               <Command :command="endCommand" :user="user" />
             </div>
             <div v-else>
-              <p v-html="$t('index.form.ifthecommunity', {potValue: potValue})"></p>
+              <p v-html="$t('index.form.ifthecommunity', {potValue: pot.total.toFixed(2)})"></p>
             </div>
             <b-button class="btn btn-outline-success mt-3" @click="endStory = false">{{ $t('index.form.justkidding') }}</b-button>
           </div>
@@ -270,15 +270,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user', 'currentCommands', 'allStoryPosts', 'delegators', 'curators']),
-    potValue() {
-      let pot = 0;
-      for (let i = 0; i < this.currentStoryPosts.length; i++) {
-        pot += parseFloat(this.getPostPot(this.currentStoryPosts[i]));
-      }
-      pot *= 0.95; // 5 % goes to beneficiaries
-      return pot.toFixed(2);
-    },
+    ...mapGetters(['user', 'pot', 'currentCommands', 'allStoryPosts', 'delegators', 'curators']),
     isDelegator () {
       return this.delegators.findIndex(delegator => {
         return delegator.delegator === this.user.account.name
@@ -312,7 +304,7 @@ export default {
           if (command.user === this.user.account.name) contributions++;
         });
         if (contributions) {
-          reward += (this.potValue * 0.5 / this.latestStoryPostMeta.commands.length * contributions);
+          reward += (this.pot.others / this.latestStoryPostMeta.commands.length * contributions);
         }
       }
 
@@ -320,7 +312,7 @@ export default {
         let curator = this.curators.find(curator => curator.voter === this.user.account.name)
         if (curator) {
           let percentage = curator.rshares / this.totalCuration * 100;
-          reward += (this.potValue * 0.25) * percentage / 100;
+          reward += (this.pot.curators) * percentage / 100;
         }
       }
 
@@ -328,7 +320,7 @@ export default {
         let delegator = this.delegators.find(delegator => delegator.delegator === this.user.account.name)
         if (delegator) {
           let percentage = delegator.sp / this.totalDelegation * 100;
-          reward += (this.potValue * 0.25) * percentage / 100;
+          reward += (this.pot.delegators) * percentage / 100;
         }
       }
 
@@ -394,15 +386,6 @@ export default {
   methods: {
     limitCommandCharacters() {
       this.commandInput = this.commandInput.substr(0, 250);
-    },
-    getPostPot(post) {
-      // pot is half of the author rewards from all story posts
-      // (that's basically the liquid SBD reward since the posts are set to 50/50)
-      if (post.last_payout === '1970-01-01T00:00:00') {
-        return parseFloat(post.pending_payout_value.replace(' SBD', '')) * 0.75 / 2;
-      }
-
-      return (parseFloat(post.total_payout_value.replace(' SBD', '')) / 2).toFixed(2);
     },
     submitComment() {
       if (this.commandInput.length < 251) {
@@ -597,13 +580,6 @@ export default {
       this.image = null;
       this.showImageUpload = false;
       this.$refs.image.value = null;
-    },
-    range (start, end) {
-      let range = [];
-      for (let i = start; i <= end; i++) {
-        range.push(i);
-      }
-      return range;
     }
   },
   async mounted () {
@@ -611,6 +587,7 @@ export default {
     this.$store.dispatch('login')
 
     // fetch data
+    this.$store.dispatch('fetchPot')
     this.$store.dispatch('fetchCurrentCommands')
     this.$store.dispatch('fetchAllStoryPosts')
     this.$store.dispatch('fetchDelegators')

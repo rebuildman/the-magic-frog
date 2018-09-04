@@ -4,10 +4,21 @@ import steem from 'steem';
 
 export default {
   updateData({ dispatch }) {
+    dispatch('fetchPot');
     dispatch('fetchCurrentCommands');
     dispatch('fetchAllStoryPosts');
     dispatch('fetchDelegators');
     dispatch('fetchCurators');
+  },
+  fetchPot({ commit }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`https://api.the-magic-frog.com/pot?account=${Vue.prototype.$account}`).then((result) => {
+        commit('setPot', result.data);
+        resolve(result.data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
   },
   fetchCurrentCommands({ commit }) {
     return new Promise((resolve, reject) => {

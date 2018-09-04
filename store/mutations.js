@@ -1,4 +1,7 @@
 export default {
+  setPot (state, pot) {
+    state.pot = pot;
+  },
   setCurrentCommands(state, currentCommands) {
     state.currentCommands = currentCommands;
   },

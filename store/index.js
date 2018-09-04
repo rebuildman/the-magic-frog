@@ -7,6 +7,13 @@ import actions from './actions';
 
 const createStore = () => new Vuex.Store({
   state: {
+    pot: { // current pot value (SBD balance of frog account)
+      total: 0,
+      delegators: 0, // total * 0.25
+      curators: 0, // total * 0.25
+      winner: 0, // total * 0.25
+      others: 0, // total * 0.25
+    },
     currentCommands: [], // submissions of the current day
     stories: [], // every story's last post
     allStoryPosts: [], // all posts from all stories
