@@ -5,7 +5,7 @@
     <b-container>
       <h1 class="my-5">{{ $t('archive.title') }}</h1>
       <b-row v-if="stories.length">
-        <ArchivedStory v-for="(story, index) in stories" :key="index" :story="story" />
+        <ArchivedStory v-for="(story, index) in stories" :key="index" :story="story" v-if="story" />
       </b-row>
       <div class="upload-spinner" v-else>
         <div class="dot1"></div>
