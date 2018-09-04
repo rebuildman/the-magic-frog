@@ -1,5 +1,5 @@
 <template>
-  <b-col sm="12" md="6">
+  <b-col sm="12" md="6" lg="4">
     <div class="archivedStory">
       <h3>
         <a href="#" v-b-modal="'archivedStoryModal' + meta.storyNumber">
@@ -92,7 +92,7 @@
           text-decoration: none
     .cover
       display: block
-      height: 500px
+      height: 250px
       background-position: center center
       background-size: cover
       border-top: solid 1px #ccc
@@ -110,12 +110,12 @@
     p
       margin-bottom: 5px
 
-  @media (max-width: 991px)
+  @media (max-width: 1200px)
     .archivedStory
       .cover
-        height: 350px
+        height: 210px
 
-  @media (max-width: 786px)
+  @media (max-width: 768px)
     .archivedStory
       .cover
         height: 250px
