@@ -51,8 +51,8 @@ module.exports = {
   */
   plugins: [
     '~/plugins/i18n.js',
-    '~/plugins/vue-notification',
     '~/plugins/vue-steemconnect',
+    { src: '~plugins/vue-notification', ssr: false },
     { src: '~/plugins/cookie-consent', ssr: false },
   ],
 

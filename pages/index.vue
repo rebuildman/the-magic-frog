@@ -213,8 +213,13 @@
 
     <Footer />
     <Modals :user="user" />
-    <notifications group="errors" classes="vue-notification error" position="top center" :duration="8000" />
-    <notifications group="success" classes="vue-notification success" position="top center" :duration="8000" />
+
+    <no-ssr>
+      <div>
+        <notifications :group="'success'" :position="'top center'" :classes="'vue-notification success'" :duration="8000" />
+        <notifications :group="'errors'" :position="'top center'" :classes="'vue-notification error'" :duration="8000" />
+      </div>
+    </no-ssr>
   </section>
 </template>
 
