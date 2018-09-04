@@ -9,7 +9,19 @@
   },
   "likebutton": {
     "like": "J'aime!",
-    "unlike": "Je n'aime plus ça!"
+    "unlike": "Je n'aime plus ça!",
+    "error": {
+      "title": "Oh non! Une erreur s'est produite! :(",
+      "text": "Cette action n'a pas pu être effectuée en raison d'une erreur inconnue. Peut-être une méchante malédiction ..."
+    },
+    "casted": {
+      "title": "Vote casté!",
+      "text": "Merci d'avoir voté!" 
+    },
+    "removed": {
+      "title": "Vote retiré!",
+      "text": "Votre vote a été retiré avec succès!" 
+    }
   },
   "command": {
     "wrote": "a écrit:",
