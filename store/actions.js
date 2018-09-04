@@ -77,11 +77,11 @@ export default {
         if (err) reject(err);
         else {
           const rewardBalance = parseFloat(fund.reward_balance.replace(' STEEM', ''));
-          const recentClaims = parseInt(fund.recent_claims);
+          const recentClaims = parseInt(fund.recent_claims, 10);
 
           // get SBD price factor
-          steem.api.getCurrentMedianHistoryPrice((err, price) => {
-            if (err) reject(err);
+          steem.api.getCurrentMedianHistoryPrice((errs, price) => {
+            if (errs) reject(errs);
             else {
               const SBDPrice = parseFloat(price.base.replace(' SBD', ''));
               const rsharesToSBDFactor = rewardBalance / recentClaims * SBDPrice;

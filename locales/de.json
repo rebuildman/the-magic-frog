@@ -9,7 +9,19 @@
   },
   "likebutton": {
     "like": "Gefällt mir!",
-    "unlike": "Gefällt mir nicht mehr!"
+    "unlike": "Gefällt mir nicht mehr!",
+    "error": {
+      "title": "Oh no! An error occurred! :(",
+      "text": "This action could not be completed due to an unknown error. Maybe a nasty curse..."
+    },
+    "casted": {
+      "title": "Vote casted!",
+      "text": "Thank you for casting a vote!" 
+    },
+    "removed": {
+      "title": "Vote removed!",
+      "text": "'Your vote has been successfully removed!'" 
+    }
   },
   "command": {
     "wrote": "schrieb:",

@@ -106,22 +106,22 @@
             console.log(err);
             this.$notify({
               group: 'errors',
-              title: 'Oh no! An error occurred! :(',
-              text: 'This action could not be completed due to an unknown error. Maybe a nasty curse...'
+              title: this.$t('likebutton.error.title'),
+              text: this.$t('likebutton.error.text')
             });
           } else {
             this.hasVoted = weight > 0;
             if (this.hasVoted) {
               this.$notify({
                 group: 'success',
-                title: 'Vote casted!',
-                text: 'Thank you for casting a vote!'
+                title: this.$t('likebutton.casted.title'),
+                text: this.$t('likebutton.casted.text')
               });
             } else {
               this.$notify({
                 group: 'success',
-                title: 'Vote removed!',
-                text: 'Your vote has been successfully removed!'
+                title: this.$t('likebutton.removed.title'),
+                text: this.$t('likebutton.removed.text')
               });
             }
             this.$emit('voteCasted'); // emit event to update data
