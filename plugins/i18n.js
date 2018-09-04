@@ -12,10 +12,10 @@ export default ({ app, store }, inject) => {
     locale,
     fallbackLocale: 'en',
     messages: {
-      en: require('~/locales/en.json'),
-      de: require('~/locales/de.json'),
-      fr: require('~/locales/fr.json'),
-      pt: require('~/locales/pt.json'),
+      en: require('../locales/en.json'),
+      de: require('../locales/de.json'),
+      fr: require('../locales/fr.json'),
+      pt: require('../locales/pt.json'),
     },
   });
 
