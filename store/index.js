@@ -21,6 +21,7 @@ const createStore = () => new Vuex.Store({
     delegators: [], // with amount of delegation
     curators: [], // with overall rshares contributed to the project
     rsharesToSBDFactor: null, // multiply rshares by this factor to get SBD value
+    showUsernames: true, // whether to show usernames in the story
   },
   getters,
   mutations,

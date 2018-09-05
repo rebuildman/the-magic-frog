@@ -23,4 +23,7 @@ export default {
   setRsharesToSBDFactor(state, rsharesToSBDFactor) {
     state.rsharesToSBDFactor = rsharesToSBDFactor;
   },
+  setShowUsernames(state, show) {
+    state.showUsernames = show;
+  }
 };

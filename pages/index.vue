@@ -73,6 +73,12 @@
           <img src="/divider.png" alt="" class="img-fluid"/>
           <div id="currentStory" class="text-center">
             <h1 class="mb-4">{{ latestStoryPostMeta.startPhrase }}</h1>
+            <button type="button" class="btn btn-sm btn-outline-secondary mb-3" @click.prevent="$store.commit('setShowUsernames', false)" v-if="showUsernames">
+              {{ $t('index.hideusernames') }}
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary mb-3" @click.prevent="$store.commit('setShowUsernames', true)" v-else>
+              {{ $t('index.showusernames') }}
+            </button>
             <StoryPart v-for="(part, index) in displayedStoryParts" :key="index" :part="part" />
             <b-btn class="btn-outline-secondary" v-if="!showFullStory && latestStoryPostMeta.commands.length > 10" @click="showFullStory = true">{{ $t('index.readmore') }}</b-btn>
             <h3 class="mt-4" v-if="!storyHasEnded">{{ $t('index.tobe') }}</h3>
@@ -271,11 +277,11 @@ export default {
       imageIsUploading: false, // loading indicator for image upload
       showImageUpload: false,
       showImageUploadInfo: true,
-      showFullStory: false
+      showFullStory: false,
     }
   },
   computed: {
-    ...mapGetters(['user', 'pot', 'currentCommands', 'allStoryPosts', 'delegators', 'curators']),
+    ...mapGetters(['user', 'pot', 'currentCommands', 'allStoryPosts', 'delegators', 'curators', 'showUsernames']),
     isDelegator () {
       return this.delegators.findIndex(delegator => {
         return delegator.delegator === this.user.account.name

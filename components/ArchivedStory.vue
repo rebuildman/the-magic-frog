@@ -24,7 +24,15 @@
     </div>
 
     <b-modal class="storyModal" :id="'archivedStoryModal' + meta.storyNumber" :title="$t('archive.themagicstory') + ' #' + meta.storyNumber" size="lg" hide-footer>
-      <h1 class="mb-5">{{ meta.startPhrase }}</h1>
+      <h1 class="mb-4">{{ meta.startPhrase }}</h1>
+      <div class="text-center">
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-3" @click.prevent="$store.commit('setShowUsernames', false)" v-if="showUsernames">
+          {{ $t('index.hideusernames') }}
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-3" @click.prevent="$store.commit('setShowUsernames', true)" v-else>
+          {{ $t('index.showusernames') }}
+        </button>
+      </div>
       <StoryPart v-for="(part, index) in meta.commands" :key="index" :part="part" />
       <h2 class="text-center" v-if="!hasEnded">{{ meta.toBeContinued }}</h2>
     </b-modal>
@@ -34,6 +42,7 @@
 <script>
   import StoryPart from '~/components/StoryPart'
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -47,6 +56,7 @@
       }
     },
     computed: {
+      ...mapGetters(['showUsernames']),
       meta() {
         return JSON.parse(this.story.json_metadata);
       },
